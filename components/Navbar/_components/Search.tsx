@@ -9,7 +9,7 @@ import {
 export function Search() {
   return (
     <div className="px-10">
-      <InputGroup className="glass border-border/50 text-muted-foreground focus-visible:ring-primary w-full">
+      <InputGroup className="dark:glass bg-white border-primary dark:border-border/50 dark:text-muted-foreground text-black focus-visible:ring-primary w-full">
         <InputGroupInput placeholder="Search movies, shows, people..." />
         <InputGroupAddon>
           <SearchIcon />

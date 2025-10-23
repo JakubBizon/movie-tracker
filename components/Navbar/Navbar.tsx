@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import UserMenu from "./_components/UserMenu";
 import { useEffect, useState } from "react";
+import ThemeToggle from "./_components/ThemeToggle";
 
 export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -37,7 +38,7 @@ export default function Navbar() {
         showNavbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="bg-gray-950">
+      <div className="dark:bg-gray-950 bg-white">
         <div className="max-w-5xl mx-auto  px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center justify-center gap-4">
             <Film className="text-primary h-10 w-10" />
@@ -49,9 +50,11 @@ export default function Navbar() {
             <Search />
           </div>
           <div className="flex items-center justify-center gap-4 shrink-0">
+            <ThemeToggle />
+
             <Link href="/my-lists">
               <Button variant="ghost" className="relative" size="icon-lg">
-                <Bookmark />
+                <Bookmark className="dark:text-white text-black" />
                 <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs gradient-primary border-0">
                   3
                 </Badge>

@@ -23,7 +23,7 @@ export default function UserMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="glass-strong border-border/50 flex flex-col px-2"
+        className="glass-strong border-border/50 flex flex-col px-1"
       >
         <DropdownMenuItem
           asChild
