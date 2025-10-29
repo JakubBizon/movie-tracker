@@ -3,9 +3,21 @@
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    if (isFirstRender) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsFirstRender(false);
+    }
+  }, [isFirstRender]);
+
+  if (isFirstRender) return null;
 
   return (
     <Button
