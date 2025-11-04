@@ -1,14 +1,7 @@
-import { Movie } from "@/app/types/movie";
-import MovieCard from "../MovieCard";
-import { Carousel } from "../Carousel";
+import MovieCarousel from "../MovieCarousel";
 import { getPopularMovies } from "@/lib/getPopularMovies";
 
-export default async function PopularSection() {
+export default async function TrendingSection() {
   const data = await getPopularMovies();
-  console.log(data);
-  const renderedItems = data.results?.map((movie: Movie) => (
-    <MovieCard movie={movie} key={movie.id} />
-  ));
-
-  return <Carousel items={renderedItems} />;
+  return <MovieCarousel movies={data.results} limit={10} />;
 }

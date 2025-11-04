@@ -1,11 +1,17 @@
 import { Movie } from "@/app/types/movie";
 import Image from "next/image";
+import Link from "next/link";
 interface MovieCardProps {
   movie: Movie;
+  slug: string;
 }
-export default function MovieCard({ movie }: MovieCardProps) {
+
+export default function MovieCard({ movie, slug }: MovieCardProps) {
   return (
-    <div className="shrink-0 relative hover:scale-105 transition-all duration-200">
+    <Link
+      href={`/movie/${slug}`}
+      className="shrink-0 relative hover:scale-105 transition-all duration-200"
+    >
       <Image
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         alt={movie.title}
@@ -19,6 +25,6 @@ export default function MovieCard({ movie }: MovieCardProps) {
       <p className="text-white absolute top-2 right-2 z-10 px-1 py-1 text-sm rounded-xl bg-gray-700">
         ⭐ {movie.vote_average.toFixed(1)}
       </p>
-    </div>
+    </Link>
   );
 }
