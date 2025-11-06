@@ -87,10 +87,12 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
                       <Calendar className="h-5 w-5 text-muted-foreground" />
                       <span>{movie.release_date.slice(0, 4)}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-5 w-5" />
-                      <span>{minutesToTime(movie.runtime)} min</span>
-                    </div>
+                    {movie.runtime && (
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-5 w-5" />
+                        <span>{minutesToTime(movie.runtime)} min</span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2">
