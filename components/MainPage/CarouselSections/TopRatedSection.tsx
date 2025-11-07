@@ -1,4 +1,4 @@
-import { getTopRatedMovies } from "@/lib/getTopRatedMovies";
+import { getTopRatedMovies } from "@/lib/movies/getTopRatedMovies";
 import MovieCarousel from "../MovieCarousel";
 
 export default async function TrendingSection() {

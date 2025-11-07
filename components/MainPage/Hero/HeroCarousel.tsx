@@ -13,7 +13,7 @@ import { Calendar, Clock, Info, Plus, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 import { Button } from "@/components/ui/button";
-import { minutesToTime } from "@/lib/minutesToTime";
+import { minutesToTime } from "@/lib/utils/minutesToTime";
 
 interface HeroCarouselProps {
   data: Movie[];

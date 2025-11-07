@@ -1,7 +1,7 @@
 import { Movie } from "@/app/types/movie";
 import MovieCard from "./MovieCard";
 import { Carousel } from "./Carousel";
-import { slugify } from "@/lib/slugify";
+import { slugify } from "@/lib/utils/slugify";
 
 interface MoviesCarouselProps {
   movies: Movie[];
