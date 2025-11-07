@@ -1,14 +1,16 @@
-import { getMovieDetails } from "@/lib/getMovieDetails";
+import { getMovieDetails } from "@/lib/movies/getMovieDetails";
 import HeroCarousel from "./HeroCarousel";
 import { Movie } from "@/app/types/movie";
-import { getPopularMovies } from "@/lib/getPopularMovies";
+import { getPopularMovies } from "@/lib/movies/getPopularMovies";
 
 export default async function HeroSection() {
   const data = await getPopularMovies();
-  const slicedData = data.results.slice(0, 3);
 
+  const filteredData = data.results
+    .filter((movie: Movie) => movie.vote_average >= 7.0)
+    .slice(0, 3);
   const moviesWithDetails = await Promise.all(
-    slicedData.map(async (movie: Movie) => {
+    filteredData.map(async (movie: Movie) => {
       const details = await getMovieDetails(movie.id);
       return {
         ...movie,
