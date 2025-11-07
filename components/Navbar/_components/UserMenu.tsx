@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { User } from "lucide-react";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ export default function UserMenu() {
         <Button variant="ghost" size="icon">
           <Avatar className="h-8 w-8">
             <AvatarFallback className="bg-primary text-primary-foreground">
-              <User className="h-4 w-4" />
+              <User className="h-4 w-4 " />
             </AvatarFallback>
           </Avatar>
         </Button>
