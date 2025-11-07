@@ -38,8 +38,8 @@ export default function Navbar() {
         showNavbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="dark:bg-gray-950 bg-white">
-        <div className="max-w-5xl mx-auto  px-4 py-4 flex items-center justify-between">
+      <div className="dark:bg-gray-950 bg-white dark:border-none border-b border-gray-200">
+        <div className="max-w-7xl mx-auto  px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center justify-center gap-4">
             <Film className="text-primary h-10 w-10" />
             <span className="text-2xl font-bold gradient-text">
