@@ -13,7 +13,11 @@ export default function MovieCarousel({ limit, movies }: MoviesCarouselProps) {
 
   const renderedItems = displayedMovies.map((movie: Movie) => {
     return (
-      <MovieCard movie={movie} key={movie.id} slug={slugify(movie.title)} />
+      <MovieCard
+        movie={movie}
+        key={movie.id}
+        slug={slugify(movie.title, movie.id)}
+      />
     );
   });
 
