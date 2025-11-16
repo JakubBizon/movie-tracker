@@ -1,5 +1,5 @@
 export const extractIdFromSlug = (slug: string) => {
-  const match = slug.match(/-(\d+)$/);
+  const match = slug.match(/^(\d+)-/);
   if (!match) {
     return null;
   }
