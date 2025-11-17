@@ -15,4 +15,4 @@ export default async function TrendingSection() {
       <MovieCarousel movies={data.results} />
     </>
   );
->
+}
