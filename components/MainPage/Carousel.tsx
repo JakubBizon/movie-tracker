@@ -33,16 +33,16 @@ export function Carousel({ items }: CarouselProps) {
       el.removeEventListener("scroll", checkScroll);
       window.removeEventListener("resize", checkScroll);
     };
-  });
+  }, []);
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const scrollAmount = direction === "left" ? -800 : 800;
+    const scrollAmount = direction === "left" ? -1000 : 1000;
     el.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
   return (
-    <div className="relative max-w-5xl mx-auto px-4 py-6 group">
+    <div className="relative max-w-7xl mx-auto px-4 py-4 mb-4 group">
       <Button
         variant="ghost"
         size="icon"

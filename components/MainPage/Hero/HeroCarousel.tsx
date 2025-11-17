@@ -53,7 +53,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
   );
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 relative dark:text-white text-black">
+    <div className="w-full max-w-7xl mx-auto px-4 relative dark:text-white text-black">
       <Carousel
         setApi={setApi}
         opts={{ align: "start", loop: true }}

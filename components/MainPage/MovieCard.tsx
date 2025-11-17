@@ -1,6 +1,6 @@
 "use client";
 import { Movie } from "@/app/types/movie";
-import { Bookmark, Heart, Info } from "lucide-react";
+import { Bookmark, Heart, Info, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -28,8 +28,9 @@ export default function MovieCard({ movie, slug }: MovieCardProps) {
         <h3 className="text-white max-w-[200px] absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent font-semibold line-clamp-2 rounded-b-lg">
           {movie.title}
         </h3>
-        <p className="text-white absolute top-2 right-2 z-10 px-1 py-1 text-sm rounded-xl bg-gray-700">
-          ⭐ {movie.vote_average.toFixed(1)}
+        <p className="text-white absolute top-2 right-2 z-10 px-1 py-1 text-sm rounded-xl bg-gray-700 flex items-center gap-2">
+          <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />{" "}
+          <span className="text-sm">{movie.vote_average.toFixed(1)}</span>
         </p>
       </Link>
       {isHovered && (

@@ -9,7 +9,7 @@ import HeroSection from "@/components/MainPage/Hero/HeroSection";
 export default function Home() {
   return (
     <div className="bg-transparent dark:bg-secondary w-full font-sans">
-      <div className="flex flex-col min-h-screen max-w-5xl mx-auto py-10 w-full ">
+      <div className="flex flex-col min-h-screen max-w-7xl mx-auto py-10 w-full ">
         <Suspense>
           <HeroSection />
         </Suspense>
