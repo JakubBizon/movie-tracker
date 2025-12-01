@@ -28,9 +28,9 @@ export default function MovieCard({ movie, slug }: MovieCardProps) {
         <h3 className="text-white max-w-[200px] absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent font-semibold line-clamp-2 rounded-b-lg">
           {movie.title}
         </h3>
-        <p className="text-white absolute top-2 right-2 z-10 px-1 py-1 text-sm rounded-xl bg-gray-700 flex items-center gap-2">
+        <p className="text-white absolute top-2 right-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center gap-2">
           <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />{" "}
-          <span className="text-sm">{movie.vote_average.toFixed(1)}</span>
+          <span className="text-sm ">{movie.vote_average.toFixed(1)}</span>
         </p>
       </Link>
       {isHovered && (
@@ -45,9 +45,12 @@ export default function MovieCard({ movie, slug }: MovieCardProps) {
             <div className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer">
               <Heart className="w-5 h-5 cursor-pointer text-black transition" />
             </div>
-            <div className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer">
+            <Link
+              href={`/movie/${slug}`}
+              className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer"
+            >
               <Info className="w-5 h-5 cursor-pointer text-black transition" />
-            </div>
+            </Link>
           </div>
         </div>
       )}
