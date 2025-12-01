@@ -16,7 +16,6 @@ export default async function HeroSection() {
         ...movie,
         runtime: details.runtime,
         genres: details.genres,
-        description: details.overview,
       };
     })
   );

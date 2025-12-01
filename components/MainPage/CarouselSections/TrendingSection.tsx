@@ -5,7 +5,6 @@ import { FlameIcon } from "lucide-react";
 
 export default async function TrendingSection() {
   const data = await getTrendingMovies();
-  console.log(data.results);
 
   return (
     <>

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import { Movie } from "@/app/types/movie";
 import Image from "next/image";
-import { Calendar, Clock, Info, Plus, Star } from "lucide-react";
+import { Calendar, Clock, Info, Play, Plus, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+
   useEffect(() => {
     if (!api) return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,7 +63,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
         <CarouselContent>
           {data.map((movie) => (
             <CarouselItem key={movie.id}>
-              <div className="relative h-[500px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
+              <div className="relative h-[600px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
                 <Image
                   src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                   alt={movie.title}
@@ -73,7 +74,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
                 <div className="absolute inset-0 bg-linear-to-r from-background via-background/80 to-transparent" />
                 <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent" />
 
-                <div className="absolute top-8 left-0 p-8 z-10 space-y-3">
+                <div className="absolute top-20 left-0 p-8 z-10 space-y-3">
                   <h2 className="text-5xl font-bold ">{movie.title}</h2>
 
                   <div className="flex flex-wrap items-center gap-4 text-sm ">
@@ -102,9 +103,13 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
                   </div>
 
                   <div className="w-3/5 text-lg text-muted-foreground line-clamp-3 text-pretty">
-                    {movie.description}
+                    {movie.overview}
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-2">
+                    <Button>
+                      <Play className="h-5 w-5 mr-2 fill-white" />
+                      Play trailer
+                    </Button>
                     <Button
                       size="lg"
                       variant="outline"
