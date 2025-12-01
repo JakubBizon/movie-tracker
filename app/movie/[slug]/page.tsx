@@ -1,7 +1,8 @@
-import { getMovieDetails } from "@/lib/movies/getMovieDetails";
+import SimilarSection from "@/components/MoviePage/Carousel/SimilarSection";
+import Cast from "@/components/MoviePage/Cast/Cast";
+import MovieHero from "@/components/MoviePage/Hero/MovieHero";
+import { canonicalSlug } from "@/lib/utils/canonicalSlug";
 import { extractIdFromSlug } from "@/lib/utils/extractIdFromSlug";
-import { slugify } from "@/lib/utils/slugify";
-import { notFound, permanentRedirect } from "next/navigation";
 
 export default async function MoviePage({
   params,
@@ -9,31 +10,15 @@ export default async function MoviePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const id = extractIdFromSlug(slug);
-  console.log(id);
-
-  if (!id) {
-    return notFound();
-  }
-  const movie = await getMovieDetails(id);
-  console.log(movie, "xd");
-  if (!movie) {
-    return notFound();
-  }
-
-  const canonicalSlug = slugify(movie.title, id);
-
-  console.log("Canonical slug:", canonicalSlug);
-  console.log("Slugs match:", slug === canonicalSlug);
-
-  if (slug !== canonicalSlug) {
-    console.log("Redirecting to:", `/movie/${canonicalSlug}`);
-    permanentRedirect(`/movie/${canonicalSlug}`);
-  }
-
+  await canonicalSlug(slug);
   return (
-    <div className="min-h-screen">
-      <div>aha</div>
+    <div className="bg-transparent dark:bg-secondary w-full font-sans">
+      <MovieHero id={extractIdFromSlug(slug)} />
+
+      <div className="max-w-7xl mx-auto">
+        <Cast id={extractIdFromSlug(slug)} />
+        <SimilarSection id={extractIdFromSlug(slug)} />
+      </div>
     </div>
   );
 }
