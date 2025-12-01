@@ -4,7 +4,7 @@ import PopularSection from "@/components/MainPage/CarouselSections/PopularSectio
 import TopRatedSection from "@/components/MainPage/CarouselSections/TopRatedSection";
 import HeroSection from "@/components/MainPage/Hero/HeroSection";
 import HeroSkeleton from "@/components/MainPage/Hero/HeroSkeleton";
-import { SectionSkeleton } from "@/components/MainPage/CarouselSkeleton";
+import { SectionSkeleton } from "@/components/MainPage/SectionSkeleton";
 
 export default function Home() {
   return (
