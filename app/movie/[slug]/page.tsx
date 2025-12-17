@@ -15,7 +15,7 @@ export default async function MoviePage({
     <div className="bg-transparent dark:bg-secondary w-full font-sans">
       <MovieHero id={extractIdFromSlug(slug)} />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto mt-5 space-y-10">
         <Cast id={extractIdFromSlug(slug)} />
         <SimilarSection id={extractIdFromSlug(slug)} />
       </div>

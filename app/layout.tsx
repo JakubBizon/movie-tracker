@@ -5,6 +5,12 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Space_Grotesk } from "next/font/google";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export default function RootLayout({
   children,
@@ -27,7 +33,7 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={spaceGrotesk.variable}>
       <body className={`antialiased font-sans`}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider
