@@ -19,7 +19,7 @@ export default function CastSection({ castData, limit }: CastSectionProps) {
         {slicedCast.map((cast) => (
           <Card
             key={cast.id}
-            className="w-40 flex-shrink-0 p-0 rounded-lg overflow-hidden glass"
+            className="w-40 flex-shrink-0 p-0 rounded-lg overflow-hidden border-0 shadow-none glass"
           >
             <div className="relative w-full h-52 bg-gray-800">
               <Image
