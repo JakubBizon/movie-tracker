@@ -2,11 +2,18 @@
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { User } from "lucide-react";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { User, XIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function UserMenuSheet() {
+export default function UserMenu() {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -18,16 +25,35 @@ export default function UserMenuSheet() {
           </Avatar>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-64 p-4">
-        <div className="flex flex-col h-full">
-          <div className="font-bold text-lg mb-4">User account</div>
+      <SheetContent side="right" className="w-96">
+        <SheetHeader className="flex-row items-center justify-between border-b py-4 px-4">
+          <SheetTitle>User Account</SheetTitle>
+          <SheetClose className="opacity-70 hover:opacity-100 border p-1 rounded-sm cursor-pointer">
+            <XIcon className="w-5 h-5" />
+            <span className="sr-only">Close</span>
+          </SheetClose>
+        </SheetHeader>
+
+        <div className="flex flex-col h-full px-4">
           <nav className="flex flex-col gap-2 mb-auto">
-            <Link href="/profile">Sign in</Link>
-            <Link href="/settings">Log in</Link>
+            <SheetClose asChild>
+              <Link
+                className="py-3 text-center border-2 border-gray-800 rounded-lg"
+                href="/signup"
+              >
+                Sign up
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                className="py-3 text-center border-2 border-gray-800 rounded-lg"
+                href="/login"
+              >
+                Log in
+              </Link>
+            </SheetClose>
           </nav>
-          <button className="py-2 bg-red-500 text-white rounded mt-4">
-            Sign Out
-          </button>
         </div>
       </SheetContent>
     </Sheet>
