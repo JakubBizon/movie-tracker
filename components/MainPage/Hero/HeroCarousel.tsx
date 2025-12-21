@@ -22,7 +22,19 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsVisible(document.visibilityState === "visible");
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
   useEffect(() => {
     if (!api) return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,7 +47,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
   }, [api]);
 
   useEffect(() => {
-    if (!api) return;
+    if (!api || !isVisible) return;
     const interval = setInterval(() => {
       if (current === count - 1) {
         api.scrollTo(0);
@@ -44,7 +56,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
       }
     }, 5000);
     return () => clearInterval(interval);
-  }, [api, current, count]);
+  }, [api, current, count, isVisible]);
 
   const scrollTo = useCallback(
     (index: number) => {
@@ -71,11 +83,11 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
                   fill
                   priority
                 />
-                <div className="absolute inset-0 bg-linear-to-r from-background via-background/80 to-transparent" />
-                <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-r from-background/70 via-background/40 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-background/70 via-background/30 to-transparent" />
 
                 <div className="absolute top-20 left-0 p-8 z-10 space-y-3">
-                  <h2 className="text-5xl font-bold ">{movie.title}</h2>
+                  <h2 className="text-5xl font-semibold ">{movie.title}</h2>
 
                   <div className="flex flex-wrap items-center gap-4 text-sm ">
                     <div className="flex items-center gap-1">
@@ -102,7 +114,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
                     ))}
                   </div>
 
-                  <div className="w-3/5 text-lg text-muted-foreground line-clamp-3 text-pretty">
+                  <div className="w-3/5 text-lg  line-clamp-3 text-pretty">
                     {movie.overview}
                   </div>
                   <div className="flex items-center gap-2">
