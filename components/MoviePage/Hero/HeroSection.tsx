@@ -4,14 +4,25 @@ import { minutesToTime } from "@/lib/utils/minutesToTime";
 import { Star, Play, Plus, Info } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Trailer } from "@/app/types/trailer";
+import Link from "next/link";
 
 type HeroSectionProps = {
   data: Movie;
   color: string;
+  trailerLink: Trailer;
 };
 
-export default function HeroSection({ data, color }: HeroSectionProps) {
+export default function HeroSection({
+  data,
+  color,
+  trailerLink,
+}: HeroSectionProps) {
   console.log(color);
+  const trailer = trailerLink.results.find(
+    (video) => video.type === "Trailer" && video.site === "YouTube"
+  );
+  console.log(trailer);
   return (
     <div className="relative w-full" style={{ backgroundColor: color }}>
       <div className="relative w-full max-w-[1920px] mx-auto">
@@ -102,7 +113,13 @@ export default function HeroSection({ data, color }: HeroSectionProps) {
                     className="bg-white text-black hover:bg-gray-200 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform"
                   >
                     <Play className="w-5 h-5 mr-2 fill-current" />
-                    Play Trailer
+                    <Link
+                      href={`https://youtube.com/watch?v=${trailer?.key}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Play Trailer
+                    </Link>
                   </Button>
 
                   <Button
