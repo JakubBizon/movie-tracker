@@ -1,43 +1,18 @@
-"use client";
-import { Bookmark, Film } from "lucide-react";
+import { Film } from "lucide-react";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import NavbarActions from "./NavbarActions";
+import NavbarWrapper from "./NavbarWrapper";
 import { Search } from "./_components/Search";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
-import UserMenu from "./_components/UserMenu";
-import { useEffect, useState } from "react";
-import ThemeToggle from "./_components/ThemeToggle";
 
-export default function Navbar() {
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [showNavbar, setShowNavbar] = useState(true);
-
-  useEffect(() => {
-    const controlNavbar = () => {
-      if (window.scrollY < 10) {
-        setShowNavbar(true);
-        setLastScrollY(window.scrollY);
-        return;
-      } else if (window.scrollY > lastScrollY && window.scrollY > 100) {
-        setShowNavbar(false);
-      } else if (window.scrollY < lastScrollY) {
-        setShowNavbar(true);
-      }
-      setLastScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", controlNavbar);
-    return () => {
-      window.removeEventListener("scroll", controlNavbar);
-    };
-  }, [lastScrollY]);
-
+export default async function Navbar() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   return (
-    <nav
-      className={`sticky top-0 z-50 w-full transition-all duration-300  ${
-        showNavbar ? "translate-y-0" : "-translate-y-full"
-      }`}
-    >
+    <NavbarWrapper>
+      {" "}
       <div className="dark:bg-gray-950 bg-white dark:border-none border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto  px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center justify-center gap-4">
@@ -49,21 +24,9 @@ export default function Navbar() {
           <div className="flex-1 px-10">
             <Search />
           </div>
-          <div className="flex items-center justify-center gap-4 shrink-0">
-            <ThemeToggle />
-
-            <Link href="/my-lists">
-              <Button variant="ghost" className="relative" size="icon-lg">
-                <Bookmark className="dark:text-white text-black" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs gradient-primary border-0">
-                  3
-                </Badge>
-              </Button>
-            </Link>
-            <UserMenu />
-          </div>
+          <NavbarActions session={session} />
         </div>
       </div>
-    </nav>
+    </NavbarWrapper>
   );
 }

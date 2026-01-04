@@ -1,5 +1,6 @@
 "use client";
 
+import { SessionData } from "@/app/types/auth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +11,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+
 import { User, XIcon } from "lucide-react";
 import Link from "next/link";
+import SignOutButton from "./SignOutButton";
 
-export default function UserMenu() {
+type UserMenuProps = {
+  session: SessionData;
+};
+
+export default function UserMenu({ session }: UserMenuProps) {
+  const isLoggedIn = !!session;
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -36,23 +44,31 @@ export default function UserMenu() {
 
         <div className="flex flex-col h-full px-4">
           <nav className="flex flex-col gap-2 mb-auto">
-            <SheetClose asChild>
-              <Link
-                className="py-3 text-center border-2 border-gray-800 rounded-lg"
-                href="/signup"
-              >
-                Sign up
-              </Link>
-            </SheetClose>
+            {!isLoggedIn ? (
+              <>
+                <SheetClose asChild>
+                  <Link
+                    className="py-3 text-center border-2 border-gray-800 rounded-lg"
+                    href="/signup"
+                  >
+                    Sign up
+                  </Link>
+                </SheetClose>
 
-            <SheetClose asChild>
-              <Link
-                className="py-3 text-center border-2 border-gray-800 rounded-lg"
-                href="/login"
-              >
-                Log in
-              </Link>
-            </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    className="py-3 text-center border-2 border-gray-800 rounded-lg"
+                    href="/login"
+                  >
+                    Log in
+                  </Link>
+                </SheetClose>
+              </>
+            ) : (
+              <SheetClose asChild>
+                <SignOutButton />
+              </SheetClose>
+            )}
           </nav>
         </div>
       </SheetContent>
