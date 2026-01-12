@@ -22,6 +22,7 @@ type UserMenuProps = {
 
 export default function UserMenu({ session }: UserMenuProps) {
   const isLoggedIn = !!session;
+
   return (
     <Sheet>
       <SheetTrigger asChild>

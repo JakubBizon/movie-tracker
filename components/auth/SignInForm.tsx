@@ -1,19 +1,17 @@
-"use client";
-
-import { signUpAction } from "@/app/actions/auth/auth";
+import { signInAction } from "@/app/actions/auth/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function SignUpForm() {
+export default function SignInForm() {
   return (
-    <Card className="w-[400px]">
+    <Card className="w-[400px] ">
       <CardTitle className="text-2xl text-center">
-        Welcome to MovieTracker!
+        Log in to MovieTracker
       </CardTitle>
       <CardContent className="space-y-4">
-        <form action={signUpAction} className="space-y-4">
+        <form action={signInAction} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" name="email" type="email" />
@@ -24,17 +22,8 @@ export default function SignUpForm() {
             <Input id="password" name="password" type="password" />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Password Confirm</Label>
-            <Input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-            />
-          </div>
-
           <div className="flex justify-center">
-            <Button type="submit">Sign up</Button>
+            <Button type="submit">Log in</Button>
           </div>
         </form>
       </CardContent>
