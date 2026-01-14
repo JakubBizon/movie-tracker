@@ -15,6 +15,7 @@ import {
 import { User, XIcon } from "lucide-react";
 import Link from "next/link";
 import SignOutButton from "./SignOutButton";
+import { useState } from "react";
 
 type UserMenuProps = {
   session: SessionData;
@@ -23,8 +24,9 @@ type UserMenuProps = {
 export default function UserMenu({ session }: UserMenuProps) {
   const isLoggedIn = !!session;
 
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon">
           <Avatar className="h-8 w-8">
@@ -36,7 +38,9 @@ export default function UserMenu({ session }: UserMenuProps) {
       </SheetTrigger>
       <SheetContent side="right" className="w-96">
         <SheetHeader className="flex-row items-center justify-between border-b py-4 px-4">
-          <SheetTitle>User Account</SheetTitle>
+          <SheetTitle>
+            {isLoggedIn ? session.user.name : "User Account"}
+          </SheetTitle>
           <SheetClose className="opacity-70 hover:opacity-100 border p-1 rounded-sm cursor-pointer">
             <XIcon className="w-5 h-5" />
             <span className="sr-only">Close</span>
@@ -66,9 +70,7 @@ export default function UserMenu({ session }: UserMenuProps) {
                 </SheetClose>
               </>
             ) : (
-              <SheetClose asChild>
-                <SignOutButton />
-              </SheetClose>
+              <SignOutButton onSuccess={() => setIsOpen(false)} />
             )}
           </nav>
         </div>

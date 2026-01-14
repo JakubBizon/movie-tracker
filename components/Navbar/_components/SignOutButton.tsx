@@ -1,12 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
-
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function SignOutButton() {
+type Props = {
+  onSuccess: () => void;
+};
+
+export default function SignOutButton({ onSuccess }: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,6 +20,7 @@ export default function SignOutButton() {
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
+            onSuccess();
             router.push("/");
             router.refresh();
           },
@@ -34,12 +37,12 @@ export default function SignOutButton() {
   };
 
   return (
-    <Button
+    <button
       onClick={handleSignOut}
       disabled={isLoading}
-      className="py-3 text-center border-2 border-gray-800 rounded-lg"
+      className="py-3 text-center border-2 border-gray-800 rounded-lg cursor-pointer"
     >
       {isLoading ? "Signing out..." : "Sign Out"}
-    </Button>
+    </button>
   );
 }
