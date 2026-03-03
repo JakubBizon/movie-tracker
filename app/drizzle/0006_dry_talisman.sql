@@ -1,1 +1,0 @@
-ALTER TABLE "session" RENAME COLUMN "ip_adress" TO "ip_address";

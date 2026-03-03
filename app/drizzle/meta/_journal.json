@@ -5,50 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1766494161650,
-      "tag": "0000_minor_firestar",
+      "when": 1770913288493,
+      "tag": "0000_old_ender_wiggin",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1766494742029,
-      "tag": "0001_abandoned_rogue",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1766494829322,
-      "tag": "0002_round_next_avengers",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1766494906288,
-      "tag": "0003_long_morgan_stark",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1767564137415,
-      "tag": "0004_plain_whiplash",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1767564400762,
-      "tag": "0005_luxuriant_gunslinger",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1767564494315,
-      "tag": "0006_dry_talisman",
+      "when": 1771104265528,
+      "tag": "0001_overconfident_husk",
       "breakpoints": true
     }
   ]

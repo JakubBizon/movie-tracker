@@ -1,4 +1,12 @@
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  integer,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -49,3 +57,45 @@ export const verification = pgTable("verification", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+export const favorites = pgTable(
+  "favorites",
+  {
+    userId: text("userId")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    movieId: varchar("movieId", { length: 255 }).notNull(),
+    title: text("title").notNull(),
+    posterPath: text("posterPath"),
+    voteAverage: text("voteAverage"),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
+);
+
+export const bookmarks = pgTable(
+  "bookmarks",
+  {
+    userId: text("userId")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    movieId: varchar("movieId", { length: 255 }).notNull(),
+    title: text("title").notNull(),
+    posterPath: text("posterPath"),
+    voteAverage: text("voteAverage"),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
+);
+
+export const ratings = pgTable(
+  "ratings",
+  {
+    userId: text("userId")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    movieId: varchar("movieId", { length: 255 }).notNull(),
+    rating: integer("rating").notNull(),
+    title: text("title").notNull(),
+    posterPath: text("posterPath"),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
+);
