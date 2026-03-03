@@ -1,49 +1,123 @@
 "use client";
+import {
+  toggleBookmarkAction,
+  toggleFavoriteAction,
+} from "@/app/actions/movieActions";
 import { Movie } from "@/app/types/movie";
+import { authClient } from "@/lib/auth-client";
+import { useQueryClient } from "@tanstack/react-query";
 import { Bookmark, Heart, Info, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
 interface MovieCardProps {
   movie: Movie;
   slug: string;
+  initialIsFavorite?: boolean;
+  initialIsBookmarked?: boolean;
 }
 
-export default function MovieCard({ movie, slug }: MovieCardProps) {
+export default function MovieCard({
+  movie,
+  slug,
+  initialIsBookmarked,
+  initialIsFavorite,
+}: MovieCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
+
+  const { data: session } = authClient.useSession();
+  const userId = session?.user?.id;
+
+  const queryClient = useQueryClient();
+  const handleFavorite = async () => {
+    if (!userId) return toast.error("Please login first");
+    setIsFavorite((prev) => !prev);
+    const result = await toggleFavoriteAction(
+      userId,
+      movie.id.toString(),
+      movie.title,
+      movie.poster_path,
+      movie.vote_average.toString(),
+    );
+
+    if (result.success) {
+      toast.success(result.message);
+      queryClient.invalidateQueries({
+        queryKey: ["bookmarks", "count"],
+      });
+    } else {
+      setIsFavorite((prev) => !prev);
+      toast.error(result.error);
+    }
+  };
+
+  const handleBookmark = async () => {
+    if (!userId) return toast.error("Please login first");
+    setIsBookmarked((prev) => !prev);
+    const result = await toggleBookmarkAction(
+      userId,
+      movie.id.toString(),
+      movie.title,
+      movie.poster_path,
+      movie.vote_average.toString(),
+    );
+
+    if (result.success) {
+      toast.success(result.message);
+      queryClient.invalidateQueries({
+        queryKey: ["bookmarks", "count"],
+      });
+    } else {
+      setIsBookmarked((prev) => !prev);
+      toast.error(result.error);
+    }
+  };
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`shrink-0 relative hover:scale-105 transition-all duration-200`}
+      className={`shrink-0 relative hover:scale-105 transition-all duration-200  aspect-2/3`}
     >
-      <Link href={`/movie/${slug}`}>
+      <Link href={`/movie/${slug}`} className="block relative h-full">
         <Image
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           alt={movie.title}
           width={200}
           height={300}
-          className="rounded-lg shadow-lg"
+          className="rounded-lg shadow-lg w-full h-auto block"
         />
-        <h3 className="text-white max-w-[200px] absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent font-semibold line-clamp-2 rounded-b-lg">
+        <h3 className="text-white pt-10 via-black/60 leading-tight absolute bottom-0 left-0 right-0 p-3 bg-linear-to-t from-black to-transparent font-semibold line-clamp-2 rounded-b-lg">
           {movie.title}
         </h3>
-        <p className="text-white absolute top-2 right-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center gap-2">
+        <p className="text-white absolute top-2 right-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center justify-center gap-2 leading-none">
           <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />{" "}
-          <span className="text-sm ">{movie.vote_average.toFixed(1)}</span>
+          <span className="text-base ">{movie.vote_average.toFixed(1)}</span>
         </p>
       </Link>
+
       {isHovered && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 rounded-lg pointer-events-none">
           <div className="flex items-center gap-3 text-white pointer-events-auto">
             <div
-              className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer"
-              onClick={() => console.log("xd")}
+              className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer hover:bg-white transition pointer-events-auto"
+              onClick={handleBookmark}
             >
-              <Bookmark className="w-5 h-5  text-black transition" />
+              <Bookmark
+                className={`w-5 h-5 ${isBookmarked ? "fill-blue-500 text-blue-500" : "text-black"}`}
+              />
             </div>
-            <div className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer">
-              <Heart className="w-5 h-5 cursor-pointer text-black transition" />
+
+            <div
+              className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer hover:bg-white transition pointer-events-auto"
+              onClick={handleFavorite}
+            >
+              <Heart
+                className={`w-5 h-5 ${isFavorite ? "fill-red-500 text-red-500" : "text-black"} `}
+              />
             </div>
             <Link
               href={`/movie/${slug}`}
