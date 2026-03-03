@@ -3,6 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
   onSuccess: () => void;
@@ -20,6 +21,7 @@ export default function SignOutButton({ onSuccess }: Props) {
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
+            toast.success("Successfully signed out");
             onSuccess();
             router.push("/");
             router.refresh();
