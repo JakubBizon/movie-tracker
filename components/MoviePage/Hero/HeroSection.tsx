@@ -18,11 +18,10 @@ export default function HeroSection({
   color,
   trailerLink,
 }: HeroSectionProps) {
-  console.log(color);
   const trailer = trailerLink.results.find(
-    (video) => video.type === "Trailer" && video.site === "YouTube"
+    (video) => video.type === "Trailer" && video.site === "YouTube",
   );
-  console.log(trailer);
+
   return (
     <div className="relative w-full" style={{ backgroundColor: color }}>
       <div className="relative w-full max-w-[1920px] mx-auto">
@@ -33,7 +32,7 @@ export default function HeroSection({
             fill
             className="object-cover object-top w-full h-full"
             priority
-            quality={85}
+            quality={90}
           />
 
           <div
@@ -56,7 +55,7 @@ export default function HeroSection({
           <div className="h-full flex items-center">
             <div className="flex flex-col md:flex-row gap-6 lg:gap-10 w-full">
               <div className="shrink-0">
-                <div className="relative w-48 md:w-64 lg:w-80 xl:w-96 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10 hover:ring-white/30">
+                <div className="relative w-48 md:w-64 lg:w-80 xl:w-96 aspect-2/3 rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10 hover:ring-white/30">
                   <Image
                     src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                     alt={data.title}
@@ -64,6 +63,8 @@ export default function HeroSection({
                     className="object-cover"
                     priority
                     quality={90}
+                    loading="eager"
+                    sizes="(max-width: 1024px) 20vw, 33vw,"
                   />
                 </div>
               </div>

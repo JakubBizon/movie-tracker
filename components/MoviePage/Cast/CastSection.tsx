@@ -19,13 +19,15 @@ export default function CastSection({ castData, limit }: CastSectionProps) {
         {slicedCast.map((cast) => (
           <Card
             key={cast.id}
-            className="w-40 flex-shrink-0 p-0 rounded-lg overflow-hidden border-0 shadow-none glass"
+            className="w-40 shrink-0 p-0 rounded-lg overflow-hidden border-0 shadow-none glass"
           >
             <div className="relative w-full h-52 bg-gray-800">
               <Image
-                src={`https://image.tmdb.org/t/p/w342${cast.profile_path}`}
+                src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
                 alt={cast.name}
                 fill
+                sizes="(max-width: 768px) 33vw, 185px"
+                fetchPriority="high"
                 className="object-cover rounded-lg"
               />
             </div>
