@@ -1,0 +1,95 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { slugify } from "@/lib/utils/slugify";
+import { BookmarkX, HeartOff, Loader2 } from "lucide-react";
+import Image from "next/image";
+import {
+  toggleBookmarkAction,
+  toggleFavoriteAction,
+} from "@/app/actions/movieActions";
+
+interface ListItem {
+  movieId: string | number;
+  title: string;
+  posterPath: string | null;
+  voteAverage?: string;
+}
+
+interface MediaCardProps {
+  item: ListItem;
+  type: "watchlist" | "favorites";
+  userId: string;
+}
+
+export default function MediaCard({ item, type, userId }: MediaCardProps) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const handleNavigate = () => {
+    router.push(`/movie/${slugify(item.title, Number(item.movieId))}`);
+  };
+
+  const handleRemove = () => {
+    startTransition(async () => {
+      const movieId = String(item.movieId);
+      const posterPath = item.posterPath ?? "";
+      const voteAverage = item.voteAverage ?? "0";
+      console.log("Removing:", { userId, movieId, type });
+      if (type === "watchlist") {
+        await toggleBookmarkAction(
+          userId,
+          movieId,
+          item.title,
+          posterPath,
+          voteAverage,
+        );
+      } else {
+        await toggleFavoriteAction(
+          userId,
+          movieId,
+          item.title,
+          posterPath,
+          voteAverage,
+        );
+      }
+    });
+  };
+
+  return (
+    <div
+      className={`group relative overflow-hidden rounded-lg ${
+        isPending ? "pointer-events-none opacity-50" : ""
+      }`}
+    >
+      <div onClick={handleNavigate} className="cursor-pointer">
+        <Image
+          src={`https://image.tmdb.org/t/p/w500${item.posterPath}`}
+          alt={item.title}
+          width={300}
+          height={450}
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 200px"
+          loading="lazy"
+          className="w-full rounded-lg object-cover shadow-lg"
+        />
+      </div>
+
+      <button
+        type="button"
+        onClick={handleRemove}
+        disabled={isPending}
+        className="absolute right-2 top-2 z-50 cursor-pointer rounded-full bg-destructive p-2 text-destructive-foreground opacity-0 transition-all duration-300 hover:scale-110 hover:bg-destructive/90 group-hover:opacity-100"
+        title="Remove from list"
+      >
+        {isPending ? (
+          <Loader2 size={20} className="animate-spin" />
+        ) : type === "watchlist" ? (
+          <BookmarkX size={20} />
+        ) : (
+          <HeartOff size={20} />
+        )}
+      </button>
+    </div>
+  );
+}
