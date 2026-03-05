@@ -3,6 +3,7 @@ import Cast from "@/components/MoviePage/Cast/Cast";
 import MovieHero from "@/components/MoviePage/Hero/MovieHero";
 import CastSectionSkeleton from "@/components/MoviePage/Skeletons/CastSectionSkeleton";
 import { HeroSectionSkeleton } from "@/components/MoviePage/Skeletons/HeroSectionSkeleton";
+import SimilarSectionSkeleton from "@/components/MoviePage/Skeletons/SimilarSectionSkeleton";
 import { canonicalSlug } from "@/lib/utils/canonicalSlug";
 import { extractIdFromSlug } from "@/lib/utils/extractIdFromSlug";
 import { Suspense } from "react";
@@ -25,7 +26,7 @@ export default async function MoviePage({
           <Cast id={extractIdFromSlug(slug)} />
         </Suspense>
 
-        <Suspense>
+        <Suspense fallback={<SimilarSectionSkeleton />}>
           <SimilarSection id={extractIdFromSlug(slug)} />
         </Suspense>
       </div>
