@@ -9,6 +9,8 @@ import {
   toggleBookmarkAction,
   toggleFavoriteAction,
 } from "@/app/actions/movieActions";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 interface ListItem {
   movieId: string | number;
@@ -31,12 +33,14 @@ export default function MediaCard({ item, type, userId }: MediaCardProps) {
     router.push(`/movie/${slugify(item.title, Number(item.movieId))}`);
   };
 
+  const queryClient = useQueryClient();
+
   const handleRemove = () => {
     startTransition(async () => {
       const movieId = String(item.movieId);
       const posterPath = item.posterPath ?? "";
       const voteAverage = item.voteAverage ?? "0";
-      console.log("Removing:", { userId, movieId, type });
+
       if (type === "watchlist") {
         await toggleBookmarkAction(
           userId,
@@ -45,6 +49,7 @@ export default function MediaCard({ item, type, userId }: MediaCardProps) {
           posterPath,
           voteAverage,
         );
+        toast.success(`Removed ${item.title} from bookmarks`);
       } else {
         await toggleFavoriteAction(
           userId,
@@ -53,7 +58,11 @@ export default function MediaCard({ item, type, userId }: MediaCardProps) {
           posterPath,
           voteAverage,
         );
+        toast.success(`Removed ${item.title} from favorites`);
       }
+      queryClient.invalidateQueries({
+        queryKey: ["bookmarks", "count"],
+      });
     });
   };
 
