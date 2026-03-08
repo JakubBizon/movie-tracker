@@ -29,6 +29,7 @@ export default function ListTabs({
       });
     }
   }, [active, favoritesLength, bookmarksLength]);
+
   return (
     <div className="relative">
       <div className="flex flex-row gap-6 text-xl mb-2">
@@ -40,9 +41,7 @@ export default function ListTabs({
           }`}
         >
           <Bookmark />
-          <span>
-            Watchlist {bookmarksLength != 0 && `(${bookmarksLength})`}
-          </span>
+          <span>Watchlist {bookmarksLength > 0 && `(${bookmarksLength})`}</span>
         </button>
 
         <button
@@ -53,9 +52,7 @@ export default function ListTabs({
           }`}
         >
           <Heart />
-          <span>
-            Favorites {favoritesLength != 0 && `(${favoritesLength})`}
-          </span>
+          <span>Favorites {favoritesLength > 0 && `(${favoritesLength})`}</span>
         </button>
       </div>
       <hr className="border-border" />
