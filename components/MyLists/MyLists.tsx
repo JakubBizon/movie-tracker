@@ -26,7 +26,12 @@ export default function MyLists({
   return (
     <div className="max-w-7xl mx-auto ">
       <h2 className="text-4xl py-10">My lists</h2>
-      <ListTabs active={isActive} onChange={setIsActive} />
+      <ListTabs
+        active={isActive}
+        onChange={setIsActive}
+        favoritesLength={favorites.length}
+        bookmarksLength={bookmarks.length}
+      />
       <MediaGrid
         type={isActive}
         items={isActive === "watchlist" ? bookmarks : favorites}

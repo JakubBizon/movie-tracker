@@ -4,9 +4,16 @@ import { useEffect, useRef, useState } from "react";
 interface ListTabsProps {
   active: "watchlist" | "favorites";
   onChange: (tab: "watchlist" | "favorites") => void;
+  favoritesLength: number;
+  bookmarksLength: number;
 }
 
-export default function ListTabs({ active, onChange }: ListTabsProps) {
+export default function ListTabs({
+  active,
+  onChange,
+  favoritesLength,
+  bookmarksLength,
+}: ListTabsProps) {
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const watchlistRef = useRef<HTMLButtonElement>(null);
   const favoritesRef = useRef<HTMLButtonElement>(null);
@@ -21,7 +28,7 @@ export default function ListTabs({ active, onChange }: ListTabsProps) {
         width: element.offsetWidth,
       });
     }
-  }, [active]);
+  }, [active, favoritesLength, bookmarksLength]);
   return (
     <div className="relative">
       <div className="flex flex-row gap-6 text-xl mb-2">
@@ -33,7 +40,7 @@ export default function ListTabs({ active, onChange }: ListTabsProps) {
           }`}
         >
           <Bookmark />
-          <span>Watchlist</span>
+          <span>Watchlist ({bookmarksLength})</span>
         </button>
 
         <button
@@ -44,7 +51,7 @@ export default function ListTabs({ active, onChange }: ListTabsProps) {
           }`}
         >
           <Heart />
-          <span>Favorites</span>
+          <span>Favorites ({favoritesLength})</span>
         </button>
       </div>
       <hr className="border-border" />
