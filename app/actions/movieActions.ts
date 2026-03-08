@@ -27,7 +27,7 @@ export async function toggleFavoriteAction(
         );
       revalidatePath("/my-list");
       revalidatePath("/");
-      return { success: true, message: "Removed from favorites" };
+      return { success: true, message: `Removed ${title} from favorites` };
     } else {
       await db.insert(favorites).values({
         userId: userId,
@@ -38,7 +38,7 @@ export async function toggleFavoriteAction(
       });
       revalidatePath("/my-list");
       revalidatePath("/");
-      return { success: true, message: "Added to favorites" };
+      return { success: true, message: `Added ${title} to favorites` };
     }
   } catch (error) {
     console.error("Database error:", error);
@@ -91,7 +91,7 @@ export async function toggleBookmarkAction(
         );
       revalidatePath("/my-list");
       revalidatePath("/");
-      return { success: true, message: "Removed from bookmarks" };
+      return { success: true, message: `Removed ${title} from bookmarks` };
     } else {
       await db.insert(bookmarks).values({
         userId: userId,
@@ -102,7 +102,7 @@ export async function toggleBookmarkAction(
       });
       revalidatePath("/my-list");
       revalidatePath("/");
-      return { success: true, message: "Added to bookmarks" };
+      return { success: true, message: `Added ${title} to bookmarks` };
     }
   } catch (error) {
     console.error("Database error:", error);
