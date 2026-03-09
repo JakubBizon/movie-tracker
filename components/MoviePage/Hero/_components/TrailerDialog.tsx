@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -38,6 +39,9 @@ export default function TrailerDialog({ trailerLink, movie }: Props) {
       <DialogContent className="sm:max-w-[1000px] p-0 bg-black border-none overflow-hidden aspect-video">
         <DialogHeader className="sr-only">
           <DialogTitle>{movie.title} - Trailer</DialogTitle>
+          <DialogDescription>
+            Official movie trailer - {movie.title}.
+          </DialogDescription>
         </DialogHeader>
 
         {trailer ? (
