@@ -1,27 +1,37 @@
+"use client";
 import { Movie } from "@/app/types/movie";
 import { Badge } from "@/components/ui/badge";
 import { minutesToTime } from "@/lib/utils/minutesToTime";
-import { Star, Play, Plus, Info } from "lucide-react";
+import { Star, Bookmark, Heart } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Trailer } from "@/app/types/trailer";
-import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import useMovieInteractions from "@/hooks/MoviePage/useMovieInteractions";
+import TrailerDialog from "./_components/TrailerDialog";
 
 type HeroSectionProps = {
   data: Movie;
   color: string;
   trailerLink: Trailer;
+  initialIsFavorite?: boolean;
+  initialIsBookmarked?: boolean;
 };
 
 export default function HeroSection({
   data,
   color,
   trailerLink,
+  initialIsFavorite,
+  initialIsBookmarked,
 }: HeroSectionProps) {
-  const trailer = trailerLink.results.find(
-    (video) => video.type === "Trailer" && video.site === "YouTube",
-  );
-
+  const { data: session } = authClient.useSession();
+  const userId = session?.user?.id;
+  const { isFavorite, isBookmarked, handleFavorite, handleBookmark } =
+    useMovieInteractions(data, userId, {
+      isFavorite: initialIsFavorite,
+      isBookmarked: initialIsBookmarked,
+    });
   return (
     <div className="relative w-full" style={{ backgroundColor: color }}>
       <div className="relative w-full max-w-[1920px] mx-auto">
@@ -109,35 +119,32 @@ export default function HeroSection({
                 </p>
 
                 <div className="flex flex-wrap gap-3 pt-2">
-                  <Button
-                    size="lg"
-                    className="bg-white text-black hover:bg-gray-200 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform"
-                  >
-                    <Play className="w-5 h-5 mr-2 fill-current" />
-                    <Link
-                      href={`https://youtube.com/watch?v=${trailer?.key}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Play Trailer
-                    </Link>
-                  </Button>
+                  <TrailerDialog trailerLink={trailerLink} movie={data} />
 
                   <Button
                     size="lg"
                     variant="outline"
+                    onClick={handleBookmark}
                     className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-white/30 hover:border-white/50 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform"
                   >
-                    <Info className="w-5 h-5 mr-2" />
-                    More Info
+                    <Bookmark
+                      className={`w-5 h-5 ${isBookmarked ? "fill-blue-500 text-blue-500" : ""}`}
+                    />
                   </Button>
 
                   <Button
                     size="lg"
                     variant="outline"
+                    onClick={handleFavorite}
                     className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform"
                   >
-                    <Plus className="w-5 h-5" />
+                    <Heart
+                      className={
+                        isFavorite
+                          ? `w-5 h-5 fill-red-500 text-red-500`
+                          : `w-5 h-5`
+                      }
+                    />
                   </Button>
                 </div>
               </div>

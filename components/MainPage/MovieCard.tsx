@@ -1,16 +1,12 @@
 "use client";
-import {
-  toggleBookmarkAction,
-  toggleFavoriteAction,
-} from "@/app/actions/movieActions";
 import { Movie } from "@/app/types/movie";
+import useMovieInteractions from "@/hooks/MoviePage/useMovieInteractions";
 import { authClient } from "@/lib/auth-client";
-import { useQueryClient } from "@tanstack/react-query";
 import { Bookmark, Heart, Info, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { toast } from "sonner";
+
 interface MovieCardProps {
   movie: Movie;
   slug: string;
@@ -25,57 +21,13 @@ export default function MovieCard({
   initialIsFavorite,
 }: MovieCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-
-  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
-  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
-
   const { data: session } = authClient.useSession();
   const userId = session?.user?.id;
-
-  const queryClient = useQueryClient();
-  const handleFavorite = async () => {
-    if (!userId) return toast.error("Please login first");
-    setIsFavorite((prev) => !prev);
-    const result = await toggleFavoriteAction(
-      userId,
-      movie.id.toString(),
-      movie.title,
-      movie.poster_path,
-      movie.vote_average.toString(),
-    );
-
-    if (result.success) {
-      toast.success(result.message);
-      queryClient.invalidateQueries({
-        queryKey: ["bookmarks", "count"],
-      });
-    } else {
-      setIsFavorite((prev) => !prev);
-      toast.error(result.error);
-    }
-  };
-
-  const handleBookmark = async () => {
-    if (!userId) return toast.error("Please login first");
-    setIsBookmarked((prev) => !prev);
-    const result = await toggleBookmarkAction(
-      userId,
-      movie.id.toString(),
-      movie.title,
-      movie.poster_path,
-      movie.vote_average.toString(),
-    );
-
-    if (result.success) {
-      toast.success(result.message);
-      queryClient.invalidateQueries({
-        queryKey: ["bookmarks", "count"],
-      });
-    } else {
-      setIsBookmarked((prev) => !prev);
-      toast.error(result.error);
-    }
-  };
+  const { isFavorite, isBookmarked, handleFavorite, handleBookmark } =
+    useMovieInteractions(movie, userId, {
+      isFavorite: initialIsFavorite,
+      isBookmarked: initialIsBookmarked,
+    });
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
