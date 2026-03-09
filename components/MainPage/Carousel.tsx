@@ -25,6 +25,7 @@ export function Carousel({ items }: CarouselProps) {
     if (!el) return;
 
     checkScroll();
+    const timer = setTimeout(checkScroll, 500);
 
     el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
@@ -32,6 +33,7 @@ export function Carousel({ items }: CarouselProps) {
     return () => {
       el.removeEventListener("scroll", checkScroll);
       window.removeEventListener("resize", checkScroll);
+      clearTimeout(timer);
     };
   }, []);
   const scroll = (direction: "left" | "right") => {
