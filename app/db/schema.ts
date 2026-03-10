@@ -95,7 +95,8 @@ export const ratings = pgTable(
     movieId: varchar("movieId", { length: 255 }).notNull(),
     rating: integer("rating").notNull(),
     title: text("title").notNull(),
-    posterPath: text("posterPath"),
+    createdAt: timestamp("createdAt").defaultNow(),
+    updatedAt: timestamp("updatedAt").defaultNow(),
   },
   (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
 );
