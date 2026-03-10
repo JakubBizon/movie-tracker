@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import useMovieInteractions from "@/hooks/MoviePage/useMovieInteractions";
 import { authClient } from "@/lib/auth-client";
 import { Bookmark, Heart } from "lucide-react";
+import RatingDialog from "./RatingDialog";
 
 type Props = {
   initialIsFavorite?: boolean;
@@ -47,6 +48,8 @@ export default function InteractionButtons({
           }
         />
       </Button>
+
+      <RatingDialog title={data.title} movieId={data.id} />
     </>
   );
 }
