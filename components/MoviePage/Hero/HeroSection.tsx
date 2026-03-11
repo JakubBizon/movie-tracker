@@ -44,6 +44,7 @@ export default function HeroSection({
                     initialIsFavorite={initialIsFavorite}
                     initialIsBookmarked={initialIsBookmarked}
                     data={data}
+                    showRating={true}
                   />
                 </div>
               </div>

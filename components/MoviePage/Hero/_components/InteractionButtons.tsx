@@ -9,12 +9,14 @@ type Props = {
   initialIsFavorite?: boolean;
   initialIsBookmarked?: boolean;
   data: Movie;
+  showRating?: boolean;
 };
 
 export default function InteractionButtons({
   initialIsFavorite,
   initialIsBookmarked,
   data,
+  showRating,
 }: Props) {
   const { data: session } = authClient.useSession();
   const userId = session?.user?.id;
@@ -48,8 +50,7 @@ export default function InteractionButtons({
           }
         />
       </Button>
-
-      <RatingDialog title={data.title} movieId={data.id} />
+      {showRating && <RatingDialog title={data.title} movieId={data.id} />}
     </>
   );
 }
