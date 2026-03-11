@@ -9,7 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import useCheckRating from "@/hooks/MoviePage/useCheckRating";
 import { authClient } from "@/lib/auth-client";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -23,22 +26,38 @@ export default function RatingDialog({ movieId, title }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: session } = authClient.useSession();
   const userId = session?.user.id;
+  const queryClient = useQueryClient();
+  const { data: ratingData, isLoading } = useCheckRating(movieId, !!session);
+  const currentRating = ratingData?.rating ?? 0;
+  const isRated = currentRating > 0;
 
   const handleRate = async () => {
-    if (!userId) return;
-    const result = await rateMovieAction(
-      userId,
-      movieId.toString(),
-      title,
-      rating,
-    );
-    if (result.success) {
-      toast.success("Rating saved!");
-      setIsOpen(false);
-    } else {
-      toast.error("Something went wrong");
+    if (!userId || isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      const result = await rateMovieAction(
+        userId,
+        movieId.toString(),
+        title,
+        rating,
+      );
+      if (result.success) {
+        toast.success("Rating saved!");
+        setIsSubmitting(false);
+        queryClient.invalidateQueries({
+          queryKey: ["rating", movieId],
+        });
+        setIsOpen(false);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      toast.error("An error occurred");
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (
@@ -49,8 +68,19 @@ export default function RatingDialog({ movieId, title }: Props) {
           variant="outline"
           className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform"
         >
-          <Star />
-          <span>Rate</span>
+          {isLoading ? (
+            <div className="flex items-center gap-2 animate-pulse">
+              <Star className="w-4 h-4 text-white/50" />
+              <span className="text-white/50 text-sm">Checking...</span>
+            </div>
+          ) : (
+            <>
+              <Star
+                className={`${isRated ? "fill-amber-500 text-amber-500" : ""}`}
+              />
+              <span>{isRated ? `Your Rating: ${currentRating}` : "Rate"}</span>
+            </>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] bg-secondary border-none overflow-hidden">
@@ -66,33 +96,41 @@ export default function RatingDialog({ movieId, title }: Props) {
             {" "}
             <h2 className="text-lg pb-3">Rate this movie</h2>
             <span className="text-2xl text-primary">{title}</span>
-            <div
-              onMouseLeave={() => setHoverRating(0)}
-              className="flex gap-1 py-6"
-            >
-              {Array.from({ length: 10 }).map((item, index) => {
-                const starIndex = index + 1;
-                const isActive = starIndex <= (hoverRating || rating);
-                return (
-                  <button
-                    onClick={() => setRating(starIndex)}
-                    onMouseEnter={() => setHoverRating(starIndex)}
-                    key={index}
-                    className="transition-transform hover:scale-110 active:scale-90"
-                  >
-                    <Star
-                      className={`w-10 h-10 transition-colors duration-150 ${isActive ? "fill-amber-500 text-amber-500" : "text-muted-foreground/40"}`}
-                    />
-                  </button>
-                );
-              })}
+            <div className="flex flex-col">
+              <div
+                onMouseLeave={() => setHoverRating(0)}
+                className="flex gap-1 pt-3 pb-2"
+              >
+                {Array.from({ length: 10 }).map((item, index) => {
+                  const starIndex = index + 1;
+                  const isActive = starIndex <= (hoverRating || rating);
+                  return (
+                    <button
+                      onClick={() => setRating(starIndex)}
+                      onMouseEnter={() => setHoverRating(starIndex)}
+                      key={index}
+                      className="transition-transform hover:scale-110 active:scale-90"
+                    >
+                      <Star
+                        className={`w-10 h-10 transition-colors duration-150 ${isActive ? "fill-amber-500 text-amber-500" : "text-muted-foreground/40"}`}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+              <button
+                onClick={() => setRating(0)}
+                className="flex justify-end w-full text-center cursor-pointer"
+              >
+                Clear rating
+              </button>
             </div>
             <Button
               onClick={handleRate}
-              disabled={rating === 0}
+              disabled={isSubmitting || rating === currentRating}
               className="px-5"
             >
-              Rate
+              {isSubmitting ? "Saving..." : isRated ? "Update Rating" : "Rate"}
             </Button>
           </div>
         </div>
