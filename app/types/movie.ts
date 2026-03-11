@@ -1,3 +1,5 @@
+import { Trailer } from "./trailer";
+
 export interface Genre {
   id: number;
   name: string;
@@ -13,6 +15,11 @@ export interface Movie {
   runtime?: number;
   genres?: Genre[];
   description: string;
+}
+export interface HeroMovie extends Movie {
+  isFavorite: boolean;
+  isBookmarked: boolean;
+  trailer: Trailer;
 }
 
 export interface TrendingMoviesResponse {
