@@ -1,5 +1,6 @@
 "use server";
 
+import { and, eq } from "drizzle-orm";
 import { db } from "../db";
 import { ratings } from "../db/schema";
 
@@ -10,9 +11,17 @@ export async function rateMovieAction(
   rating: number,
 ) {
   if (!userId) throw new Error("Unauthorized");
-  if (rating < 1 || rating > 10) throw new Error("Invalid rating");
+  if (rating < 0 || rating > 10) throw new Error("Invalid rating");
 
   try {
+    if (rating === 0) {
+      await db
+        .delete(ratings)
+        .where(and(eq(ratings.userId, userId), eq(ratings.movieId, movieId)));
+
+      return { success: true, message: "Rating removed" };
+    }
+
     await db
       .insert(ratings)
       .values({

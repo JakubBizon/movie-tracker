@@ -1,5 +1,4 @@
 "use client";
-import { rateMovieAction } from "@/app/actions/rateMovieAction";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,12 +9,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import useCheckRating from "@/hooks/MoviePage/useCheckRating";
+import useMovieRating from "@/hooks/MoviePage/useMovieRating";
 import { authClient } from "@/lib/auth-client";
-import { useQueryClient } from "@tanstack/react-query";
-
-import { Star } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 type Props = {
   title: string;
@@ -24,42 +21,28 @@ type Props = {
 
 export default function RatingDialog({ movieId, title }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: session } = authClient.useSession();
-  const userId = session?.user.id;
-  const queryClient = useQueryClient();
   const { data: ratingData, isLoading } = useCheckRating(movieId, !!session);
   const currentRating = ratingData?.rating ?? 0;
   const isRated = currentRating > 0;
 
-  const handleRate = async () => {
-    if (!userId || isSubmitting) return;
-    setIsSubmitting(true);
-    try {
-      const result = await rateMovieAction(
-        userId,
-        movieId.toString(),
-        title,
-        rating,
-      );
-      if (result.success) {
-        toast.success("Rating saved!");
-        setIsSubmitting(false);
-        queryClient.invalidateQueries({
-          queryKey: ["rating", movieId],
-        });
-        setIsOpen(false);
-      } else {
-        toast.error("Something went wrong");
-      }
-    } catch (error) {
-      toast.error("An error occurred");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const {
+    rating,
+    setRating,
+    hoverRating,
+    setHoverRating,
+    isSubmitting,
+    handleSave,
+    handleRemove,
+  } = useMovieRating(
+    movieId,
+    title,
+    session?.user.id,
+    currentRating,
+    isOpen,
+    () => setIsOpen(false),
+  );
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -118,16 +101,26 @@ export default function RatingDialog({ movieId, title }: Props) {
                   );
                 })}
               </div>
-              <button
-                onClick={() => setRating(0)}
-                className="flex justify-end w-full text-center cursor-pointer"
-              >
-                Clear rating
-              </button>
+              {isRated && (
+                <button
+                  onClick={handleRemove}
+                  disabled={isSubmitting}
+                  className="justify-end mt-2 text-sm text-muted-foreground hover:text-destructive transition-colors flex items-center gap-1"
+                >
+                  {isSubmitting && rating === 0 && (
+                    <Loader2 className="w-3 h-3 animate-spin" />
+                  )}
+                  Remove my rating
+                </button>
+              )}
             </div>
             <Button
-              onClick={handleRate}
-              disabled={isSubmitting || rating === currentRating}
+              onClick={() => handleSave(rating)}
+              disabled={
+                isSubmitting ||
+                rating === currentRating ||
+                (rating === 0 && !isRated)
+              }
               className="px-5"
             >
               {isSubmitting ? "Saving..." : isRated ? "Update Rating" : "Rate"}
