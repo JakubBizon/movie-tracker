@@ -1,15 +1,14 @@
 "use client";
 
-import { Bookmarks } from "@/app/types/bookmarks";
-import { Favorites } from "@/app/types/favorites";
 import MediaGrid from "./MediaGrid";
 import ListTabs from "./ListTabs";
 import { useRefreshOnFocus } from "@/hooks/useRefreshOnFocus";
 import { useState } from "react";
+import { UserMediaItem } from "@/app/types/user-media-item";
 
 interface MyListsProps {
-  favorites: Favorites[];
-  bookmarks: Bookmarks[];
+  favorites: UserMediaItem[];
+  bookmarks: UserMediaItem[];
   userId: string;
 }
 
@@ -33,7 +32,6 @@ export default function MyLists({
         bookmarksLength={bookmarks.length}
       />
       <MediaGrid
-        type={isActive}
         items={isActive === "watchlist" ? bookmarks : favorites}
         userId={userId}
       />

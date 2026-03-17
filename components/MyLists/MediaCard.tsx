@@ -11,21 +11,14 @@ import {
 } from "@/app/actions/movieActions";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-
-interface ListItem {
-  movieId: string | number;
-  title: string;
-  posterPath: string | null;
-  voteAverage?: string;
-}
+import { UserMediaItem } from "@/app/types/user-media-item";
 
 interface MediaCardProps {
-  item: ListItem;
-  type: "watchlist" | "favorites";
+  item: UserMediaItem;
   userId: string;
 }
 
-export default function MediaCard({ item, type, userId }: MediaCardProps) {
+export default function MediaCard({ item, userId }: MediaCardProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -41,7 +34,7 @@ export default function MediaCard({ item, type, userId }: MediaCardProps) {
       const posterPath = item.posterPath ?? "";
       const voteAverage = item.voteAverage ?? "0";
 
-      if (type === "watchlist") {
+      if (item.type === "bookmark") {
         await toggleBookmarkAction(
           userId,
           movieId,
@@ -93,7 +86,7 @@ export default function MediaCard({ item, type, userId }: MediaCardProps) {
       >
         {isPending ? (
           <Loader2 size={20} className="animate-spin" />
-        ) : type === "watchlist" ? (
+        ) : item.type === "bookmark" ? (
           <BookmarkX size={20} />
         ) : (
           <HeartOff size={20} />
