@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { ReactNode } from "react";
 
 interface SectionHeaderProps {
@@ -14,8 +15,8 @@ export function SectionHeader({ title, icon }: SectionHeaderProps) {
         {title}
       </h2>
 
-      <Button variant="default" className="px-2 py-1">
-        View all
+      <Button asChild variant="default" className="px-2 py-1">
+        <Link href="/trending">View all</Link>
       </Button>
     </div>
   );

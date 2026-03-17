@@ -1,0 +1,29 @@
+import { Movie } from "@/app/types/movie";
+import MovieCard from "../MainPage/MovieCard";
+import { slugify } from "@/lib/utils/slugify";
+
+type Props = {
+  movies: Movie[];
+  bookmarkedIds: string[];
+  favoriteIds: string[];
+};
+
+export default function TrendingGrid({
+  movies,
+  bookmarkedIds,
+  favoriteIds,
+}: Props) {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      {movies.map((movie) => (
+        <MovieCard
+          key={movie.id}
+          movie={movie}
+          initialIsBookmarked={bookmarkedIds.includes(movie.id.toString())}
+          initialIsFavorite={favoriteIds.includes(movie.id.toString())}
+          slug={slugify(movie.title, movie.id)}
+        />
+      ))}
+    </div>
+  );
+}
