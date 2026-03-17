@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { slugify } from "@/lib/utils/slugify";
-import { BookmarkX, HeartOff, Loader2 } from "lucide-react";
+import { BookmarkX, HeartOff, Loader2, Star } from "lucide-react";
 import Image from "next/image";
 import {
   toggleBookmarkAction,
@@ -19,6 +19,7 @@ interface MediaCardProps {
 }
 
 export default function MediaCard({ item, userId }: MediaCardProps) {
+  console.log(typeof item.voteAverage);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -27,12 +28,14 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
   };
 
   const queryClient = useQueryClient();
-
+  const displayVote = item.voteAverage
+    ? Number(item.voteAverage).toFixed(1)
+    : "N/A";
   const handleRemove = () => {
     startTransition(async () => {
       const movieId = String(item.movieId);
       const posterPath = item.posterPath ?? "";
-      const voteAverage = item.voteAverage ?? "0";
+      const voteAverageStr = item.voteAverage ?? "0.0";
 
       if (item.type === "bookmark") {
         await toggleBookmarkAction(
@@ -40,7 +43,7 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
           movieId,
           item.title,
           posterPath,
-          voteAverage,
+          voteAverageStr,
         );
         toast.success(`Removed ${item.title} from bookmarks`);
       } else {
@@ -49,7 +52,7 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
           movieId,
           item.title,
           posterPath,
-          voteAverage,
+          voteAverageStr,
         );
         toast.success(`Removed ${item.title} from favorites`);
       }
@@ -91,6 +94,14 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
         ) : (
           <HeartOff size={20} />
         )}
+      </button>
+
+      <button
+        type="button"
+        className="text-white absolute top-2 left-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center justify-center gap-2 leading-none"
+      >
+        <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />
+        <span className="text-base">{displayVote}</span>
       </button>
     </div>
   );
