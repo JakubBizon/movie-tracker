@@ -1,10 +1,12 @@
-export async function getTopRatedMovies() {
+export async function getTopRatedMovies(page: number) {
+  const safePage =
+    Number.isInteger(page) && page >= 1 && page <= 500 ? page : 1;
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.API_KEY}`,
+    `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.API_KEY}&page=${safePage}`,
     {
       next: { revalidate: 3600 },
-    }
+    },
   );
-  if (!res.ok) throw new Error("Failed to fetch trending movies");
+  if (!res.ok) throw new Error("Failed to fetch top rated movies");
   return res.json();
 }

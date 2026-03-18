@@ -3,14 +3,15 @@ import MovieCarousel from "../MovieCarousel";
 import { SectionHeader } from "../SectionHeader";
 import { Trophy } from "lucide-react";
 
-export default async function TrendingSection() {
-  const data = await getTopRatedMovies();
+export default async function TopRatedSection() {
+  const data = await getTopRatedMovies(1);
 
   return (
     <>
       <SectionHeader
         title="Top Rated"
         icon={<Trophy className="h-6 w-6 text-amber-500" />}
+        link="/movies/top-rated"
       />
       <MovieCarousel movies={data.results} />
     </>

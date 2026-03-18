@@ -4,7 +4,7 @@ import { SectionHeader } from "../SectionHeader";
 import { FlameIcon } from "lucide-react";
 
 export default async function TrendingSection() {
-  const data = await getTrendingMovies();
+  const data = await getTrendingMovies(1);
 
   return (
     <>

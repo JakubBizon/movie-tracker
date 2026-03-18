@@ -8,7 +8,7 @@ import { getUserSelections } from "@/app/actions/movieActions";
 import { getTrailerLink } from "@/lib/movies/getTrailerLink";
 
 export default async function HeroSection() {
-  const data = await getPopularMovies();
+  const data = await getPopularMovies(1);
 
   const filteredData = data.results
     .filter((movie: Movie) => movie.vote_average >= 7.0)
