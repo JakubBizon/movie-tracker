@@ -1,7 +1,9 @@
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
+  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
@@ -12,48 +14,84 @@ interface Props {
   baseUrl: string;
 }
 
-export default function CustomPaginaton({
+export default function CustomPagination({
   currentPage,
   totalPages,
   baseUrl,
 }: Props) {
   const getPageUrl = (page: number) => `${baseUrl}?page=${page}`;
 
+  const getPages = () => {
+    const pages = [];
+    const maxVisible = 3;
+
+    let start = Math.max(1, currentPage - 1);
+    const end = Math.min(totalPages, start + maxVisible - 1);
+
+    if (end - start < maxVisible - 1) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  };
+
+  const pages = getPages();
+
   return (
-    <Pagination>
-      <PaginationContent className="flex flex-row items-center justify-center gap-4">
-        <PaginationItem className="w-32 flex justify-end">
-          {" "}
-          {/* Stała szerokość */}
-          {currentPage > 1 ? (
-            <PaginationPrevious
-              href={getPageUrl(currentPage - 1)}
-              className="hover:bg-transparent px-0"
-            />
-          ) : (
-            <div className="opacity-0 pointer-events-none">
-              <PaginationPrevious href="#" />
-            </div>
-          )}
-        </PaginationItem>
-
+    <Pagination className="my-8">
+      <PaginationContent className="gap-2">
         <PaginationItem>
-          <div className="flex items-center justify-center h-10 w-10 border rounded-md bg-secondary">
-            {currentPage}
-          </div>
+          <PaginationPrevious
+            href={currentPage > 1 ? getPageUrl(currentPage - 1) : "#"}
+            className={currentPage <= 1 ? "pointer-events-none opacity-50" : ""}
+          />
         </PaginationItem>
 
-        <PaginationItem className="w-32 flex justify-start">
-          {currentPage < totalPages ? (
-            <PaginationNext
-              href={getPageUrl(currentPage + 1)}
-              className="hover:bg-transparent px-0"
-            />
-          ) : (
-            <div className="opacity-0 pointer-events-none">
-              <PaginationNext href="#" />
-            </div>
-          )}
+        {pages[0] > 1 && (
+          <>
+            <PaginationItem>
+              <PaginationLink href={getPageUrl(1)}>1</PaginationLink>
+            </PaginationItem>
+            {pages[0] > 2 && <PaginationEllipsis />}
+          </>
+        )}
+
+        {pages.map((page) => (
+          <PaginationItem key={page}>
+            <PaginationLink
+              href={getPageUrl(page)}
+              isActive={page === currentPage}
+              className={
+                page === currentPage
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : ""
+              }
+            >
+              {page}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+
+        {pages[pages.length - 1] < totalPages && (
+          <>
+            {pages[pages.length - 1] < totalPages - 1 && <PaginationEllipsis />}
+            <PaginationItem>
+              <PaginationLink href={getPageUrl(totalPages)}>
+                {totalPages}
+              </PaginationLink>
+            </PaginationItem>
+          </>
+        )}
+        <PaginationItem>
+          <PaginationNext
+            href={currentPage < totalPages ? getPageUrl(currentPage + 1) : "#"}
+            className={
+              currentPage >= totalPages ? "pointer-events-none opacity-50" : ""
+            }
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
