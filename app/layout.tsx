@@ -16,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={spaceGrotesk.variable}>
-      <body className={`antialiased font-sans`}>
+      <body
+        className={`antialiased font-sans bg-transparent dark:bg-secondary`}
+      >
         <Providers>
           <Navbar />
           {children}
