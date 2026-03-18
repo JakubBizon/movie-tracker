@@ -19,7 +19,6 @@ interface MediaCardProps {
 }
 
 export default function MediaCard({ item, userId }: MediaCardProps) {
-  console.log(typeof item.voteAverage);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
