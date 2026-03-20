@@ -6,14 +6,67 @@ import { Genre } from "@/app/types/movie";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import SelectSort from "./SelectSort";
+import { DatePicker } from "./DatePicker";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { format, parseISO } from "date-fns";
 
 type Props = {
   genres: Genre[];
 };
 export default function Filters({ genres }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [isVisible, setIsVisible] = useState(false);
+  const initialFrom = searchParams.get("from");
+  const initialTo = searchParams.get("to");
+  const initialGenres = searchParams.get("genres") || "";
+
+  const [fromDate, setFromDate] = useState<Date | undefined>(
+    initialFrom ? parseISO(initialFrom) : undefined,
+  );
+  const [toDate, setToDate] = useState<Date | undefined>(
+    initialTo ? parseISO(initialTo) : undefined,
+  );
+  const [selectedGenres, setSelectedGenres] = useState(
+    searchParams.get("genres")?.split(",").map(Number).filter(Boolean) || [],
+  );
+
+  const currentGenresString = selectedGenres.join(",");
+  const currentFromStr = fromDate ? format(fromDate, "yyyy-MM-dd") : "";
+  const currentToStr = toDate ? format(toDate, "yyyy-MM-dd") : "";
+
+  const isChanged =
+    currentFromStr !== initialFrom ||
+    currentToStr !== initialTo ||
+    currentGenresString !== initialGenres;
+
+  const toggleGenre = (id: number) => {
+    setSelectedGenres((prev) =>
+      prev.includes(id) ? prev.filter((g) => g !== id) : [...prev, id],
+    );
+  };
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (fromDate) params.set("from", format(fromDate, "yyyy-MM-dd"));
+    else params.delete("from");
+
+    if (toDate) params.set("to", format(toDate, "yyyy-MM-dd"));
+    else params.delete("to");
+
+    if (selectedGenres.length > 0) {
+      params.set("genres", selectedGenres.join(","));
+    } else {
+      params.delete("genres");
+    }
+    params.set("page", "1");
+    router.push(`${pathname}?${params.toString()}`);
+  };
   return (
-    <div className="w-xs pr-4 space-y-4">
+    <form onSubmit={handleSearch} className="w-xs pr-4 space-y-4">
       <Card>
         <div
           onClick={() => setIsVisible(!isVisible)}
@@ -43,16 +96,12 @@ export default function Filters({ genres }: Props) {
           <h2>Release dates</h2>
           <div className="flex justify-between items-center">
             <p className="text-neutral-400 font-bold">from</p>
-            <input type="date" className="border rounded-md px-2 py-2" />
+            <DatePicker date={fromDate} onChange={setFromDate} />
           </div>
 
           <div className="flex justify-between items-center">
             <p className="text-neutral-400 font-bold">to</p>
-            <input
-              type="date"
-              placeholder=""
-              className="border rounded-md px-2 py-2"
-            />
+            <DatePicker date={toDate} onChange={setToDate} />
           </div>
         </div>
         <hr className="border-border" />
@@ -62,24 +111,35 @@ export default function Filters({ genres }: Props) {
             Genres
           </h2>
           <div className="flex flex-wrap gap-2">
-            {genres.map((genre: Genre) => (
-              <button
-                key={genre.id}
-                className="px-3 py-1 text-sm rounded-full border border-border hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer"
-              >
-                {genre.name}
-              </button>
-            ))}
+            {genres.map((genre: Genre) => {
+              const isActive = selectedGenres.includes(genre.id);
+              return (
+                <button
+                  type="button"
+                  key={genre.id}
+                  onClick={() => toggleGenre(genre.id)}
+                  className={`px-3 py-1 text-sm rounded-full border transition-colors cursor-pointer ${
+                    isActive
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border hover:bg-accent hover:text-accent-foreground"
+                  }`}
+                >
+                  {genre.name}
+                </button>
+              );
+            })}
           </div>
         </div>
       </Card>
 
       <Button
-        className="w-full text-xl bg-primary text-white rounded-full py-6"
+        className={`w-full ${isChanged ? "bg-primary text-white hover:bg-primary/90" : "bg-neutral-200 text-neutral-400 cursor-not-allowed border-none"} text-xl rounded-full py-6`}
         variant="outline"
+        type="submit"
+        disabled={!isChanged}
       >
         Search
       </Button>
-    </div>
+    </form>
   );
 }
