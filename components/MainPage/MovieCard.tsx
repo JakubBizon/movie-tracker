@@ -46,8 +46,16 @@ export default function MovieCard({
           {movie.title}
         </h3>
         <p className="text-white absolute top-2 right-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center justify-center gap-2 leading-none">
-          <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />{" "}
-          <span className="text-base ">{movie.vote_average.toFixed(1)}</span>
+          {movie.vote_average ? (
+            <>
+              <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />
+              <span className="text-base ">
+                {movie.vote_average.toFixed(1)}
+              </span>
+            </>
+          ) : (
+            <span className="text-base">nr</span>
+          )}
         </p>
       </Link>
 
