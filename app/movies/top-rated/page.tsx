@@ -1,17 +1,26 @@
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
-import { getTopRatedMovies } from "@/lib/movies/getTopRatedMovies";
+import { getMovies } from "@/lib/movies/getMovies";
 
 interface Props {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{
+    page?: string;
+    sort?: string;
+    genres?: string;
+    from?: string;
+    to?: string;
+  }>;
 }
-
 export default async function TopRatedPage({ searchParams }: Props) {
-  const { page } = await searchParams;
+  const { page, sort, genres, from, to } = await searchParams;
   const currentPage = Number(page) || 1;
 
-  const data = await getMoviesPageData(getTopRatedMovies, currentPage);
-
+  const data = await getMoviesPageData(getMovies, currentPage, {
+    sort,
+    genres,
+    from,
+    to,
+  });
   return (
     <div className=" max-w-7xl mx-auto ">
       <MovieExplorer
@@ -22,7 +31,6 @@ export default async function TopRatedPage({ searchParams }: Props) {
         pagination={{
           currentPage: currentPage,
           totalPages: data.totalPages,
-          baseUrl: "/movies/top-rated",
         }}
       />
     </div>

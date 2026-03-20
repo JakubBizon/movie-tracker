@@ -12,7 +12,6 @@ type Props = {
   pagination: {
     currentPage: number;
     totalPages: number;
-    baseUrl: string;
   };
   children?: React.ReactNode;
 };

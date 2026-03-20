@@ -1,3 +1,4 @@
+"use client";
 import {
   Pagination,
   PaginationContent,
@@ -7,19 +8,21 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface Props {
   currentPage: number;
   totalPages: number;
-  baseUrl: string;
 }
 
-export default function CustomPagination({
-  currentPage,
-  totalPages,
-  baseUrl,
-}: Props) {
-  const getPageUrl = (page: number) => `${baseUrl}?page=${page}`;
+export default function CustomPagination({ currentPage, totalPages }: Props) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const createPageUrl = (pageNumber: number | string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", pageNumber.toString());
+    return `${pathname}?${params.toString()}`;
+  };
 
   const getPages = () => {
     const pages = [];
@@ -45,7 +48,7 @@ export default function CustomPagination({
       <PaginationContent className="gap-2">
         <PaginationItem>
           <PaginationPrevious
-            href={currentPage > 1 ? getPageUrl(currentPage - 1) : "#"}
+            href={currentPage > 1 ? createPageUrl(currentPage - 1) : "#"}
             className={currentPage <= 1 ? "pointer-events-none opacity-50" : ""}
           />
         </PaginationItem>
@@ -53,7 +56,7 @@ export default function CustomPagination({
         {pages[0] > 1 && (
           <>
             <PaginationItem>
-              <PaginationLink href={getPageUrl(1)}>1</PaginationLink>
+              <PaginationLink href={createPageUrl(1)}>1</PaginationLink>
             </PaginationItem>
             {pages[0] > 2 && <PaginationEllipsis />}
           </>
@@ -62,7 +65,7 @@ export default function CustomPagination({
         {pages.map((page) => (
           <PaginationItem key={page}>
             <PaginationLink
-              href={getPageUrl(page)}
+              href={createPageUrl(page)}
               isActive={page === currentPage}
               className={
                 page === currentPage
@@ -79,7 +82,7 @@ export default function CustomPagination({
           <>
             {pages[pages.length - 1] < totalPages - 1 && <PaginationEllipsis />}
             <PaginationItem>
-              <PaginationLink href={getPageUrl(totalPages)}>
+              <PaginationLink href={createPageUrl(totalPages)}>
                 {totalPages}
               </PaginationLink>
             </PaginationItem>
@@ -87,7 +90,9 @@ export default function CustomPagination({
         )}
         <PaginationItem>
           <PaginationNext
-            href={currentPage < totalPages ? getPageUrl(currentPage + 1) : "#"}
+            href={
+              currentPage < totalPages ? createPageUrl(currentPage + 1) : "#"
+            }
             className={
               currentPage >= totalPages ? "pointer-events-none opacity-50" : ""
             }

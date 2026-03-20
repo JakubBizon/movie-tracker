@@ -1,14 +1,26 @@
 import MovieExplorer from "@/components/Movies/MovieExplorer";
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
-import { getPopularMovies } from "@/lib/movies/getPopularMovies";
+import { getMovies } from "@/lib/movies/getMovies";
 
 interface Props {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{
+    page?: string;
+    sort?: string;
+    genres?: string;
+    from?: string;
+    to?: string;
+  }>;
 }
 export default async function PopularMovies({ searchParams }: Props) {
-  const { page } = await searchParams;
+  const { page, sort, genres, from, to } = await searchParams;
   const currentPage = Number(page) || 1;
-  const data = await getMoviesPageData(getPopularMovies, currentPage);
+
+  const data = await getMoviesPageData(getMovies, currentPage, {
+    sort,
+    genres,
+    from,
+    to,
+  });
 
   return (
     <MovieExplorer
@@ -19,7 +31,6 @@ export default async function PopularMovies({ searchParams }: Props) {
       pagination={{
         currentPage: currentPage,
         totalPages: data.totalPages,
-        baseUrl: "/movies",
       }}
     />
   );

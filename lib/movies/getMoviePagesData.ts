@@ -5,9 +5,14 @@ import { getUserSelections } from "@/app/actions/movieActions";
 
 type FetcherFn = (
   page: number,
+  options?: { sort?: string; genres?: string; from?: string; to?: string },
 ) => Promise<{ results: Movie[]; total_pages: number }>;
 
-export async function getMoviesPageData(fetcher: FetcherFn, page: number) {
+export async function getMoviesPageData(
+  fetcher: FetcherFn,
+  page: number,
+  options?: { sort?: string; genres?: string; from?: string; to?: string },
+) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -15,7 +20,7 @@ export async function getMoviesPageData(fetcher: FetcherFn, page: number) {
   const userId = session?.user.id;
 
   const [movieData, userSelections] = await Promise.all([
-    fetcher(page),
+    fetcher(page, options),
     userId ? getUserSelections(userId) : { favoriteIds: [], bookmarkedIds: [] },
   ]);
 
