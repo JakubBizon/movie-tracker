@@ -19,8 +19,8 @@ export default function Filters({ genres }: Props) {
   const searchParams = useSearchParams();
 
   const [isVisible, setIsVisible] = useState(false);
-  const initialFrom = searchParams.get("from");
-  const initialTo = searchParams.get("to");
+  const initialFrom = searchParams.get("from") || "";
+  const initialTo = searchParams.get("to") || "";
   const initialGenres = searchParams.get("genres") || "";
 
   const [fromDate, setFromDate] = useState<Date | undefined>(
@@ -33,20 +33,30 @@ export default function Filters({ genres }: Props) {
     searchParams.get("genres")?.split(",").map(Number).filter(Boolean) || [],
   );
 
-  const currentGenresString = selectedGenres.join(",");
   const currentFromStr = fromDate ? format(fromDate, "yyyy-MM-dd") : "";
   const currentToStr = toDate ? format(toDate, "yyyy-MM-dd") : "";
+  const currentGenresString = [...selectedGenres]
+    .sort((a, b) => a - b)
+    .join(",");
+  const sortedInitialGenres = initialGenres
+    ? initialGenres
+        .split(",")
+        .map(Number)
+        .sort((a, b) => a - b)
+        .join(",")
+    : "";
 
   const isChanged =
     currentFromStr !== initialFrom ||
     currentToStr !== initialTo ||
-    currentGenresString !== initialGenres;
+    currentGenresString !== sortedInitialGenres;
 
   const toggleGenre = (id: number) => {
     setSelectedGenres((prev) =>
       prev.includes(id) ? prev.filter((g) => g !== id) : [...prev, id],
     );
   };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams(searchParams.toString());
@@ -65,8 +75,9 @@ export default function Filters({ genres }: Props) {
     params.set("page", "1");
     router.push(`${pathname}?${params.toString()}`);
   };
+
   return (
-    <form onSubmit={handleSearch} className="w-xs pr-4 space-y-4">
+    <form onSubmit={handleSearch} className="md:max-w-xs w-full pr-4 space-y-4">
       <Card>
         <div
           onClick={() => setIsVisible(!isVisible)}
@@ -94,14 +105,18 @@ export default function Filters({ genres }: Props) {
 
         <div className="px-4  py-2 space-y-4">
           <h2>Release dates</h2>
-          <div className="flex justify-between items-center">
-            <p className="text-neutral-400 font-bold">from</p>
+          <div className="flex justify-between items-center gap-4">
+            <p className="text-neutral-400 font-bold w-12">from</p>
             <DatePicker date={fromDate} onChange={setFromDate} />
           </div>
 
-          <div className="flex justify-between items-center">
-            <p className="text-neutral-400 font-bold">to</p>
-            <DatePicker date={toDate} onChange={setToDate} />
+          <div className="flex justify-between items-center gap-4">
+            <p className="text-neutral-400 font-bold w-12">to</p>
+            <DatePicker
+              date={toDate}
+              onChange={setToDate}
+              disabled={(date: Date) => (fromDate ? date < fromDate : false)}
+            />
           </div>
         </div>
         <hr className="border-border" />
@@ -133,8 +148,8 @@ export default function Filters({ genres }: Props) {
       </Card>
 
       <Button
-        className={`w-full ${isChanged ? "bg-primary text-white hover:bg-primary/90" : "bg-neutral-200 text-neutral-400 cursor-not-allowed border-none"} text-xl rounded-full py-6`}
-        variant="outline"
+        className={`w-full ${isChanged ? "gradient-primary text-white dark:border-none hover:bg-primary/90" : "bg-neutral-200  text-white-100 dark:bg-accent cursor-not-allowed"} text-xl rounded-full py-6 dark:border dark:border-white`}
+        variant="secondary"
         type="submit"
         disabled={!isChanged}
       >
