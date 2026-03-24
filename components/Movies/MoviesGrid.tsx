@@ -14,7 +14,7 @@ export default function MoviesGrid({
   favoriteIds,
 }: Props) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className=" grid grid-cols-2  sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4 sm:px-6">
       {movies.map((movie) => (
         <MovieCard
           key={movie.id}

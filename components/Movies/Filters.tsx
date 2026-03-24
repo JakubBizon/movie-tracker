@@ -77,7 +77,7 @@ export default function Filters({ genres }: Props) {
   };
 
   return (
-    <form onSubmit={handleSearch} className="md:max-w-xs w-full pr-4 space-y-4">
+    <form onSubmit={handleSearch} className="w-full  spr-4 space-y-4">
       <Card>
         <div
           onClick={() => setIsVisible(!isVisible)}
