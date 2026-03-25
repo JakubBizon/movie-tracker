@@ -14,13 +14,18 @@ export async function getMovies(page: number, options?: Options) {
 
   const url = new URL("https://api.themoviedb.org/3/discover/movie");
   url.searchParams.set("page", page.toString());
-  const sortBy = sort && sortMap[sort] ? sortMap[sort] : "popularity.desc";
+  const sortBy =
+    options?.sort && sortMap[options.sort]
+      ? sortMap[options.sort]
+      : options?.defaultSort || "popularity.desc";
   url.searchParams.set("sort_by", sortBy);
 
   if (genres) url.searchParams.set("with_genres", genres);
   if (from) url.searchParams.set("primary_release_date.gte", from);
   if (to) url.searchParams.set("primary_release_date.lte", to);
-
+  if (sortBy.includes("vote_average")) {
+    url.searchParams.set("vote_count.gte", "300");
+  }
   const res = await fetch(url.toString(), {
     method: "GET",
     headers: {
