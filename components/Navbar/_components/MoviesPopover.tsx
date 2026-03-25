@@ -14,7 +14,7 @@ export default function MoviesPopover() {
   return (
     <div onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild onClick={(e) => e.preventDefault()}>
           <span className="md:text-xl text-base cursor-pointer gradient-text">
             Movies
           </span>
@@ -22,7 +22,6 @@ export default function MoviesPopover() {
         <PopoverContent
           className="flex flex-col gap-2 w-40 px-4 py-2"
           onMouseEnter={() => setOpen(true)}
-          onClick={() => setOpen(false)}
         >
           <Link href="/movies" className="hover:underline">
             Popular
