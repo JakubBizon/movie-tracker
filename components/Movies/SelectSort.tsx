@@ -11,7 +11,6 @@ import {
 export default function SelectSort() {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(pathname, "dasdas");
   const searchParams = useSearchParams();
   const getDefaultSort = () => {
     if (pathname === "/movies/top-rated") return "r_desc";
