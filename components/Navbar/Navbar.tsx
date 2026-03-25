@@ -13,7 +13,6 @@ export default async function Navbar() {
   });
   return (
     <NavbarWrapper>
-      {" "}
       <div className="dark:bg-gray-950 bg-white dark:border-none border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto  sm:px-6 px-4">
           <div className="hidden md:flex items-center justify-between py-4 gap-4">
@@ -33,16 +32,16 @@ export default async function Navbar() {
             <NavbarActions session={session} />
           </div>
 
-          <div className="flex md:hidden flex-col gap-3 py-3">
+          <div className="flex md:hidden flex-col gap-3 py-3 overflow-hidden">
             <div className="flex items-center justify-between gap-3">
               <Link href="/" className="flex items-center gap-2 shrink-0">
                 <Film className="text-primary h-8 w-8" />
                 <span className="text-xl font-bold sm:block hidden gradient-text">
                   MovieTracker
                 </span>
-              </Link>
-              <div className="flex items-center gap-2">
                 <MoviesPopover />
+              </Link>
+              <div className="flex items-center gap-1.5 shrink-0">
                 <NavbarActions session={session} />
               </div>
             </div>

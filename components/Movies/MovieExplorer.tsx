@@ -26,8 +26,8 @@ export default async function MovieExplorer({
   const { genres } = await getMovieGenres();
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-6">{title}</h1>
+    <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6">
+      <h1 className="text-3xl font-bold mb-6 px-4 sm:px-6">{title}</h1>
       <div className="flex lg:flex-row flex-col">
         <aside className="w-full lg:max-w-xs hidden lg:block shrink-0">
           <Filters genres={genres} />

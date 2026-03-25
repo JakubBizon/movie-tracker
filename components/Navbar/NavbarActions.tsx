@@ -17,10 +17,10 @@ export default function NavbarActions({ session }: NavbarActionsProps) {
 
   const watchlistCount = data?.count ?? 0;
   return (
-    <div className="flex items-center justify-center gap-4 shrink-0">
+    <div className="flex items-center justify-center gap-1 md:gap-4 shrink-0">
       <ThemeToggle />
       <Link href="/my-lists">
-        <Button variant="ghost" className="relative" size="icon-lg">
+        <Button variant="ghost" className="relative" size="icon">
           <Bookmark className="dark:text-white text-black" />
 
           {session && !isLoading && watchlistCount > 0 && (
