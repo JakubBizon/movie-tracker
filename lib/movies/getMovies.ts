@@ -14,10 +14,7 @@ export async function getMovies(page: number, options?: Options) {
 
   const url = new URL("https://api.themoviedb.org/3/discover/movie");
   url.searchParams.set("page", page.toString());
-  const sortBy =
-    options?.sort && sortMap[options.sort]
-      ? sortMap[options.sort]
-      : options?.defaultSort || "popularity.desc";
+  const sortBy = sort && sortMap[sort] ? sortMap[sort] : "popularity.desc";
   url.searchParams.set("sort_by", sortBy);
 
   if (genres) url.searchParams.set("with_genres", genres);
