@@ -77,7 +77,7 @@ export default function Filters({ genres }: Props) {
   };
 
   return (
-    <form onSubmit={handleSearch} className="w-full  spr-4 space-y-4">
+    <form onSubmit={handleSearch} className="w-full pr-4 space-y-4">
       <Card>
         <div
           onClick={() => setIsVisible(!isVisible)}
@@ -103,11 +103,15 @@ export default function Filters({ genres }: Props) {
         </div>
         <hr className="border-border" />
 
-        <div className="px-4  py-2 space-y-4">
+        <div className="px-4  space-y-4">
           <h2>Release dates</h2>
           <div className="flex justify-between items-center gap-4">
             <p className="text-neutral-400 font-bold w-12">from</p>
-            <DatePicker date={fromDate} onChange={setFromDate} />
+            <DatePicker
+              date={fromDate}
+              onChange={setFromDate}
+              disabled={(date: Date) => (toDate ? date > toDate : false)}
+            />
           </div>
 
           <div className="flex justify-between items-center gap-4">
@@ -121,7 +125,7 @@ export default function Filters({ genres }: Props) {
         </div>
         <hr className="border-border" />
 
-        <div className="px-4 py-2 space-y-3">
+        <div className="px-4 space-y-3">
           <h2 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">
             Genres
           </h2>
@@ -145,16 +149,17 @@ export default function Filters({ genres }: Props) {
             })}
           </div>
         </div>
+        <div className="px-4">
+          <Button
+            className={`w-full ${isChanged ? "gradient-primary text-white dark:border-none hover:bg-primary/90" : "bg-neutral-200  text-white-100 dark:bg-accent cursor-not-allowed"} text-xl rounded-full py-6 dark:border dark:border-white`}
+            variant="secondary"
+            type="submit"
+            disabled={!isChanged}
+          >
+            Search
+          </Button>
+        </div>
       </Card>
-
-      <Button
-        className={`w-full ${isChanged ? "gradient-primary text-white dark:border-none hover:bg-primary/90" : "bg-neutral-200  text-white-100 dark:bg-accent cursor-not-allowed"} text-xl rounded-full py-6 dark:border dark:border-white`}
-        variant="secondary"
-        type="submit"
-        disabled={!isChanged}
-      >
-        Search
-      </Button>
     </form>
   );
 }
