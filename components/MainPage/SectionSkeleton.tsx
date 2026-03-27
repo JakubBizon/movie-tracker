@@ -1,6 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton";
-
-export function SectionSkeleton() {
+type Props = {
+  isTrending?: boolean;
+};
+export function SectionSkeleton({ isTrending = false }: Props) {
   return (
     <>
       <div className="flex items-center justify-between px-4 py-1 mb-4">
@@ -8,7 +10,7 @@ export function SectionSkeleton() {
           <Skeleton className="w-8 h-8" />
           <Skeleton className="h-9 w-48" />
         </div>
-        <Skeleton className="h-9 w-24" />
+        {!isTrending && <Skeleton className="h-9 w-24" />}
       </div>
 
       <div className="relative px-4 py-4">

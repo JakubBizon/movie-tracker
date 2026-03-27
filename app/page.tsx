@@ -14,7 +14,7 @@ export default function Home() {
           <HeroSection />
         </Suspense>
 
-        <Suspense fallback={<SectionSkeleton />}>
+        <Suspense fallback={<SectionSkeleton isTrending={true} />}>
           <TrendingSection />
         </Suspense>
 

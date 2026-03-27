@@ -11,12 +11,16 @@ interface SectionHeaderProps {
 export function SectionHeader({ title, icon, link }: SectionHeaderProps) {
   return (
     <div className="flex items-center justify-between px-4 py-1 mb-4">
-      <h2 className="dark:text-white flex items-center gap-2 text-black font-semibold text-3xl">
+      <h2 className="dark:text-white flex items-center gap-2 text-black font-semibold md:text-3xl text-xl">
         {icon}
         {title}
       </h2>
       {link && (
-        <Button asChild variant="default" className="px-2 py-1">
+        <Button
+          asChild
+          variant="default"
+          className="md:px-4 py-1 px-2 md:text-sm"
+        >
           <Link href={link}>View all</Link>
         </Button>
       )}
