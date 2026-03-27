@@ -1,9 +1,9 @@
 "use client";
 
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 import { Genre } from "@/app/types/movie";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import SelectSort from "./SelectSort";
 import { DatePicker } from "./DatePicker";
@@ -77,7 +77,7 @@ export default function Filters({ genres }: Props) {
   };
 
   return (
-    <form onSubmit={handleSearch} className="w-full pr-4 space-y-4">
+    <form onSubmit={handleSearch} className="w-full space-y-4">
       <Card>
         <div
           onClick={() => setIsVisible(!isVisible)}
@@ -151,7 +151,7 @@ export default function Filters({ genres }: Props) {
         </div>
         <div className="px-4">
           <Button
-            className={`w-full ${isChanged ? "gradient-primary text-white dark:border-none hover:bg-primary/90" : "bg-neutral-200  text-white-100 dark:bg-accent cursor-not-allowed"} text-xl rounded-full py-6 dark:border dark:border-white`}
+            className={`w-full ${isChanged ? "gradient-primary text-white cursor-pointer dark:border-none hover:bg-primary/90" : "bg-neutral-200  text-white-100 dark:bg-accent cursor-not-allowed"} text-xl rounded-full py-6 dark:border dark:border-white`}
             variant="secondary"
             type="submit"
             disabled={!isChanged}
