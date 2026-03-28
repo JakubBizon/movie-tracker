@@ -7,8 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-export default function SelectSort() {
+type Props = {
+  onSelect?: () => void;
+};
+export default function SelectSort({ onSelect }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -26,7 +28,15 @@ export default function SelectSort() {
   };
 
   return (
-    <Select defaultValue={currentSort} onValueChange={handleValueChange}>
+    <Select
+      defaultValue={currentSort}
+      onValueChange={(value: string) => {
+        handleValueChange(value);
+        if (onSelect) {
+          onSelect();
+        }
+      }}
+    >
       <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>
