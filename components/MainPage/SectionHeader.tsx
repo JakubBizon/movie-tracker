@@ -10,7 +10,7 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ title, icon, link }: SectionHeaderProps) {
   return (
-    <div className="flex items-center justify-between px-4 py-1 mb-4">
+    <div className="flex items-center justify-between px-4 py-1 mb-2">
       <h2 className="dark:text-white flex items-center gap-2 text-black font-semibold md:text-3xl text-xl">
         {icon}
         {title}

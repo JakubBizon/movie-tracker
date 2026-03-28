@@ -76,7 +76,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="flex gap-2 justify-center mt-5">
+      <div className="flex gap-2 justify-center py-6">
         {Array.from({ length: data.length }).map((_, index) => (
           <button
             key={index}
