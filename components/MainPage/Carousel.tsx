@@ -44,12 +44,12 @@ export function Carousel({ items }: CarouselProps) {
   };
 
   return (
-    <div className="relative max-w-7xl mx-auto px-4 py-4 mb-4 group">
+    <div className="relative w-full max-w-7xl mx-auto px-4 mb-4 group overflow-hidden">
       <Button
         variant="ghost"
         size="icon"
-        className={`absolute left-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100  transition-opacity cursor-pointer ${
-          canScrollLeft ? "" : "hidden"
+        className={`absolute left-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100 transition-opacity cursor-pointer ${
+          canScrollLeft ? "hidden md:flex" : "hidden"
         }`}
         onClick={() => scroll("left")}
       >
@@ -58,7 +58,7 @@ export function Carousel({ items }: CarouselProps) {
 
       <div
         ref={scrollRef}
-        className="flex flex-row gap-4 overflow-x-auto scrollbar-hide scroll-smooth py-4 -my-4 px-2"
+        className="flex flex-row gap-4 overflow-x-auto scrollbar-hide scroll-smooth py-4 px-2"
       >
         {items}
       </div>
@@ -66,8 +66,8 @@ export function Carousel({ items }: CarouselProps) {
       <Button
         variant="ghost"
         size="icon"
-        className={`absolute right-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong  opacity-100  transition-opacity cursor-pointer ${
-          canScrollRight ? "" : "hidden"
+        className={`absolute right-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100 transition-opacity cursor-pointer ${
+          canScrollRight ? "hidden md:flex" : "hidden"
         }`}
         onClick={() => scroll("right")}
       >
