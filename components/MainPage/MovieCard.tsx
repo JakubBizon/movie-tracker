@@ -32,24 +32,30 @@ export default function MovieCard({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`shrink-0 relative hover:scale-105 transition-all duration-200  aspect-2/3`}
+      className={`shrink-0 relative hover:scale-102 md:hover:scale-103 transition-all duration-200 aspect-2/3 max-w-[150px] sm:max-w-[200px] md:max-w-none`}
     >
-      <Link href={`/movie/${slug}`} className="block relative h-full">
+      <Link
+        href={`/movie/${slug}`}
+        className="block relative w-full h-full overflow-hidden"
+      >
         <Image
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           alt={movie.title}
           width={200}
           height={300}
-          className="rounded-lg shadow-lg w-full h-auto block"
+          className="rounded-lg shadow-lg w-full h-full object-cover"
         />
-        <h3 className="text-white pt-10 via-black/60 leading-tight absolute bottom-0 left-0 right-0 p-3 bg-linear-to-t from-black to-transparent font-semibold line-clamp-2 rounded-b-lg">
+        <h3
+          title={movie.title}
+          className="text-white pt-10 text-sm md:text-base via-black/60 leading-tight absolute bottom-0 left-0 right-0 p-3 bg-linear-to-t from-black to-transparent font-semibold rounded-b-lg"
+        >
           {movie.title}
         </h3>
         <p className="text-white absolute top-2 right-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center justify-center gap-2 leading-none">
           {movie.vote_average ? (
             <>
-              <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />
-              <span className="text-base ">
+              <Star className="fill-yellow-400 md:w-4 md:h-4 w-3 h-3 text-yellow-400" />
+              <span className="md:text-base text-sm">
                 {movie.vote_average.toFixed(1)}
               </span>
             </>
@@ -60,7 +66,7 @@ export default function MovieCard({
       </Link>
 
       {isHovered && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 rounded-lg pointer-events-none">
+        <div className="absolute inset-0 z-20 sm:flex hidden items-center justify-center bg-black/40 rounded-lg pointer-events-none">
           <div className="flex items-center gap-3 text-white pointer-events-auto">
             <div
               className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer hover:bg-white transition pointer-events-auto"
