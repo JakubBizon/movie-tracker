@@ -5,6 +5,7 @@ import TopRatedSection from "@/components/MainPage/CarouselSections/TopRatedSect
 import HeroSection from "@/components/MainPage/Hero/HeroSection";
 import HeroSkeleton from "@/components/MainPage/Hero/HeroSkeleton";
 import { SectionSkeleton } from "@/components/MainPage/SectionSkeleton";
+import UpcomingSection from "@/components/MainPage/CarouselSections/UpcomingSection";
 
 export default function Home() {
   return (
@@ -24,6 +25,10 @@ export default function Home() {
 
         <Suspense fallback={<SectionSkeleton />}>
           <TopRatedSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionSkeleton />}>
+          <UpcomingSection />
         </Suspense>
       </div>
     </div>
