@@ -15,7 +15,7 @@ export default function SelectSort({ onSelect }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const getDefaultSort = () => {
-    if (pathname === "/movies/top-rated") return "r_desc";
+    if (pathname === "/movie/top-rated") return "r_desc";
     else return "p_desc";
   };
   const currentSort = searchParams.get("sort") || getDefaultSort();
