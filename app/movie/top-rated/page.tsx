@@ -15,12 +15,17 @@ export default async function TopRatedPage({ searchParams }: Props) {
   const { page, sort, genres, from, to } = await searchParams;
   const currentPage = Number(page) || 1;
 
-  const data = await getMoviesPageData(getMovies, currentPage, {
-    sort,
-    genres,
-    from,
-    to,
-  });
+  const data = await getMoviesPageData(
+    getMovies,
+    currentPage,
+    {
+      sort,
+      genres,
+      from,
+      to,
+    },
+    "top-rated",
+  );
   return (
     <div className=" max-w-7xl mx-auto ">
       <MovieExplorer

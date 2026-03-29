@@ -11,7 +11,7 @@ export default async function TopRatedSection() {
       <SectionHeader
         title="Top Rated"
         icon={<Trophy className="h-6 w-6 text-amber-500" />}
-        link="/movies/top-rated"
+        link="/movie/top-rated"
       />
       <MovieCarousel movies={data.results} />
     </>

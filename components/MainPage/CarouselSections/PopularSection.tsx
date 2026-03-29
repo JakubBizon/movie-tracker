@@ -11,7 +11,7 @@ export default async function PopularSection() {
       <SectionHeader
         title="Popular Movies"
         icon={<Star className="h-6 w-6 text-yellow-400" />}
-        link="/movies"
+        link="/movie"
       />
       <MovieCarousel movies={data.results} />
     </>
