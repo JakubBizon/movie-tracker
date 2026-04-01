@@ -22,14 +22,23 @@ export default function CastSection({ castData, limit }: CastSectionProps) {
             className="w-40 shrink-0 p-0 rounded-lg overflow-hidden border-0 shadow-none glass"
           >
             <div className="relative w-full h-52 bg-gray-800">
-              <Image
-                src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
-                alt={cast.name}
-                fill
-                sizes="(max-width: 768px) 33vw, 185px"
-                fetchPriority="high"
-                className="object-cover rounded-lg"
-              />
+              {cast.profile_path ? (
+                <Image
+                  src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
+                  alt={cast.name}
+                  fill
+                  sizes="(max-width: 768px) 33vw, 185px"
+                  fetchPriority="high"
+                  className="object-cover rounded-lg"
+                />
+              ) : (
+                <Image
+                  src={`/placeholder_people.png`}
+                  alt={cast.name}
+                  fill
+                  className="object-cover"
+                />
+              )}
             </div>
             <CardContent className="p-3">
               <div className="font-bold text-sm line-clamp-1">{cast.name}</div>

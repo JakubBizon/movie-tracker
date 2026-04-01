@@ -38,13 +38,23 @@ export default function MovieCard({
         href={`/movie/${slug}`}
         className="block relative w-full h-full overflow-hidden"
       >
-        <Image
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          width={200}
-          height={300}
-          className="rounded-lg shadow-lg w-full h-full object-cover"
-        />
+        {movie.poster_path ? (
+          <Image
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+            width={200}
+            height={300}
+            className="rounded-lg shadow-lg w-full h-full object-cover"
+          />
+        ) : (
+          <Image
+            src={`/placeholder.png`}
+            alt={movie.title}
+            width={200}
+            height={300}
+            className="rounded-lg shadow-lg w-full h-full object-cover"
+          />
+        )}
         <h3
           title={movie.title}
           className="text-white pt-10 text-sm md:text-base via-black/60 leading-tight absolute bottom-0 left-0 right-0 p-3 bg-linear-to-t from-black to-transparent font-semibold rounded-b-lg"
