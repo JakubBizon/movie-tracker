@@ -40,7 +40,7 @@ export async function getMovies(
   if (genres) url.searchParams.set("with_genres", genres);
   if (from) url.searchParams.set("primary_release_date.gte", from);
   if (to) url.searchParams.set("primary_release_date.lte", to);
-  if (sortBy.includes("vote_average")) {
+  if (sortBy.includes("vote_average") && preset != "upcoming") {
     url.searchParams.set("vote_count.gte", "300");
   }
   const res = await fetch(url.toString(), {
