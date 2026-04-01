@@ -10,9 +10,16 @@ import { useMovieFilters } from "../hooks/useMovieFilters";
 type Props = {
   genres: Genre[];
   onSubmit?: () => void;
+  defaultFrom?: Date;
+  defaultTo?: Date;
 };
 
-export default function GenresAndDatesFilter({ genres, onSubmit }: Props) {
+export default function GenresAndDatesFilter({
+  genres,
+  onSubmit,
+  defaultFrom,
+  defaultTo,
+}: Props) {
   const {
     handleSearch,
     toggleGenre,
@@ -24,7 +31,7 @@ export default function GenresAndDatesFilter({ genres, onSubmit }: Props) {
     checkIfFiltersApplied,
     isChanged,
     clearFilters,
-  } = useMovieFilters({ onSubmit });
+  } = useMovieFilters({ onSubmit, defaultFrom, defaultTo });
 
   return (
     <form onSubmit={handleSearch} className="w-full space-y-4">

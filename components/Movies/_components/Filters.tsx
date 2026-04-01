@@ -9,8 +9,10 @@ import GenresAndDatesFilter from "./GenresAndDatesFilter";
 
 type Props = {
   genres: Genre[];
+  defaultFrom?: Date;
+  defaultTo?: Date;
 };
-export default function Filters({ genres }: Props) {
+export default function Filters({ genres, defaultFrom, defaultTo }: Props) {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -34,7 +36,11 @@ export default function Filters({ genres }: Props) {
         )}
       </Card>
 
-      <GenresAndDatesFilter genres={genres} />
+      <GenresAndDatesFilter
+        genres={genres}
+        defaultFrom={defaultFrom}
+        defaultTo={defaultTo}
+      />
     </div>
   );
 }

@@ -1,14 +1,19 @@
 "use client";
 import { format, parseISO } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
 import { useState } from "react";
 
 type UseMovieFiltersProps = {
   onSubmit?: () => void;
+  defaultFrom?: Date;
+  defaultTo?: Date;
 };
 
-export function useMovieFilters({ onSubmit }: UseMovieFiltersProps) {
+export function useMovieFilters({
+  onSubmit,
+  defaultFrom,
+  defaultTo,
+}: UseMovieFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -17,18 +22,21 @@ export function useMovieFilters({ onSubmit }: UseMovieFiltersProps) {
   const initialTo = searchParams.get("to") || "";
   const initialGenres = searchParams.get("genres") || "";
 
-  const [fromDate, setFromDate] = useState<Date | undefined>(
-    initialFrom ? parseISO(initialFrom) : undefined,
-  );
-  const [toDate, setToDate] = useState<Date | undefined>(
-    initialTo ? parseISO(initialTo) : undefined,
-  );
+  const fromDate = initialFrom ? parseISO(initialFrom) : defaultFrom;
+
+  const toDate = initialTo ? parseISO(initialTo) : defaultTo;
+
+  const [pendingFrom, setPendingFrom] = useState<Date | undefined>(fromDate);
+  const [pendingTo, setPendingTo] = useState<Date | undefined>(toDate);
+
   const [selectedGenres, setSelectedGenres] = useState(
-    searchParams.get("genres")?.split(",").map(Number).filter(Boolean) || [],
+    initialGenres.split(",").map(Number).filter(Boolean),
   );
 
-  const currentFromStr = fromDate ? format(fromDate, "yyyy-MM-dd") : "";
-  const currentToStr = toDate ? format(toDate, "yyyy-MM-dd") : "";
+  const currentFromStr = pendingFrom ? format(pendingFrom, "yyyy-MM-dd") : "";
+  const currentToStr = pendingTo ? format(pendingTo, "yyyy-MM-dd") : "";
+  const baseFromStr = initialFrom || currentFromStr;
+  const baseToStr = initialTo || currentFromStr;
   const currentGenresString = [...selectedGenres]
     .sort((a, b) => a - b)
     .join(",");
@@ -41,8 +49,8 @@ export function useMovieFilters({ onSubmit }: UseMovieFiltersProps) {
     : "";
 
   const isChanged =
-    currentFromStr !== initialFrom ||
-    currentToStr !== initialTo ||
+    currentFromStr !== baseFromStr ||
+    currentToStr !== baseToStr ||
     currentGenresString !== sortedInitialGenres;
 
   const toggleGenre = (id: number) => {
@@ -55,10 +63,10 @@ export function useMovieFilters({ onSubmit }: UseMovieFiltersProps) {
     e.preventDefault();
     const params = new URLSearchParams(searchParams.toString());
 
-    if (fromDate) params.set("from", format(fromDate, "yyyy-MM-dd"));
+    if (pendingFrom) params.set("from", format(pendingFrom, "yyyy-MM-dd"));
     else params.delete("from");
 
-    if (toDate) params.set("to", format(toDate, "yyyy-MM-dd"));
+    if (pendingTo) params.set("to", format(pendingTo, "yyyy-MM-dd"));
     else params.delete("to");
 
     if (selectedGenres.length > 0) {
@@ -77,8 +85,8 @@ export function useMovieFilters({ onSubmit }: UseMovieFiltersProps) {
     params.delete("to");
     params.delete("genres");
     params.set("page", "1");
-    setFromDate(undefined);
-    setToDate(undefined);
+    setPendingFrom(undefined);
+    setPendingTo(undefined);
     setSelectedGenres([]);
     router.push(`${pathname}?${params.toString()}`);
   };
@@ -93,10 +101,10 @@ export function useMovieFilters({ onSubmit }: UseMovieFiltersProps) {
   };
 
   return {
-    fromDate,
-    setFromDate,
-    toDate,
-    setToDate,
+    fromDate: pendingFrom,
+    setFromDate: setPendingFrom,
+    toDate: pendingTo,
+    setToDate: setPendingTo,
     selectedGenres,
     toggleGenre,
     handleSearch,
