@@ -41,9 +41,8 @@ export default async function Navbar() {
           </div>
         </div>
       </NavbarWrapper>
-      <div className="pt-4">
-        <SearchToggle />
-      </div>
+
+      <SearchToggle />
     </>
   );
 }

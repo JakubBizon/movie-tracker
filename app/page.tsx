@@ -10,7 +10,7 @@ import UpcomingSection from "@/components/MainPage/CarouselSections/UpcomingSect
 export default function Home() {
   return (
     <div className="bg-transparent dark:bg-secondary w-full font-sans">
-      <div className="flex flex-col min-h-screen max-w-7xl mx-auto py-10 w-full ">
+      <div className="flex flex-col min-h-screen max-w-7xl mx-auto pt-5 pb-10 w-full ">
         <Suspense fallback={<HeroSkeleton />}>
           <HeroSection />
         </Suspense>
