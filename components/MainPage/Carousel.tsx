@@ -39,12 +39,13 @@ export function Carousel({ items }: CarouselProps) {
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const scrollAmount = direction === "left" ? -1000 : 1000;
+    const width = el.clientWidth;
+    const scrollAmount = direction === "left" ? -width : width;
     el.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto px-4 mb-4 group overflow-hidden">
+    <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6  mb-4 group overflow-hidden">
       <Button
         variant="ghost"
         size="icon"
