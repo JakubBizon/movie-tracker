@@ -12,6 +12,7 @@ interface MovieCardProps {
   slug: string;
   initialIsFavorite?: boolean;
   initialIsBookmarked?: boolean;
+  priority?: boolean;
 }
 
 export default function MovieCard({
@@ -19,6 +20,7 @@ export default function MovieCard({
   slug,
   initialIsBookmarked,
   initialIsFavorite,
+  priority,
 }: MovieCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { data: session } = authClient.useSession();
@@ -32,11 +34,11 @@ export default function MovieCard({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`shrink-0 relative hover:scale-102 md:hover:scale-103 transition-all duration-200 aspect-2/3 max-w-[150px] sm:max-w-[200px] md:max-w-none`}
+      className={`shrink-0 relative hover:scale-102 md:hover:scale-103 transition-all duration-200 aspect-2/3 max-w-[150px] sm:max-w-[200px] md:max-w-[250px]`}
     >
       <Link
         href={`/movie/${slug}`}
-        className="block relative w-full h-full overflow-hidden"
+        className="block relative w-full h-full overflow-hidden bg-accent"
       >
         {movie.poster_path ? (
           <Image
@@ -44,7 +46,10 @@ export default function MovieCard({
             alt={movie.title}
             width={200}
             height={300}
-            className="rounded-lg shadow-lg w-full h-full object-cover"
+            sizes="(max-width:768px) 40vw, (max-width:1200px) 33vw, 25vw"
+            className="rounded-lg shadow-lg w-full h-full object-cover opacity-0 transition-opacity duration-500"
+            onLoad={(image) => image.currentTarget.classList.add("opacity-100")}
+            priority={priority}
           />
         ) : (
           <Image

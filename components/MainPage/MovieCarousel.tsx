@@ -33,6 +33,7 @@ export default async function MovieCarousel({
         slug={slugify(movie.title, movie.id)}
         initialIsFavorite={favoriteIds.includes(movieIdStr)}
         initialIsBookmarked={bookmarkedIds.includes(movieIdStr)}
+        priority={limit ? movies.indexOf(movie) < 5 : false}
       />
     );
   });
