@@ -11,25 +11,25 @@ export default function CastSection({ castData, limit }: CastSectionProps) {
   const slicedCast = castData.cast.slice(0, limit);
 
   return (
-    <div className="flex flex-col px-4 max-w-7xl mx-auto space-y-4">
+    <div className="flex flex-col px-4 sm:px-6 max-w-7xl mx-auto space-y-4">
       <h2 className="dark:text-white flex items-center gap-2 text-black font-semibold text-3xl">
         Cast
       </h2>
-      <div className="flex  gap-4 overflow-x-auto pb-2">
+      <div className="flex gap-4 overflow-x-auto pb-2">
         {slicedCast.map((cast) => (
           <Card
             key={cast.id}
-            className="w-40 shrink-0 p-0 rounded-lg overflow-hidden border-0 shadow-none glass"
+            className="sm:w-40 w-32 shrink-0 p-0 rounded-lg overflow-hidden border-0 shadow-none dark:glass bg-muted-foreground/10 "
           >
-            <div className="relative w-full h-52 bg-gray-800">
+            <div className="relative w-full aspect-3/4 sm:min-h-52 min-h-40 bg-gray-800 ]">
               {cast.profile_path ? (
                 <Image
                   src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
                   alt={cast.name}
                   fill
-                  sizes="(max-width: 768px) 33vw, 185px"
+                  sizes="(max-width: 768px) 20vw, 185px, max-width: 1024px) 33vw, 185px"
                   fetchPriority="high"
-                  className="object-cover rounded-lg"
+                  className="object-cover rounded-t-lg"
                 />
               ) : (
                 <Image
@@ -41,7 +41,7 @@ export default function CastSection({ castData, limit }: CastSectionProps) {
               )}
             </div>
             <CardContent className="p-3">
-              <div className="font-bold text-sm line-clamp-1">{cast.name}</div>
+              <div className="font-bold text-xs">{cast.name}</div>
               <div className="text-xs text-muted-foreground line-clamp-2">
                 {cast.character}
               </div>

@@ -10,15 +10,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { Play } from "lucide-react";
 import { useState } from "react";
 
 type Props = {
   trailerLink: Trailer;
   movie: Movie;
+  className?: string;
 };
 
-export default function TrailerDialog({ trailerLink, movie }: Props) {
+export default function TrailerDialog({
+  trailerLink,
+  movie,
+  className,
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const trailer = trailerLink.results.find(
     (video) => video.type === "Trailer" && video.site === "YouTube",
@@ -28,10 +34,13 @@ export default function TrailerDialog({ trailerLink, movie }: Props) {
       <DialogTrigger asChild>
         <Button
           size="lg"
-          className="bg-white text-black hover:bg-gray-200 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform"
-          disabled={!trailerLink}
+          className={cn(
+            "bg-white/10 hover:bg-white/20 xs:text-sm text-xs text-white border border-white/20 backdrop-blur-md transition-all duration-300 shadow-xl font-medium",
+            className,
+          )}
+          disabled={!trailer}
         >
-          <Play className="w-5 h-5 mr-2 fill-current" />
+          <Play className="w-5 h-5 fill-current" />
           Play Trailer
         </Button>
       </DialogTrigger>

@@ -6,6 +6,7 @@ import { Bookmark, Heart } from "lucide-react";
 import RatingDialog from "./RatingDialog";
 
 type Props = {
+  glassClass?: string;
   initialIsFavorite?: boolean;
   initialIsBookmarked?: boolean;
   data: Movie;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export default function InteractionButtons({
+  glassClass,
   initialIsFavorite,
   initialIsBookmarked,
   data,
@@ -31,10 +33,10 @@ export default function InteractionButtons({
         size="lg"
         variant="outline"
         onClick={handleBookmark}
-        className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border-white/30 hover:border-white/50 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform"
+        className={`bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white border-white/30 hover:border-white/50 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform ${glassClass}`}
       >
         <Bookmark
-          className={`w-5 h-5 ${isBookmarked ? "fill-blue-500 text-blue-500" : ""}`}
+          className={`w-5 h-5  ${isBookmarked ? "fill-blue-500 text-blue-500" : ""}`}
         />
       </Button>
 
@@ -42,7 +44,7 @@ export default function InteractionButtons({
         size="lg"
         variant="outline"
         onClick={handleFavorite}
-        className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform"
+        className={`bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform ${glassClass}`}
       >
         <Heart
           className={

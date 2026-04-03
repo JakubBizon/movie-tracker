@@ -6,7 +6,7 @@ type Props = {
 };
 export default function MovieBackground({ backdropPath, title, color }: Props) {
   return (
-    <div className="absolute inset-0 max-h-[600px] w-full overflow-hidden">
+    <div className="absolute inset-0 min-h-[200px] md:min-h-[500px] w-full overflow-hidden">
       <Image
         src={`https://image.tmdb.org/t/p/original${backdropPath}`}
         alt={title}
