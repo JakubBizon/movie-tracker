@@ -29,6 +29,15 @@ export default function NavbarMobile({ session }: Props) {
       <div className="flex items-center justify-between gap-3">
         <div className="flex flex-row items-center gap-4">
           <MoviesPopover />
+        </div>
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <Film className="text-primary h-8 w-8" />
+          <span className="xs:text-xl text-lg font-bold  gradient-text">
+            MovieTracker
+          </span>
+        </Link>
+
+        <div className="flex items-center lg:gap-1.5 xs:gap-5 gap-3 shrink-0">
           <div className="relative w-4 h-4">
             <SearchIcon
               className={`w-4 h-4 absolute transition-all duration-200 ${isSearchVisible ? "opacity-0 scale-50 pointer-events-none" : "opacity-100 scale-100"}`}
@@ -39,15 +48,6 @@ export default function NavbarMobile({ session }: Props) {
               onClick={() => setSearchVisible(false)}
             />
           </div>
-        </div>
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <Film className="text-primary h-8 w-8" />
-          <span className="xs:text-xl text-lg font-bold  gradient-text">
-            MovieTracker
-          </span>
-        </Link>
-
-        <div className="flex items-center gap-1.5 shrink-0">
           <NavbarActions session={session} />
         </div>
       </div>

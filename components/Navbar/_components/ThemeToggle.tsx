@@ -20,13 +20,17 @@ export default function ThemeToggle() {
   if (isFirstRender) return null;
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      className="dark:text-white text-black"
-    >
-      {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
-    </Button>
+    <>
+      <div className="lg:flex hidden">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          className="dark:text-white text-black"
+        >
+          {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+        </Button>
+      </div>
+    </>
   );
 }
