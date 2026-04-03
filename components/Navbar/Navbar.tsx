@@ -40,9 +40,8 @@ export default async function Navbar() {
             <NavbarMobile session={session} />
           </div>
         </div>
+        <SearchToggle />
       </NavbarWrapper>
-
-      <SearchToggle />
     </>
   );
 }
