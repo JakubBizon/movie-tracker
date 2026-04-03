@@ -14,8 +14,14 @@ import { Genre } from "@/app/types/movie";
 
 type Props = {
   genres: Genre[];
+  defaultFrom?: Date;
+  defaultTo?: Date;
 };
-export default function FiltersDialog({ genres }: Props) {
+export default function FiltersDialog({
+  genres,
+  defaultFrom,
+  defaultTo,
+}: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -32,7 +38,12 @@ export default function FiltersDialog({ genres }: Props) {
           <DialogTitle>Filters</DialogTitle>
         </div>
 
-        <GenresAndDatesFilter genres={genres} onSubmit={() => setOpen(false)} />
+        <GenresAndDatesFilter
+          genres={genres}
+          defaultFrom={defaultFrom}
+          defaultTo={defaultTo}
+          onSubmit={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );
