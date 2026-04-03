@@ -3,6 +3,7 @@ import InteractionButtons from "@/components/MoviePage/Hero/_components/Interact
 import TrailerDialog from "@/components/MoviePage/Hero/_components/TrailerDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import formatDate from "@/lib/utils/formatDate";
 import { minutesToTime } from "@/lib/utils/minutesToTime";
 import { slugify } from "@/lib/utils/slugify";
 import { Calendar, Clock, Info, Star } from "lucide-react";
@@ -16,7 +17,7 @@ type Props = {
 export default function HeroSlide({ movie }: Props) {
   return (
     <>
-      <div className="relative md:min-h-[600px] xs:min-h-[400px] min-h-[300px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
+      <div className="relative md:min-h-[500px] xs:min-h-[350px] min-h-[200px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
         <Image
           src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
           alt={movie.title}
@@ -24,8 +25,9 @@ export default function HeroSlide({ movie }: Props) {
           fill
           priority
         />
-        <div className="absolute inset-0 bg-linear-to-r from-background/70 via-background/40 to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-t from-background/70 via-background/30 to-transparent" />
+
+        <div className="absolute inset-0  bg-linear-to-r from-background/90 via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent" />
 
         {/* Mobile overlay */}
         <Link
@@ -33,7 +35,7 @@ export default function HeroSlide({ movie }: Props) {
           className="md:hidden absolute inset-0 z-30"
         ></Link>
         <div className="max-w-3/4 absolute xs:top-1/2 top-2/3 -translate-y-1/2 left-0 p-8 z-20 space-y-3 pointer-events-none md:pointer-events-auto">
-          <h2 className="md:text-5xl xs:text-4xl font-semibold ">
+          <h2 className="md:text-5xl xs:text-4xl font-semibold text-white">
             {movie.title}
           </h2>
           <div className="flex flex-wrap items-center gap-4 text-sm ">
@@ -45,12 +47,12 @@ export default function HeroSlide({ movie }: Props) {
             </div>
             <div className="flex items-center gap-1">
               <Calendar className="h-5 w-5 text-muted-foreground" />
-              <span>{movie.release_date.slice(0, 4)}</span>
+              <span>{formatDate(movie.release_date)}</span>
             </div>
             {movie.runtime && (
               <div className="flex items-center gap-1">
                 <Clock className="h-5 w-5" />
-                <span>{minutesToTime(movie.runtime)} min</span>
+                <span>{minutesToTime(movie.runtime)}</span>
               </div>
             )}
           </div>
