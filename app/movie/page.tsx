@@ -1,6 +1,8 @@
+import MoviesGridSkeleton from "@/components/Movies/_components/MoviesGridSkeleton";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import { getMovies } from "@/lib/movies/getMovies";
+import { Suspense } from "react";
 
 interface Props {
   searchParams: Promise<{
@@ -15,23 +17,26 @@ export default async function PopularMovies({ searchParams }: Props) {
   const { page, sort, genres, from, to } = await searchParams;
   const currentPage = Number(page) || 1;
 
-  const data = await getMoviesPageData(getMovies, currentPage, {
+  const data = getMoviesPageData(getMovies, currentPage, {
     sort,
     genres,
     from,
     to,
-  });
+  }).then((data) => ({
+    movies: data.movies,
+
+    bookmarkedIds: data.bookmarkedIds,
+
+    favoriteIds: data.favoriteIds,
+    pagination: {
+      currentPage: currentPage,
+      totalPages: data.totalPages,
+    },
+  }));
 
   return (
-    <MovieExplorer
-      title="Popular Movies"
-      movies={data.movies}
-      favoriteIds={data.favoriteIds}
-      bookmarkedIds={data.bookmarkedIds}
-      pagination={{
-        currentPage: currentPage,
-        totalPages: data.totalPages,
-      }}
-    />
+    <Suspense fallback={<MoviesGridSkeleton />}>
+      <MovieExplorer title="Popular Movies" moviesPromise={data} />
+    </Suspense>
   );
 }

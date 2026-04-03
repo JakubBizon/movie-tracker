@@ -1,29 +1,33 @@
 import { Movie } from "@/app/types/movie";
 import { getMovieGenres } from "@/lib/movies/getMovieGenres";
-import MoviesGrid from "./_components/MoviesGrid";
 import Filters from "./_components/Filters";
-import CustomPagination from "./_components/CustomPagination";
 import FiltersDialog from "./_components/FiltersDialog";
 import SortDialog from "./_components/SortDialog";
+import { Suspense } from "react";
+import MoviesGridWrapper from "./_components/MoviesGridWrapper";
+import MoviesGridSkeleton from "./_components/MoviesGridSkeleton";
 
 type Props = {
   title: string;
-  movies: Movie[];
-  bookmarkedIds: string[];
-  favoriteIds: string[];
-  pagination: {
-    currentPage: number;
-    totalPages: number;
-  };
+  defaultFrom?: Date;
+  defaultTo?: Date;
+  moviesPromise: Promise<{
+    movies: Movie[];
+    bookmarkedIds: string[];
+    favoriteIds: string[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+    };
+  }>;
   children?: React.ReactNode;
 };
 
 export default async function MovieExplorer({
   title,
-  movies,
-  favoriteIds,
-  bookmarkedIds,
-  pagination,
+  defaultFrom,
+  defaultTo,
+  moviesPromise,
 }: Props) {
   const { genres } = await getMovieGenres();
 
@@ -33,23 +37,26 @@ export default async function MovieExplorer({
         <h1 className="text-xl xs:text-3xl font-bold">{title}</h1>
         <div className="lg:hidden flex gap-2">
           <SortDialog />
-          <FiltersDialog genres={genres} />
+          <FiltersDialog
+            genres={genres}
+            defaultFrom={defaultFrom}
+            defaultTo={defaultTo}
+          />
         </div>
       </div>
 
       <div className="flex lg:flex-row flex-col">
         <aside className="w-full lg:max-w-xs hidden lg:block shrink-0">
-          <Filters genres={genres} />
+          <Filters
+            genres={genres}
+            defaultFrom={defaultFrom}
+            defaultTo={defaultTo}
+          />
         </aside>
 
-        <div className="space-y-5">
-          <MoviesGrid
-            movies={movies}
-            bookmarkedIds={bookmarkedIds}
-            favoriteIds={favoriteIds}
-          />
-          <CustomPagination {...pagination} />
-        </div>
+        <Suspense fallback={<MoviesGridSkeleton />}>
+          <MoviesGridWrapper moviesPromise={moviesPromise} />
+        </Suspense>
       </div>
     </div>
   );

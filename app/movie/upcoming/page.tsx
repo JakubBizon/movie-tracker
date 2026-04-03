@@ -1,7 +1,9 @@
+import MoviesGridSkeleton from "@/components/Movies/_components/MoviesGridSkeleton";
+import getUpcomingDateRange from "@/components/Movies/hooks/getUpcomingDateRange";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
-import { FiltersInitializer } from "@/components/Movies/upcoming/FiltersInitializer";
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import { getMovies } from "@/lib/movies/getMovies";
+import { Suspense } from "react";
 
 interface Props {
   searchParams: Promise<{
@@ -16,7 +18,7 @@ export default async function UpcomingMovies({ searchParams }: Props) {
   const { page, sort, genres, from, to } = await searchParams;
   const currentPage = Number(page) || 1;
 
-  const data = await getMoviesPageData(
+  const moviesPromise = getMoviesPageData(
     getMovies,
     currentPage,
     {
@@ -26,21 +28,26 @@ export default async function UpcomingMovies({ searchParams }: Props) {
       to,
     },
     "upcoming",
-  );
-
+  ).then((data) => ({
+    movies: data.movies,
+    bookmarkedIds: data.bookmarkedIds,
+    favoriteIds: data.favoriteIds,
+    pagination: {
+      currentPage,
+      totalPages: data.totalPages,
+    },
+  }));
+  const { defaultFrom, defaultTo } = getUpcomingDateRange();
   return (
     <>
-      <FiltersInitializer defaultFrom={new Date()} />
-      <MovieExplorer
-        title="Upcoming Movies"
-        movies={data.movies}
-        favoriteIds={data.favoriteIds}
-        bookmarkedIds={data.bookmarkedIds}
-        pagination={{
-          currentPage: currentPage,
-          totalPages: data.totalPages,
-        }}
-      />
+      <Suspense fallback={<MoviesGridSkeleton />}>
+        <MovieExplorer
+          defaultFrom={defaultFrom}
+          defaultTo={defaultTo}
+          title="Upcoming Movies"
+          moviesPromise={moviesPromise}
+        />
+      </Suspense>
     </>
   );
 }
