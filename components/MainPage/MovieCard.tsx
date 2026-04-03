@@ -38,7 +38,7 @@ export default function MovieCard({
     >
       <Link
         href={`/movie/${slug}`}
-        className="block relative w-full h-full overflow-hidden bg-accent"
+        className="block relative w-full h-full overflow-hidden bg-accent rounded-lg "
       >
         {movie.poster_path ? (
           <Image

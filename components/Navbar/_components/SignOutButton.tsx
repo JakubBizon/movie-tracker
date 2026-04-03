@@ -42,7 +42,7 @@ export default function SignOutButton({ onSuccess }: Props) {
     <button
       onClick={handleSignOut}
       disabled={isLoading}
-      className="py-3 text-center border-2 border-gray-800 rounded-lg cursor-pointer"
+      className="py-3 text-center border w-full border-gray-800 rounded-lg cursor-pointer"
     >
       {isLoading ? "Signing out..." : "Sign Out"}
     </button>

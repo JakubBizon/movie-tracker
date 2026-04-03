@@ -32,7 +32,6 @@ export default function MoviesPopover() {
         asChild
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={(e) => e.preventDefault()}
       >
         <span className="md:text-xl text-base cursor-pointer gradient-text">
           Movies

@@ -9,7 +9,7 @@ export default async function TopRatedSection() {
   return (
     <>
       <SectionHeader
-        title="Top Rated"
+        title="Top Rated Movies"
         icon={<Trophy className="h-6 w-6 text-amber-500" />}
         link="/movie/top-rated"
       />

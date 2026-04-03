@@ -7,7 +7,7 @@ export default function SearchToggle() {
   const { isSearchVisible } = useNavbarStore();
   return (
     <div
-      className={`w-full py-4 lg:hidden ${isSearchVisible ? "block" : "hidden"}`}
+      className={`w-full py-4 dark:bg-gray-950 bg-white lg:hidden ${isSearchVisible ? "block" : "hidden"}`}
     >
       <Search />
     </div>
