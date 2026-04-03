@@ -49,7 +49,7 @@ export function Carousel({ items }: CarouselProps) {
       <Button
         variant="ghost"
         size="icon"
-        className={`absolute left-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100 transition-opacity cursor-pointer ${
+        className={`absolute left-4 border border-muted-foreground top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100 transition-opacity cursor-pointer ${
           canScrollLeft ? "hidden md:flex" : "hidden"
         }`}
         onClick={() => scroll("left")}
@@ -67,7 +67,7 @@ export function Carousel({ items }: CarouselProps) {
       <Button
         variant="ghost"
         size="icon"
-        className={`absolute right-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100 transition-opacity cursor-pointer ${
+        className={`absolute right-4 border border-muted-foreground top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100 transition-opacity cursor-pointer ${
           canScrollRight ? "hidden md:flex" : "hidden"
         }`}
         onClick={() => scroll("right")}
