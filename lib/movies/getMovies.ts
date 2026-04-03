@@ -1,4 +1,5 @@
 import { Options } from "@/app/types/search-params-options";
+import getUpcomingDateRange from "@/components/Movies/hooks/getUpcomingDateRange";
 
 const sortMap: Record<string, string> = {
   p_desc: "popularity.desc",
@@ -26,14 +27,15 @@ export async function getMovies(
     url.searchParams.set("vote_count.gte", "300");
   }
   if (preset === "upcoming") {
-    const today = new Date().toISOString().split("T")[0];
-    const two_monthsLater = new Date();
-    two_monthsLater.setMonth(two_monthsLater.getMonth() + 2);
+    const { defaultFrom, defaultTo } = getUpcomingDateRange();
 
-    url.searchParams.set("primary_release_date.gte", today);
+    url.searchParams.set(
+      "primary_release_date.gte",
+      defaultFrom.toISOString().split("T")[0],
+    );
     url.searchParams.set(
       "primary_release_date.lte",
-      two_monthsLater.toISOString().split("T")[0],
+      defaultTo.toISOString().split("T")[0],
     );
   }
 
