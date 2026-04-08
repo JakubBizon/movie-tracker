@@ -5,10 +5,10 @@ const items = [
   {
     title: "Discover",
     links: [
-      { name: "Trending", href: "/movie/trending" },
-      { name: "Popular", href: "/popular" },
-      { name: "Top Rated", href: "/top-rated" },
-      { name: "Upcoming", href: "/upcoming" },
+      { name: "Trending", href: "/" },
+      { name: "Popular", href: "/movie" },
+      { name: "Top Rated", href: "/movie/top-rated" },
+      { name: "Upcoming", href: "/movie/upcoming" },
     ],
   },
   {
