@@ -1,5 +1,6 @@
 "use client";
 
+import { useNavbarStore } from "@/store/Navbar";
 import { useEffect, useState } from "react";
 
 export default function NavbarWrapper({
@@ -9,6 +10,7 @@ export default function NavbarWrapper({
 }) {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showNavbar, setShowNavbar] = useState(true);
+  const { isSearchVisible } = useNavbarStore();
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -29,14 +31,15 @@ export default function NavbarWrapper({
       window.removeEventListener("scroll", controlNavbar);
     };
   }, [lastScrollY]);
+  const isVisible = showNavbar || isSearchVisible;
 
   return (
-    <nav
+    <div
       className={`sticky top-0 z-50 w-full transition-all duration-300  ${
-        showNavbar ? "translate-y-0" : "-translate-y-full"
+        isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       {children}
-    </nav>
+    </div>
   );
 }
