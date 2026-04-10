@@ -1,11 +1,11 @@
-import { Movie } from "@/app/types/movie";
-import { getMovieGenres } from "@/lib/movies/getMovieGenres";
-import Filters from "./_components/Filters";
-import FiltersDialog from "./_components/FiltersDialog";
-import SortDialog from "./_components/SortDialog";
+import { Genre, Movie } from "@/app/types/movie";
 import { Suspense } from "react";
 import MoviesGridWrapper from "./_components/MoviesGridWrapper";
-import MoviesGridSkeleton from "./_components/MoviesGridSkeleton";
+import FiltersWrapper from "./_components/FiltersWrapper";
+import MobileFiltersWrapper from "./_components/MobileFiltersWrapper";
+import FiltersSkeleton from "./_components/skeletons/FiltersSkeleton";
+import MoviesGridSkeleton from "./_components/skeletons/MoviesGridSkeleton";
+import MobileFiltersSkeleton from "./_components/skeletons/MobileFiltersSkeleton";
 
 type Props = {
   title: string;
@@ -20,6 +20,7 @@ type Props = {
       totalPages: number;
     };
   }>;
+  genresPromise: Promise<{ genres: Genre[] }>;
   children?: React.ReactNode;
 };
 
@@ -28,30 +29,32 @@ export default async function MovieExplorer({
   defaultFrom,
   defaultTo,
   moviesPromise,
+  genresPromise,
 }: Props) {
-  const { genres } = await getMovieGenres();
-
   return (
     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6">
-      <div className="flex justify-between items-center mb-6 px-4 sm:px-6">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl xs:text-3xl font-bold">{title}</h1>
         <div className="lg:hidden flex gap-2">
-          <SortDialog />
-          <FiltersDialog
-            genres={genres}
-            defaultFrom={defaultFrom}
-            defaultTo={defaultTo}
-          />
+          <Suspense fallback={<MobileFiltersSkeleton />}>
+            <MobileFiltersWrapper
+              genresPromise={genresPromise}
+              defaultFrom={defaultFrom}
+              defaultTo={defaultTo}
+            />
+          </Suspense>
         </div>
       </div>
 
-      <div className="flex lg:flex-row flex-col">
+      <div className="flex lg:flex-row flex-col space-x-10">
         <aside className="w-full lg:max-w-xs hidden lg:block shrink-0">
-          <Filters
-            genres={genres}
-            defaultFrom={defaultFrom}
-            defaultTo={defaultTo}
-          />
+          <Suspense fallback={<FiltersSkeleton />}>
+            <FiltersWrapper
+              genresPromise={genresPromise}
+              defaultFrom={defaultFrom}
+              defaultTo={defaultTo}
+            />
+          </Suspense>
         </aside>
 
         <Suspense fallback={<MoviesGridSkeleton />}>

@@ -1,6 +1,7 @@
-import MoviesGridSkeleton from "@/components/Movies/_components/MoviesGridSkeleton";
+import MovieExplorerSkeleton from "@/components/Movies/_components/skeletons/MovieExplorerSkeleton";
 import getUpcomingDateRange from "@/components/Movies/hooks/getUpcomingDateRange";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
+import { getMovieGenres } from "@/lib/movies/getMovieGenres";
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import { getMovies } from "@/lib/movies/getMovies";
 import { Suspense } from "react";
@@ -38,14 +39,16 @@ export default async function UpcomingMovies({ searchParams }: Props) {
     },
   }));
   const { defaultFrom, defaultTo } = getUpcomingDateRange();
+  const genresPromise = getMovieGenres();
   return (
     <>
-      <Suspense fallback={<MoviesGridSkeleton />}>
+      <Suspense fallback={<MovieExplorerSkeleton />}>
         <MovieExplorer
           defaultFrom={defaultFrom}
           defaultTo={defaultTo}
           title="Upcoming Movies"
           moviesPromise={moviesPromise}
+          genresPromise={genresPromise}
         />
       </Suspense>
     </>

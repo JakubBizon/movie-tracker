@@ -2,7 +2,8 @@ import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
 import { getMovies } from "@/lib/movies/getMovies";
 import { Suspense } from "react";
-import MoviesGridSkeleton from "@/components/Movies/_components/MoviesGridSkeleton";
+import { getMovieGenres } from "@/lib/movies/getMovieGenres";
+import MovieExplorerSkeleton from "@/components/Movies/_components/skeletons/MovieExplorerSkeleton";
 
 interface Props {
   searchParams: Promise<{
@@ -35,11 +36,16 @@ export default async function TopRatedPage({ searchParams }: Props) {
       totalPages: data.totalPages,
     },
   }));
+  const genresPromise = getMovieGenres();
 
   return (
     <div className=" max-w-7xl mx-auto ">
-      <Suspense fallback={<MoviesGridSkeleton />}>
-        <MovieExplorer title="Top Rated Movies" moviesPromise={moviesPromise} />
+      <Suspense fallback={<MovieExplorerSkeleton />}>
+        <MovieExplorer
+          title="Top Rated Movies"
+          moviesPromise={moviesPromise}
+          genresPromise={genresPromise}
+        />
       </Suspense>
     </div>
   );

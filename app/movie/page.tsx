@@ -1,5 +1,6 @@
-import MoviesGridSkeleton from "@/components/Movies/_components/MoviesGridSkeleton";
+import MovieExplorerSkeleton from "@/components/Movies/_components/skeletons/MovieExplorerSkeleton";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
+import { getMovieGenres } from "@/lib/movies/getMovieGenres";
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import { getMovies } from "@/lib/movies/getMovies";
 import { Suspense } from "react";
@@ -33,10 +34,15 @@ export default async function PopularMovies({ searchParams }: Props) {
       totalPages: data.totalPages,
     },
   }));
+  const genresPromise = getMovieGenres();
 
   return (
-    <Suspense fallback={<MoviesGridSkeleton />}>
-      <MovieExplorer title="Popular Movies" moviesPromise={data} />
+    <Suspense fallback={<MovieExplorerSkeleton />}>
+      <MovieExplorer
+        title="Popular Movies"
+        moviesPromise={data}
+        genresPromise={genresPromise}
+      />
     </Suspense>
   );
 }
