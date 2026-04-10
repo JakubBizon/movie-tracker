@@ -3,26 +3,33 @@ import InteractionButtons from "@/components/MoviePage/Hero/_components/Interact
 import TrailerDialog from "@/components/MoviePage/Hero/_components/TrailerDialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { tmdbImageLoader } from "@/lib/movies/tmdbImageLoader";
 import formatDate from "@/lib/utils/formatDate";
 import { minutesToTime } from "@/lib/utils/minutesToTime";
 import { slugify } from "@/lib/utils/slugify";
 import { Calendar, Clock, Info, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 type Props = {
   movie: HeroMovie;
   index: number;
 };
 
-const HeroSlide = React.memo(({ movie, index }: Props) => {
+export default function HeroSlide({ movie, index }: Props) {
+  const tmdbImageLink = ({ src, width }: { src: string; width: number }) => {
+    let size = "w300";
+    if (width > 1280) size = "original";
+    else if (width > 780) size = "w1280";
+    else if (width > 342) size = "w780";
+    else size = "w342";
+
+    return `https://image.tmdb.org/t/p/${size}${src}`;
+  };
   return (
     <>
-      <div className="relative transform-gpu will-change-transform md:min-h-[500px] xs:min-h-[350px] min-h-[200px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
+      <div className="relative md:min-h-[500px] xs:min-h-[350px] min-h-[200px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
         <Image
-          loader={tmdbImageLoader}
+          loader={tmdbImageLink}
           src={movie.backdrop_path}
           alt={movie.title}
           className="object-cover"
@@ -31,14 +38,14 @@ const HeroSlide = React.memo(({ movie, index }: Props) => {
           sizes="100vw"
         />
 
-        <div className="absolute inset-0 bg-linear-to-r from-background/90 via-background/40 to-transparent" />
+        <div className="absolute inset-0  bg-linear-to-r from-background/90 via-background/40 to-transparent" />
         <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent" />
 
+        {/* Mobile overlay */}
         <Link
           href={`movie/${slugify(movie.title, movie.id)}`}
           className="md:hidden absolute inset-0 z-30"
         ></Link>
-
         <div className="max-w-3/4 absolute xs:top-1/2 top-2/3 -translate-y-1/2 left-0 p-8 z-20 space-y-3 pointer-events-none md:pointer-events-auto">
           <h2 className="md:text-5xl xs:text-4xl font-semibold text-white">
             {movie.title}
@@ -94,6 +101,4 @@ const HeroSlide = React.memo(({ movie, index }: Props) => {
       </div>
     </>
   );
-});
-HeroSlide.displayName = "HeroSlide";
-export default HeroSlide;
+}
