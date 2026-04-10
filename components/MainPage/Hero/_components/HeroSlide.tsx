@@ -12,18 +12,30 @@ import Link from "next/link";
 
 type Props = {
   movie: HeroMovie;
+  index: number;
 };
 
-export default function HeroSlide({ movie }: Props) {
+export default function HeroSlide({ movie, index }: Props) {
+  const tmdbImageLink = ({ src, width }: { src: string; width: number }) => {
+    let size = "w300";
+    if (width > 1280) size = "original";
+    else if (width > 780) size = "w1280";
+    else if (width > 342) size = "w780";
+    else size = "w342";
+
+    return `https://image.tmdb.org/t/p/${size}${src}`;
+  };
   return (
     <>
       <div className="relative md:min-h-[500px] xs:min-h-[350px] min-h-[200px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
         <Image
-          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          loader={tmdbImageLink}
+          src={movie.backdrop_path}
           alt={movie.title}
           className="object-cover"
           fill
-          priority
+          priority={index === 0}
+          sizes="100vw"
         />
 
         <div className="absolute inset-0  bg-linear-to-r from-background/90 via-background/40 to-transparent" />

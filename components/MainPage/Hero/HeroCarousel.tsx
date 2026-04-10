@@ -69,9 +69,9 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
         className="w-full"
       >
         <CarouselContent>
-          {data.map((movie) => (
+          {data.map((movie, index) => (
             <CarouselItem key={movie.id}>
-              <HeroSlide movie={movie} />
+              <HeroSlide movie={movie} index={index} />
             </CarouselItem>
           ))}
         </CarouselContent>
