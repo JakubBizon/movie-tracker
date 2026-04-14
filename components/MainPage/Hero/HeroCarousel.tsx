@@ -17,7 +17,7 @@ interface HeroCarouselProps {
 export default function HeroCarousel({ data }: HeroCarouselProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
+
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -31,28 +31,29 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
+
   useEffect(() => {
     if (!api) return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap());
 
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    api.on("select", onSelect);
+
+    return () => {
+      api.off("select", onSelect);
+    };
   }, [api]);
 
   useEffect(() => {
     if (!api || !isVisible) return;
+
     const interval = setInterval(() => {
-      if (current === count - 1) {
-        api.scrollTo(0);
-      } else {
-        api.scrollNext();
-      }
+      api.scrollNext();
     }, 5000);
+
     return () => clearInterval(interval);
-  }, [api, current, count, isVisible]);
+  }, [api, isVisible]);
 
   const scrollTo = useCallback(
     (index: number) => {
@@ -62,7 +63,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
   );
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 relative dark:text-white text-black">
+    <div className="relative mx-auto w-full max-w-7xl px-4 dark:text-white text-black">
       <Carousel
         setApi={setApi}
         opts={{ align: "start", loop: true }}
@@ -76,17 +77,17 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="flex gap-2 justify-center py-6">
-        {Array.from({ length: data.length }).map((_, index) => (
+      <div className="flex justify-center gap-2 py-6">
+        {data.map((_, index) => (
           <button
             key={index}
             onClick={() => scrollTo(index)}
-            className={`h-1 py-1  px-4 rounded-full  transition-all duration-300 cursor-pointer ${
+            className={`h-1 rounded-full py-1 px-4 transition-all duration-300 cursor-pointer ${
               index === current
-                ? "w-8 bg-primary "
+                ? "w-8 bg-primary"
                 : "w-4 bg-gray-200 dark:bg-purple-100"
             }`}
-          ></button>
+          />
         ))}
       </div>
     </div>
