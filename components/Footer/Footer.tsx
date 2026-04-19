@@ -5,7 +5,7 @@ const items = [
   {
     title: "Discover",
     links: [
-      { name: "Trending", href: "/" },
+      { name: "Trending", href: "/#trending" },
       { name: "Popular", href: "/movie" },
       { name: "Top Rated", href: "/movie/top-rated" },
       { name: "Upcoming", href: "/movie/upcoming" },

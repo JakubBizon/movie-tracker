@@ -7,12 +7,12 @@ export default async function TrendingSection() {
   const data = await getTrendingMovies(1);
 
   return (
-    <>
+    <section id="trending" className="scroll-mt-24">
       <SectionHeader
         title="Trending Movies"
         icon={<FlameIcon className="w-8 h-8 text-yellow-300" />}
       />
       <MovieCarousel movies={data.results} />
-    </>
+    </section>
   );
 }
