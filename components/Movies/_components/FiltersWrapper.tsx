@@ -1,18 +1,17 @@
-import { Genre } from "@/app/types/movie";
 import Filters from "./Filters";
+import { getMovieGenres } from "@/lib/movies/getMovieGenres";
 
 type Props = {
-  genresPromise: Promise<{ genres: Genre[] }>;
   defaultFrom?: Date;
   defaultTo?: Date;
 };
 
 export default async function FiltersWrapper({
-  genresPromise,
   defaultFrom,
   defaultTo,
 }: Props) {
-  const { genres } = await genresPromise;
+  const { genres } = await getMovieGenres();
+
   return (
     <Filters genres={genres} defaultFrom={defaultFrom} defaultTo={defaultTo} />
   );

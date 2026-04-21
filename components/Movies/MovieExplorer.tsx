@@ -1,11 +1,11 @@
-import { Genre, Movie } from "@/app/types/movie";
+import { Movie } from "@/app/types/movie";
 import { Suspense } from "react";
 import MoviesGridWrapper from "./_components/MoviesGridWrapper";
 import FiltersWrapper from "./_components/FiltersWrapper";
 import MobileFiltersWrapper from "./_components/MobileFiltersWrapper";
-import FiltersSkeleton from "./_components/skeletons/FiltersSkeleton";
 import MoviesGridSkeleton from "./_components/skeletons/MoviesGridSkeleton";
 import MobileFiltersSkeleton from "./_components/skeletons/MobileFiltersSkeleton";
+import FiltersSkeleton from "./_components/skeletons/FiltersSkeleton";
 
 type Props = {
   title: string;
@@ -20,7 +20,6 @@ type Props = {
       totalPages: number;
     };
   }>;
-  genresPromise: Promise<{ genres: Genre[] }>;
   children?: React.ReactNode;
 };
 
@@ -29,7 +28,6 @@ export default async function MovieExplorer({
   defaultFrom,
   defaultTo,
   moviesPromise,
-  genresPromise,
 }: Props) {
   return (
     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6">
@@ -38,7 +36,6 @@ export default async function MovieExplorer({
         <div className="lg:hidden flex gap-2">
           <Suspense fallback={<MobileFiltersSkeleton />}>
             <MobileFiltersWrapper
-              genresPromise={genresPromise}
               defaultFrom={defaultFrom}
               defaultTo={defaultTo}
             />
@@ -49,11 +46,7 @@ export default async function MovieExplorer({
       <div className="flex lg:flex-row flex-col space-x-10">
         <aside className="w-full lg:max-w-xs hidden lg:block shrink-0">
           <Suspense fallback={<FiltersSkeleton />}>
-            <FiltersWrapper
-              genresPromise={genresPromise}
-              defaultFrom={defaultFrom}
-              defaultTo={defaultTo}
-            />
+            <FiltersWrapper defaultFrom={defaultFrom} defaultTo={defaultTo} />
           </Suspense>
         </aside>
 

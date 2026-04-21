@@ -1,9 +1,6 @@
-import MovieExplorerSkeleton from "@/components/Movies/_components/skeletons/MovieExplorerSkeleton";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
-import { getMovieGenres } from "@/lib/movies/getMovieGenres";
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import { getMovies } from "@/lib/movies/getMovies";
-import { Suspense } from "react";
 
 interface Props {
   searchParams: Promise<{
@@ -25,24 +22,17 @@ export default async function PopularMovies({ searchParams }: Props) {
     to,
   }).then((data) => ({
     movies: data.movies,
-
     bookmarkedIds: data.bookmarkedIds,
-
     favoriteIds: data.favoriteIds,
     pagination: {
       currentPage: currentPage,
       totalPages: data.totalPages,
     },
   }));
-  const genresPromise = getMovieGenres();
 
   return (
-    <Suspense fallback={<MovieExplorerSkeleton />}>
-      <MovieExplorer
-        title="Popular Movies"
-        moviesPromise={data}
-        genresPromise={genresPromise}
-      />
-    </Suspense>
+    <div className="max-w-7xl mx-auto">
+      <MovieExplorer title="Popular Movies" moviesPromise={data} />
+    </div>
   );
 }

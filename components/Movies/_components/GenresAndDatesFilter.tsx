@@ -4,8 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Genre } from "@/app/types/movie";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "./DatePicker";
-
 import { useMovieFilters } from "../hooks/useMovieFilters";
+import GenresList from "./GenresList";
 
 type Props = {
   genres: Genre[];
@@ -78,23 +78,11 @@ export default function GenresAndDatesFilter({
             Genres
           </h2>
           <div className="flex flex-wrap gap-2">
-            {genres.map((genre: Genre) => {
-              const isActive = selectedGenres.includes(genre.id);
-              return (
-                <button
-                  type="button"
-                  key={genre.id}
-                  onClick={() => toggleGenre(genre.id)}
-                  className={`px-3 py-1 text-sm rounded-full border transition-colors cursor-pointer ${
-                    isActive
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "border-border hover:bg-accent hover:text-accent-foreground"
-                  }`}
-                >
-                  {genre.name}
-                </button>
-              );
-            })}
+            <GenresList
+              genres={genres}
+              toggleGenre={toggleGenre}
+              selectedGenres={selectedGenres}
+            />
           </div>
         </div>
         <hr className="border-border" />
