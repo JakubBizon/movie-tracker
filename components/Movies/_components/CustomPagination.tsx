@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Pagination,
   PaginationContent,
@@ -18,6 +19,7 @@ interface Props {
 export default function CustomPagination({ currentPage, totalPages }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const createPageUrl = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", pageNumber.toString());
@@ -49,7 +51,9 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
         <PaginationItem>
           <PaginationPrevious
             href={currentPage > 1 ? createPageUrl(currentPage - 1) : "#"}
-            className={currentPage <= 1 ? "pointer-events-none opacity-50" : ""}
+            className={
+              currentPage <= 1 ? "pointer-events-none opacity-50" : undefined
+            }
           />
         </PaginationItem>
 
