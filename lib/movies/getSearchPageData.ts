@@ -3,6 +3,7 @@ import { auth } from "../auth";
 import { getSearchResults } from "./getSearchResults";
 import { getUserSelections } from "@/app/actions/movieActions";
 import { getMovieDetails } from "./getMovieDetails";
+import { Movie } from "@/app/types/movie";
 
 export async function getSearchPageData(query: string, page: number = 1) {
   const session = await auth.api.getSession({
@@ -13,7 +14,7 @@ export async function getSearchPageData(query: string, page: number = 1) {
 
   const [moviesWithDetails, userSelections] = await Promise.all([
     Promise.all(
-      searchResults.results.map(async (movie: { id: number }) => {
+      searchResults.results.map(async (movie: Movie) => {
         const details = await getMovieDetails(movie.id);
 
         return {
