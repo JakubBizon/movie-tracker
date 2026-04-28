@@ -5,13 +5,16 @@ import { db } from "../db";
 import { bookmarks, favorites } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { UserMediaItem } from "../types/user-media-item";
+import LoggedOutState from "@/components/MyLists/LoggedOutState";
 
 export default async function MyListsHome() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  if (!session) return <div>Log in to see ur lists</div>;
+  if (!session) {
+    return <LoggedOutState />;
+  }
 
   const [rawFavorites, rawBookmarks] = await Promise.all([
     db.select().from(favorites).where(eq(favorites.userId, session.user.id)),
