@@ -31,10 +31,10 @@ export default function HeroSection({
   return (
     <>
       <div
-        className="relative w-full lg:min-h-[500px] min-h-[400px] hidden sm:flex items-center"
+        className="relative w-full lg:min-h-125 min-h-100 hidden sm:flex items-center"
         style={{ backgroundColor: color }}
       >
-        <div className="relative w-full max-w-[1920px] mx-auto">
+        <div className="relative w-full max-w-480 mx-auto">
           <MovieBackground
             backdropPath={data.backdrop_path}
             title={data.title}
@@ -64,13 +64,13 @@ export default function HeroSection({
 
       {/* Mobile Version */}
       <div className="sm:hidden flex flex-col w-full">
-        <div className="relative w-full  min-h-[250px]">
+        <div className="relative w-full  min-h-62.5">
           <MovieBackground
             backdropPath={data.backdrop_path}
             title={data.title}
             color="transparent"
           />
-          <div className="absolute -bottom-12 left-4 z-30 w-[100px] shadow-xl">
+          <div className="absolute -bottom-12 left-4 z-30 w-25 shadow-xl">
             <MoviePoster data={data} />
           </div>
         </div>

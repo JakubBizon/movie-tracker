@@ -52,12 +52,12 @@ export default function SignUpForm() {
           router.push("/");
           router.refresh();
         },
-      }
+      },
     );
   };
 
   return (
-    <Card className="w-[400px]">
+    <Card className="w-100">
       <CardTitle className="text-2xl text-center">
         Welcome to MovieTracker!
       </CardTitle>

@@ -37,10 +37,7 @@ export default function UserMenu({ session }: UserMenuProps) {
         </Button>
       </SheetTrigger>
 
-      <SheetContent
-        side="right"
-        className="w-[300px] sm:w-[350px] flex flex-col p-0"
-      >
+      <SheetContent side="right" className="w-75 sm:w-87.5 flex flex-col p-0">
         <SheetHeader className="p-5 text-left border-b">
           <div className="flex items-center justify-between ">
             <div className="flex items-center gap-3">
@@ -53,7 +50,7 @@ export default function UserMenu({ session }: UserMenuProps) {
                 <SheetTitle className="text-base font-semibold">
                   {isLoggedIn ? session.user.name : "Guest Account"}
                 </SheetTitle>
-                <p className="text-xs text-muted-foreground truncate max-w-[180px]">
+                <p className="text-xs text-muted-foreground truncate max-w-45">
                   {isLoggedIn ? session.user.email : "Sign in to sync data"}
                 </p>
               </div>

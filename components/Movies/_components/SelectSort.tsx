@@ -40,7 +40,7 @@ export default function SelectSort({ onSelect }: Props) {
       <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>
-      <SelectContent className="max-w-[280px]">
+      <SelectContent className="max-w-70">
         <SelectGroup>
           <SelectItem value="p_desc">Popularity Descending</SelectItem>
           <SelectItem value="p_asc">Popularity Ascending</SelectItem>

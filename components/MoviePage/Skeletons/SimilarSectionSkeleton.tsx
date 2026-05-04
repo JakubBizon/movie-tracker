@@ -12,7 +12,7 @@ export default function SimilarSectionSkeleton() {
       <div className="relative max-w-7xl mx-auto px-4 py-4 mb-4">
         <div className="flex flex-row gap-4 overflow-hidden py-4 -my-4 px-2">
           {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className="shrink-0 w-[256px]">
+            <div key={index} className="shrink-0 w-64">
               <div className="space-y-3">
                 <Skeleton className="aspect-2/3 w-full rounded-lg" />
               </div>

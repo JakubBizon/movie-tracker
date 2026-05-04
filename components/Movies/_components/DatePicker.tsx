@@ -25,7 +25,7 @@ export function DatePicker({ date, onChange, disabled }: DatePickerProps) {
         <Button
           variant="outline"
           data-empty={!date}
-          className="md:w-[150px] flex-1 xs:max-w-[400px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+          className="md:w-37.5 flex-1 xs:max-w-100 justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
         >
           {date ? format(date, "PP") : <span>Pick a date</span>}
           <ChevronDownIcon className="h-4 w-4 opacity-50" />

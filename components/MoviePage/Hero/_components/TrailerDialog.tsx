@@ -45,7 +45,7 @@ export default function TrailerDialog({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[1000px] p-0 bg-black border-none overflow-hidden aspect-video">
+      <DialogContent className="sm:max-w-250 p-0 bg-black border-none overflow-hidden aspect-video">
         <DialogHeader className="sr-only">
           <DialogTitle>{movie.title} - Trailer</DialogTitle>
           <DialogDescription>

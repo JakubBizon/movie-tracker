@@ -16,9 +16,9 @@ export function SectionSkeleton({ isTrending = false }: Props) {
       <div className="relative px-4 py-4">
         <div className="flex gap-4 overflow-hidden">
           {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className="shrink-0 w-[200px]">
+            <div key={index} className="shrink-0 w-50">
               <div className="space-y-3">
-                <Skeleton className="h-[300px] w-full rounded-lg" />
+                <Skeleton className="h-75 w-full rounded-lg" />
               </div>
             </div>
           ))}

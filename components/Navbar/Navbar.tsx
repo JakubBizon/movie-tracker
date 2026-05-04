@@ -18,7 +18,7 @@ export default async function Navbar() {
     <>
       <NavbarWrapper>
         <div className="dark:bg-slate-900 bg-slate-50 dark:border-none border-b border-gray-200">
-          <div className="max-w-[1440px] mx-auto">
+          <div className="max-w-360 mx-auto">
             <div className="hidden lg:flex items-center justify-between py-4 gap-4 sm:px-8 px-4">
               <div className="flex items-center gap-8 shrink-0">
                 <Link

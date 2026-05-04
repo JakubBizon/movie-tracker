@@ -35,7 +35,7 @@ export default function MovieCard({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`shrink-0 relative hover:scale-102 md:hover:scale-103 transition-all duration-200 aspect-2/3 max-w-[150px] sm:max-w-[200px] md:max-w-[250px]`}
+      className={`shrink-0 relative hover:scale-102 md:hover:scale-103 transition-all duration-200 aspect-2/3 max-w-37.5 sm:max-w-50 md:max-w-62.5`}
     >
       <Link
         href={`/movie/${slug}`}

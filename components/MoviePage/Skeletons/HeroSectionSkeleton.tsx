@@ -3,12 +3,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 export function HeroSectionSkeleton() {
   return (
     <div className="relative w-full bg-muted/20">
-      <div className="relative w-full max-w-[1920px] mx-auto">
-        <div className="absolute inset-0 max-h-[600px] w-full overflow-hidden">
+      <div className="relative w-full max-w-480 mx-auto">
+        <div className="absolute inset-0 max-h-150 w-full overflow-hidden">
           <Skeleton className="w-full h-ful" />
         </div>
 
-        <div className="relative z-20 h-[600px] container mx-auto px-4 md:px-6 max-w-7xl">
+        <div className="relative z-20 h-150 container mx-auto px-4 md:px-6 max-w-7xl">
           <div className="h-full flex items-center">
             <div className="flex flex-col md:flex-row gap-6 lg:gap-10 w-full">
               <div className="shrink-0">

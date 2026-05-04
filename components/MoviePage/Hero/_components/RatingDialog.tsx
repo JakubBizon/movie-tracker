@@ -66,7 +66,7 @@ export default function RatingDialog({ movieId, title }: Props) {
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] bg-secondary border-none overflow-hidden">
+      <DialogContent className="sm:max-w-150 bg-secondary border-none overflow-hidden">
         <DialogHeader className="sr-only">
           <DialogTitle>Rating Dialog</DialogTitle>
           <DialogDescription>

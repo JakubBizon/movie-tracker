@@ -31,7 +31,7 @@ const items = [
 export default function Footer() {
   return (
     <div className="w-full dark:bg-slate-900 bg-transparent border-t border-gray-200 dark:border-none">
-      <footer className="container mx-auto max-w-[1440px] sm:px-8 px-4 py-4">
+      <footer className="container mx-auto max-w-360 sm:px-8 px-4 py-4">
         <div className="flex flex-col lg:flex-row justify-between">
           <div className="flex gap-10 flex-col justify-center lg:max-w-xs">
             <div className="text-primary flex gap-2 md:text-4xl text-2xl font-bold items-center">
