@@ -2,6 +2,7 @@
 import { Movie } from "@/app/types/movie";
 import useMovieInteractions from "@/hooks/MoviePage/useMovieInteractions";
 import { authClient } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
 import { Bookmark, Heart, Info, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -88,7 +89,10 @@ export default function MovieCard({
               onClick={handleBookmark}
             >
               <Bookmark
-                className={`w-5 h-5 ${isBookmarked ? "fill-blue-500 text-blue-500" : "text-black"}`}
+                className={cn(
+                  "w-5 h-5 text-black",
+                  isBookmarked && "fill-blue-500 text-blue-500",
+                )}
               />
             </div>
 
