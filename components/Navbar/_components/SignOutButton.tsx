@@ -27,7 +27,7 @@ export default function SignOutButton({ onSuccess }: Props) {
             router.refresh();
           },
           onError: (ctx) => {
-            console.log("Sign out failed", ctx.error);
+            console.error("Sign out failed", ctx.error);
             setIsLoading(false);
           },
         },

@@ -11,6 +11,7 @@ import z from "zod";
 import { signInSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type SignInValues = z.infer<typeof signInSchema>;
 
@@ -49,12 +50,12 @@ export default function SignInForm() {
           router.push("/");
           router.refresh();
         },
-      }
+      },
     );
   };
 
   return (
-    <Card className="w-[400px] ">
+    <Card className="min-w-[400px]">
       <CardTitle className="text-2xl text-center">
         Log in to MovieTracker
       </CardTitle>
@@ -82,7 +83,12 @@ export default function SignInForm() {
               type="password"
             />
           </div>
-
+          <div className="flex gap-2 justify-center">
+            <div>New here?</div>
+            <Link className="text-primary" href="/signup">
+              Sign up
+            </Link>
+          </div>
           <div className="flex justify-center">
             <Button type="submit" disabled={isLoading}>
               {isLoading ? "Logging in" : "Log in"}

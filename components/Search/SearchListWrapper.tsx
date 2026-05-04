@@ -26,12 +26,14 @@ export default function SearchListWrapper({
         bookmarkedIds={bookmarkedIds}
         favoriteIds={favoriteIds}
       />
-      <Suspense fallback={null}>
-        <CustomPagination
-          currentPage={pagination.currentPage}
-          totalPages={pagination.totalPages}
-        />
-      </Suspense>
+      {pagination.totalPages > 1 && (
+        <Suspense fallback={null}>
+          <CustomPagination
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

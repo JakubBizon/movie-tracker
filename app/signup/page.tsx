@@ -11,7 +11,7 @@ export default async function SignUpPage() {
     redirect("/");
   }
   return (
-    <div className="max-w-7xl mx-auto py-10 flex justify-center">
+    <div className="max-w-7xl mx-auto py-10 flex justify-center items-center min-h-[calc(100vh-200px)]">
       <SignUpForm />
     </div>
   );
