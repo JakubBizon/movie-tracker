@@ -18,11 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={spaceGrotesk.variable}>
       <body
-        className={`antialiased font-sans bg-transparent dark:bg-secondary`}
+        className={`flex flex-col min-h-screen antialiased font-sans bg-transparent dark:bg-secondary`}
       >
         <Providers>
           <Navbar />
-          {children}
+          <main className="flex-1">{children}</main>
           <Footer />
           <Toaster position="top-center" />
         </Providers>

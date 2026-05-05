@@ -49,20 +49,20 @@ export default function RatingDialog({ movieId, title }: Props) {
         <Button
           size="lg"
           variant="outline"
-          className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform"
+          className="bg-white/10 px-3 hover:bg-white/20 backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform"
         >
           {isLoading ? (
-            <div className="flex items-center gap-2 animate-pulse">
+            <div className="flex items-center gap-2 animate-pulse cursor-pointer">
               <Star className="w-4 h-4 text-white/50" />
               <span className="text-white/50 text-sm">Checking...</span>
             </div>
           ) : (
-            <>
+            <div className="flex items-center gap-1 cursor-pointer">
               <Star
                 className={`${isRated ? "fill-amber-500 text-amber-500" : ""}`}
               />
               <span>{isRated ? `Your Rating: ${currentRating}` : "Rate"}</span>
-            </>
+            </div>
           )}
         </Button>
       </DialogTrigger>
@@ -105,7 +105,7 @@ export default function RatingDialog({ movieId, title }: Props) {
                 <button
                   onClick={handleRemove}
                   disabled={isSubmitting}
-                  className="justify-end mt-2 text-sm text-muted-foreground hover:text-destructive transition-colors flex items-center gap-1"
+                  className="flex items-center gap-1 justify-end cursor-pointer mt-2 text-sm text-muted-foreground hover:text-destructive transition-colors"
                 >
                   {isSubmitting && rating === 0 && (
                     <Loader2 className="w-3 h-3 animate-spin" />
@@ -121,7 +121,7 @@ export default function RatingDialog({ movieId, title }: Props) {
                 rating === currentRating ||
                 (rating === 0 && !isRated)
               }
-              className="px-5"
+              className="px-5 cursor-pointer"
             >
               {isSubmitting ? "Saving..." : isRated ? "Update Rating" : "Rate"}
             </Button>

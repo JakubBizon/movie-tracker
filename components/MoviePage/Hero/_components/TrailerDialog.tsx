@@ -35,7 +35,7 @@ export default function TrailerDialog({
         <Button
           size="lg"
           className={cn(
-            "bg-white/10 hover:bg-white/20 xs:text-sm text-xs text-white border border-white/20 backdrop-blur-md transition-all duration-300 shadow-xl font-medium",
+            "bg-white/10 hover:bg-white/20 xs:text-sm text-xs cursor-pointer text-white border border-white/20 backdrop-blur-md transition-all duration-300 shadow-xl font-medium",
             className,
           )}
           disabled={!trailer}
@@ -45,7 +45,7 @@ export default function TrailerDialog({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-250 p-0 bg-black border-none overflow-hidden aspect-video">
+      <DialogContent className="sm:max-w-7xl p-0 bg-black border-none overflow-hidden aspect-video">
         <DialogHeader className="sr-only">
           <DialogTitle>{movie.title} - Trailer</DialogTitle>
           <DialogDescription>
@@ -55,8 +55,8 @@ export default function TrailerDialog({
 
         {trailer ? (
           <iframe
-            className="w-full h-full"
-            src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
+            className="h-full w-full"
+            src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1&controls=1&modestbranding=1&rel=0`}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen

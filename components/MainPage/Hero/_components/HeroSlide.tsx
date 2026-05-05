@@ -32,7 +32,7 @@ export default function HeroSlide({ movie, index }: Props) {
         loader={tmdbImageLink}
         src={movie.backdrop_path}
         alt={movie.title}
-        className="object-cover"
+        className="object-cover object-top"
         fill
         priority={index === 0}
         sizes="100vw"

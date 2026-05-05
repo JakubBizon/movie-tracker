@@ -10,7 +10,7 @@ interface MediaGridProps {
 export default function MediaGrid({ items, userId }: MediaGridProps) {
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 min-h-[calc(100vh-300px)] text-center">
+      <div className="flex flex-col items-center justify-center py-12 text-center">
         <Clapperboard className="w-12 h-12 text-muted-foreground mb-4" />
         <h3 className="text-lg font-semibold text-foreground mb-2">
           No items yet

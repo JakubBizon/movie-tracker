@@ -40,7 +40,7 @@ export default function SearchMovieCard({
           />
         </Link>
 
-        <div className="flex min-w-0 justify-center flex-1 flex-col p-3 md:p-4">
+        <div className="flex min-w-0 flex-1 flex-col p-3 md:p-4">
           <Link href={href}>
             <h3 className="line-clamp-2 text-sm font-semibold text-gray-800 dark:text-white md:text-lg">
               {movie.title}

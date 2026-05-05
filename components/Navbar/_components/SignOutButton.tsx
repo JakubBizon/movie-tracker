@@ -23,7 +23,6 @@ export default function SignOutButton({ onSuccess }: Props) {
           onSuccess: () => {
             toast.success("Successfully signed out");
             onSuccess();
-            router.push("/");
             router.refresh();
           },
           onError: (ctx) => {

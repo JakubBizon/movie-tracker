@@ -58,7 +58,7 @@ export default function MovieCard({
             alt={movie.title}
             width={200}
             height={300}
-            className="rounded-lg shadow-lg w-full h-full object-cover"
+            className="rounded-lg shadow-none w-full h-full object-cover"
           />
         )}
         <h3
