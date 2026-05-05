@@ -23,7 +23,7 @@ export default function MyLists({
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <div className="flex flex-col max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(100vh-300px)]">
       <h2 className="text-4xl py-10">My lists</h2>
       <ListTabs
         active={isActive}
