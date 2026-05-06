@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { startTransition, useCallback, useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -34,10 +34,17 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
 
   useEffect(() => {
     if (!api) return;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    setCurrent(api.selectedScrollSnap());
 
-    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    startTransition(() => {
+      setCurrent(api.selectedScrollSnap());
+    });
+
+    const onSelect = () => {
+      startTransition(() => {
+        setCurrent(api.selectedScrollSnap());
+      });
+    };
+
     api.on("select", onSelect);
 
     return () => {

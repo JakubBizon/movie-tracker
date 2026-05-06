@@ -91,8 +91,10 @@ export default function HeroSlide({ movie, index }: Props) {
             </Link>
           </Button>
           <InteractionButtons
-            initialIsBookmarked={movie.isBookmarked}
-            initialIsFavorite={movie.isFavorite}
+            initialSelections={{
+              bookmarkedIds: movie.bookmarkedIds,
+              favoriteIds: movie.favoriteIds,
+            }}
             data={movie}
             showRating={false}
           />

@@ -31,8 +31,10 @@ export default async function MovieCarousel({
         movie={movie}
         key={movie.id}
         slug={slugify(movie.title, movie.id)}
-        initialIsFavorite={favoriteIds.includes(movieIdStr)}
-        initialIsBookmarked={bookmarkedIds.includes(movieIdStr)}
+        initialSelections={{
+          favoriteIds,
+          bookmarkedIds,
+        }}
         priority={limit ? movies.indexOf(movie) < 5 : false}
       />
     );

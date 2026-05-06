@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -12,11 +13,17 @@ type Props = {
 export default function SignOutButton({ onSuccess }: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
+  const queryClient = useQueryClient();
   const handleSignOut = async () => {
     if (isLoading) return;
 
     setIsLoading(true);
+    queryClient.removeQueries({
+      queryKey: ["user-selections"],
+    });
+    queryClient.removeQueries({
+      queryKey: ["rating"],
+    });
     try {
       await authClient.signOut({
         fetchOptions: {

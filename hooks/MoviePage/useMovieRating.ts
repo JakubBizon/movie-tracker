@@ -1,6 +1,6 @@
 import { rateMovieAction } from "@/app/actions/rateMovieAction";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function useMovieRating(
@@ -18,9 +18,12 @@ export default function useMovieRating(
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (isOpen) {
-      setRating(currentRating);
-    }
+    startTransition(() => {
+      if (isOpen) {
+        setRating(currentRating);
+        setHoverRating(0);
+      }
+    });
   }, [isOpen, currentRating]);
 
   const performAction = async (val: number) => {
@@ -37,7 +40,7 @@ export default function useMovieRating(
       if (result.success) {
         toast.success(val === 0 ? "Rating removed" : "Rating saved!");
         queryClient.invalidateQueries({
-          queryKey: ["rating", movieId],
+          queryKey: ["rating", userId, movieId],
         });
         onSuccess();
       } else {

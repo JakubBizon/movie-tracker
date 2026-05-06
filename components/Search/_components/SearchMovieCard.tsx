@@ -12,15 +12,13 @@ import Link from "next/link";
 
 type Props = {
   movie: Movie;
-  isBookmarked: boolean;
-  isFavorite: boolean;
+  initialSelections?: {
+    favoriteIds: string[];
+    bookmarkedIds: string[];
+  };
 };
 
-export default function SearchMovieCard({
-  movie,
-  isBookmarked,
-  isFavorite,
-}: Props) {
+export default function SearchMovieCard({ movie, initialSelections }: Props) {
   const href = `/movie/${slugify(movie.title, movie.id)}`;
 
   return (
@@ -74,8 +72,10 @@ export default function SearchMovieCard({
           <div className="mt-3 flex gap-2 xs:hidden">
             <InteractionButtons
               size={"sm"}
-              initialIsBookmarked={isBookmarked}
-              initialIsFavorite={isFavorite}
+              initialSelections={{
+                favoriteIds: initialSelections?.favoriteIds ?? [],
+                bookmarkedIds: initialSelections?.bookmarkedIds ?? [],
+              }}
               data={movie}
             />
 
@@ -89,8 +89,10 @@ export default function SearchMovieCard({
 
         <div className="hidden xs:flex gap-2 p-3 md:p-4">
           <InteractionButtons
-            initialIsBookmarked={isBookmarked}
-            initialIsFavorite={isFavorite}
+            initialSelections={{
+              favoriteIds: initialSelections?.favoriteIds ?? [],
+              bookmarkedIds: initialSelections?.bookmarkedIds ?? [],
+            }}
             data={movie}
           />
 

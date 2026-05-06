@@ -19,8 +19,10 @@ export default function MoviesGrid({
         <MovieCard
           key={movie.id}
           movie={movie}
-          initialIsBookmarked={bookmarkedIds.includes(movie.id.toString())}
-          initialIsFavorite={favoriteIds.includes(movie.id.toString())}
+          initialSelections={{
+            favoriteIds,
+            bookmarkedIds,
+          }}
           slug={slugify(movie.title, movie.id)}
           priority={index < 8}
         />

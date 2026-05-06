@@ -12,16 +12,16 @@ type HeroSectionProps = {
   data: Movie;
   color: string;
   trailerLink: Trailer;
-  initialIsFavorite?: boolean;
-  initialIsBookmarked?: boolean;
+  favoriteIds: string[];
+  bookmarkedIds: string[];
 };
 
 export default function HeroSection({
   data,
   color,
   trailerLink,
-  initialIsFavorite,
-  initialIsBookmarked,
+  favoriteIds,
+  bookmarkedIds,
 }: HeroSectionProps) {
   const isLight = isBackgroundLight(color);
 
@@ -50,8 +50,10 @@ export default function HeroSection({
                 <div className="flex items-start flex-wrap gap-3 pt-6">
                   <TrailerDialog trailerLink={trailerLink} movie={data} />
                   <InteractionButtons
-                    initialIsFavorite={initialIsFavorite}
-                    initialIsBookmarked={initialIsBookmarked}
+                    initialSelections={{
+                      favoriteIds,
+                      bookmarkedIds,
+                    }}
                     data={data}
                     showRating={true}
                   />
@@ -89,8 +91,10 @@ export default function HeroSection({
             </div>
             <InteractionButtons
               glassClass={glassClass}
-              initialIsFavorite={initialIsFavorite}
-              initialIsBookmarked={initialIsBookmarked}
+              initialSelections={{
+                favoriteIds,
+                bookmarkedIds,
+              }}
               data={data}
               showRating={true}
             />

@@ -1,0 +1,175 @@
+"use client";
+
+import { Movie } from "@/app/types/movie";
+import { UserSelections, useUserSelections } from "./useUserSelections";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  toggleBookmarkAction,
+  toggleFavoriteAction,
+} from "@/app/actions/movieActions";
+import { toast } from "sonner";
+
+export default function useMovieInteractions(
+  movie: Movie,
+  userId?: string,
+  initialData?: UserSelections,
+) {
+  const queryClient = useQueryClient();
+  const queryKey = ["user-selections", userId];
+
+  const { data } = useUserSelections(userId, initialData);
+  const movieId = movie.id.toString();
+
+  const favoriteIds = data?.favoriteIds ?? [];
+  const bookmarkedIds = data?.bookmarkedIds ?? [];
+
+  const isFavorite = !!userId && favoriteIds.includes(movieId);
+  const isBookmarked = !!userId && bookmarkedIds.includes(movieId);
+
+  const favoriteMutation = useMutation({
+    mutationFn: async () => {
+      if (!userId) {
+        throw new Error("Please login first");
+      }
+
+      return await toggleFavoriteAction(
+        userId,
+        movieId,
+        movie.title,
+        movie.poster_path,
+        movie.vote_average.toString(),
+      );
+    },
+    onMutate: async () => {
+      if (!userId) return;
+
+      await queryClient.cancelQueries({ queryKey });
+
+      const previous = queryClient.getQueryData<UserSelections>(queryKey);
+
+      queryClient.setQueryData<UserSelections>(queryKey, (old) => {
+        const current = old ?? {
+          favoriteIds: [],
+          bookmarkedIds: [],
+        };
+
+        const exists = current.favoriteIds.includes(movieId);
+
+        return {
+          ...current,
+          favoriteIds: exists
+            ? current.favoriteIds.filter((id) => id !== movieId)
+            : [...current.favoriteIds, movieId],
+        };
+      });
+
+      return { previous };
+    },
+    onSuccess: (result, _variables, context) => {
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        if (context?.previous) {
+          queryClient.setQueryData(queryKey, context.previous);
+        }
+        toast.error(result.error);
+      }
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(queryKey, context.previous);
+      }
+      toast.error("Failed to update favorites");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+      queryClient.invalidateQueries({
+        queryKey: ["favorites", "count"],
+      });
+    },
+  });
+
+  const bookmarkMutation = useMutation({
+    mutationFn: async () => {
+      if (!userId) {
+        throw new Error("Please login first");
+      }
+
+      return await toggleBookmarkAction(
+        userId,
+        movieId,
+        movie.title,
+        movie.poster_path,
+        movie.vote_average.toString(),
+      );
+    },
+    onMutate: async () => {
+      if (!userId) return;
+
+      await queryClient.cancelQueries({ queryKey });
+
+      const previous = queryClient.getQueryData<UserSelections>(queryKey);
+
+      queryClient.setQueryData<UserSelections>(queryKey, (old) => {
+        const current = old ?? {
+          favoriteIds: [],
+          bookmarkedIds: [],
+        };
+        const exists = current.bookmarkedIds.includes(movieId);
+
+        return {
+          ...current,
+          bookmarkedIds: exists
+            ? current.bookmarkedIds.filter((id) => id !== movieId)
+            : [...current.bookmarkedIds, movieId],
+        };
+      });
+      return { previous };
+    },
+    onSuccess: (result, _variables, context) => {
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        if (context?.previous) {
+          queryClient.setQueryData(queryKey, context.previous);
+        }
+        toast.error(result.error);
+      }
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(queryKey, context.previous);
+      }
+      toast.error("Failed to update bookmarks");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+      queryClient.invalidateQueries({
+        queryKey: ["bookmarks", "count"],
+      });
+    },
+  });
+
+  const handleFavorite = async () => {
+    if (!userId) {
+      return toast.error("Please login first");
+    }
+    favoriteMutation.mutate();
+  };
+
+  const handleBookmark = async () => {
+    if (!userId) {
+      return toast.error("Please login first");
+    }
+    bookmarkMutation.mutate();
+  };
+
+  return {
+    isFavorite,
+    isBookmarked,
+    handleFavorite,
+    handleBookmark,
+    isFavoritePending: favoriteMutation.isPending,
+    isBookmarkPending: bookmarkMutation.isPending,
+  };
+}

@@ -1,6 +1,6 @@
 "use client";
 import { Movie } from "@/app/types/movie";
-import useMovieInteractions from "@/hooks/MoviePage/useMovieInteractions";
+import useMovieInteractions from "@/hooks/useMovieInteractions";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { Bookmark, Heart, Info, Star } from "lucide-react";
@@ -11,26 +11,24 @@ import { useState } from "react";
 interface MovieCardProps {
   movie: Movie;
   slug: string;
-  initialIsFavorite?: boolean;
-  initialIsBookmarked?: boolean;
+  initialSelections?: {
+    favoriteIds: string[];
+    bookmarkedIds: string[];
+  };
   priority?: boolean;
 }
 
 export default function MovieCard({
   movie,
   slug,
-  initialIsBookmarked,
-  initialIsFavorite,
+  initialSelections,
   priority,
 }: MovieCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { data: session } = authClient.useSession();
   const userId = session?.user?.id;
   const { isFavorite, isBookmarked, handleFavorite, handleBookmark } =
-    useMovieInteractions(movie, userId, {
-      isFavorite: initialIsFavorite,
-      isBookmarked: initialIsBookmarked,
-    });
+    useMovieInteractions(movie, userId, initialSelections);
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}

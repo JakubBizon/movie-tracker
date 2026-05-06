@@ -28,8 +28,8 @@ export default async function MovieHero({ id }: Props) {
       data={data}
       color={color}
       trailerLink={trailerLink}
-      initialIsFavorite={favoriteIds.includes(data.id.toString())}
-      initialIsBookmarked={bookmarkedIds.includes(data.id.toString())}
+      favoriteIds={favoriteIds}
+      bookmarkedIds={bookmarkedIds}
     />
   );
 }

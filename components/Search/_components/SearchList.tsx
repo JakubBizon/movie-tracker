@@ -15,13 +15,14 @@ export default function SearchList({
   return (
     <div className="flex flex-col gap-4">
       {movies.map((movie: Movie) => {
-        const movieIdStr = movie.id.toString();
         return (
           <SearchMovieCard
             movie={movie}
             key={movie.id}
-            isBookmarked={bookmarkedIds.includes(movieIdStr)}
-            isFavorite={favoriteIds.includes(movieIdStr)}
+            initialSelections={{
+              favoriteIds,
+              bookmarkedIds,
+            }}
           />
         );
       })}

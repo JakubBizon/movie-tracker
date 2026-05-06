@@ -22,7 +22,12 @@ type Props = {
 export default function RatingDialog({ movieId, title }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = authClient.useSession();
-  const { data: ratingData, isLoading } = useCheckRating(movieId, !!session);
+  const userId = session?.user?.id;
+  const { data: ratingData, isLoading } = useCheckRating(
+    userId,
+    movieId,
+    !!userId,
+  );
   const currentRating = ratingData?.rating ?? 0;
   const isRated = currentRating > 0;
 

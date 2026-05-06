@@ -1,8 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 
-export default function useCheckRating(movieId: number, enabled: boolean) {
+export default function useCheckRating(
+  userId: string | undefined,
+  movieId: number,
+  enabled: boolean,
+) {
   return useQuery({
-    queryKey: ["rating", movieId],
+    queryKey: ["rating", userId, movieId],
     queryFn: async () => {
       const res = await fetch(`/api/movie/rating?movieId=${movieId}`);
       if (!res.ok) throw new Error("Failed to fetch rating");

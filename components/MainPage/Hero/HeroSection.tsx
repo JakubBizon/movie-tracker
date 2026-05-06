@@ -32,8 +32,8 @@ export default async function HeroSection() {
         ...movie,
         runtime: details.runtime,
         genres: details.genres,
-        isFavorite: favoriteIds.includes(movie.id.toString()),
-        isBookmarked: bookmarkedIds.includes(movie.id.toString()),
+        favoriteIds: favoriteIds,
+        isBookmarked: bookmarkedIds,
         trailer: trailer,
       };
     }),

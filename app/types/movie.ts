@@ -18,8 +18,8 @@ export interface Movie {
   description: string;
 }
 export interface HeroMovie extends Movie {
-  isFavorite: boolean;
-  isBookmarked: boolean;
+  favoriteIds: string[];
+  bookmarkedIds: string[];
   trailer: Trailer;
 }
 
