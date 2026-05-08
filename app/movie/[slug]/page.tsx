@@ -1,3 +1,4 @@
+import AdditionalInfo from "@/components/MoviePage/AdditionalInfo/AdditionalInfo";
 import SimilarSection from "@/components/MoviePage/Carousel/SimilarSection";
 import Cast from "@/components/MoviePage/Cast/Cast";
 import MovieHero from "@/components/MoviePage/Hero/MovieHero";
@@ -28,6 +29,10 @@ export default async function MoviePage({
       </Suspense>
 
       <div className="max-w-7xl mx-auto mt-5 space-y-10">
+        <Suspense fallback={null}>
+          <AdditionalInfo id={movie.id} movie={movie} />
+        </Suspense>
+
         <Suspense fallback={<CastSectionSkeleton />}>
           <Cast id={movie.id} />
         </Suspense>
