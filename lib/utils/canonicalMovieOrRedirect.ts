@@ -3,20 +3,24 @@ import { extractIdFromSlug } from "./extractIdFromSlug";
 import { getMovieDetails } from "../movies/getMovieDetails";
 import { slugify } from "./slugify";
 
-export async function canonicalSlug(slug: string) {
+export async function canonicalMovieOrRedirect(slug: string) {
   const id = extractIdFromSlug(slug);
 
   if (!id) {
-    return notFound();
+    notFound();
   }
+
   const movie = await getMovieDetails(id);
+
   if (!movie) {
-    return notFound();
+    notFound();
   }
 
-  const canonicalSlug = slugify(movie.title, id);
+  const canonical = slugify(movie.title, id);
 
-  if (slug !== canonicalSlug) {
-    permanentRedirect(`/movie/${canonicalSlug}`);
+  if (slug !== canonical) {
+    permanentRedirect(`/movie/${canonical}`);
   }
+
+  return movie;
 }

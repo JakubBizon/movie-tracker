@@ -4,8 +4,9 @@ import MovieHero from "@/components/MoviePage/Hero/MovieHero";
 import CastSectionSkeleton from "@/components/MoviePage/Skeletons/CastSectionSkeleton";
 import { HeroSectionSkeleton } from "@/components/MoviePage/Skeletons/HeroSectionSkeleton";
 import SimilarSectionSkeleton from "@/components/MoviePage/Skeletons/SimilarSectionSkeleton";
-import { canonicalSlug } from "@/lib/utils/canonicalSlug";
+import { canonicalMovieOrRedirect } from "@/lib/utils/canonicalMovieOrRedirect";
 import { extractIdFromSlug } from "@/lib/utils/extractIdFromSlug";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function MoviePage({
@@ -14,20 +15,25 @@ export default async function MoviePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  await canonicalSlug(slug);
+  const id = extractIdFromSlug(slug);
+
+  if (!id) {
+    notFound();
+  }
+  const movie = await canonicalMovieOrRedirect(slug);
   return (
     <div className="bg-transparent dark:bg-secondary w-full font-sans">
       <Suspense fallback={<HeroSectionSkeleton />}>
-        <MovieHero id={extractIdFromSlug(slug)} />
+        <MovieHero movie={movie} />
       </Suspense>
 
       <div className="max-w-7xl mx-auto mt-5 space-y-10">
         <Suspense fallback={<CastSectionSkeleton />}>
-          <Cast id={extractIdFromSlug(slug)} />
+          <Cast id={movie.id} />
         </Suspense>
 
         <Suspense fallback={<SimilarSectionSkeleton />}>
-          <SimilarSection id={extractIdFromSlug(slug)} />
+          <SimilarSection id={movie.id} />
         </Suspense>
       </div>
     </div>
