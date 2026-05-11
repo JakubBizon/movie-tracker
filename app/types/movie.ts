@@ -23,6 +23,14 @@ export interface HeroMovie extends Movie {
   trailer: Trailer;
 }
 
+export interface MovieDetails extends Movie {
+  budget: number;
+  revenue: number;
+  original_title: string;
+  original_language: string;
+  status: string;
+}
+
 export interface MoviesResponse {
   page: number;
   results: Movie[];
