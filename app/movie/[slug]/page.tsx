@@ -32,7 +32,6 @@ export default async function MoviePage({
         <Suspense fallback={null}>
           <AdditionalInfo id={movie.id} movie={movie} />
         </Suspense>
-
         <Suspense fallback={<CastSectionSkeleton />}>
           <Cast id={movie.id} />
         </Suspense>

@@ -34,7 +34,7 @@ export default function HeroSection({
         className="relative w-full lg:min-h-125 min-h-100 hidden sm:flex items-center"
         style={{ backgroundColor: color }}
       >
-        <div className="relative w-full max-w-480 mx-auto">
+        <div className="relative w-full max-w-480 mx-auto mb-15">
           <MovieBackground
             backdropPath={data.backdrop_path}
             title={data.title}
