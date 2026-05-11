@@ -1,14 +1,10 @@
+import { Keyword } from "@/app/types/keyword";
 import { MovieDetails } from "@/app/types/movie";
 import { getMovieKeywords } from "@/lib/movies/getMovieKeywords";
 
 type Props = {
   id: number;
   movie: MovieDetails;
-};
-
-type Keyword = {
-  id: number;
-  name: string;
 };
 
 type DetailItem = {
@@ -18,7 +14,6 @@ type DetailItem = {
 
 export default async function AdditionalInfo({ id, movie }: Props) {
   const keywords = await getMovieKeywords(id);
-
   const detailItems: DetailItem[] = [
     {
       label: "Original Title",
