@@ -4,7 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 
-export function useSearch() {
+export function useSearch(
+  addSearch: (newSearch: string) => void,
+  recentSearches: string[],
+) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -35,6 +38,7 @@ export function useSearch() {
 
   const handleSelect = (title: string) => {
     setQuery(title);
+    addSearch(title);
     closeSuggestions();
     router.push(`/search?q=${encodeURIComponent(title)}`);
   };
@@ -43,18 +47,34 @@ export function useSearch() {
     const trimmedQuery = query.trim();
     if (!trimmedQuery) return;
     setQuery(trimmedQuery || "");
+    addSearch(trimmedQuery);
     closeSuggestions();
-    router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+    router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
   };
 
+  const isShowingRecentSearches = !query.trim() && recentSearches.length > 0;
+  const activeListLength = isShowingRecentSearches
+    ? recentSearches.length
+    : uniqueResults.length;
+
   const selectHighlighted = () => {
-    if (
-      !isOpen ||
-      highlightedIndex < 0 ||
-      highlightedIndex >= uniqueResults.length
-    ) {
+    if (!isOpen || highlightedIndex < 0) {
       return false;
     }
+
+    if (isShowingRecentSearches) {
+      if (highlightedIndex >= recentSearches.length) {
+        return false;
+      }
+
+      handleSelect(recentSearches[highlightedIndex]);
+      return true;
+    }
+
+    if (highlightedIndex >= uniqueResults.length) {
+      return false;
+    }
+
     handleSelect(uniqueResults[highlightedIndex].title);
     return true;
   };
@@ -77,5 +97,6 @@ export function useSearch() {
     setIsOpen,
     highlightedIndex,
     setHighlightedIndex,
+    activeListLength,
   };
 }

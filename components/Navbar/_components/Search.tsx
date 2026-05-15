@@ -1,15 +1,17 @@
 "use client";
 
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, XIcon } from "lucide-react";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { useRef } from "react";
 import { Movie } from "@/app/types/movie";
 import { useSearch } from "../hooks/useSearch";
 import { cn } from "@/lib/utils";
+import useRecentSearches from "../hooks/useRecentSearches";
 
 export function Search() {
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const { addSearch, removeSearch, recentSearches, clearSearches } =
+    useRecentSearches();
   const {
     query,
     setQuery,
@@ -23,7 +25,8 @@ export function Search() {
     setIsOpen,
     highlightedIndex,
     setHighlightedIndex,
-  } = useSearch();
+    activeListLength,
+  } = useSearch(addSearch, recentSearches);
 
   return (
     <div className="relative px-5 xl:px-0">
@@ -53,7 +56,7 @@ export function Search() {
               if (!hasSuggestions) return;
 
               setHighlightedIndex((prev) =>
-                prev < uniqueResults.length - 1 ? prev + 1 : 0,
+                prev < activeListLength - 1 ? prev + 1 : 0,
               );
             }
 
@@ -64,7 +67,7 @@ export function Search() {
               if (!hasSuggestions) return;
 
               setHighlightedIndex((prev) =>
-                prev > 0 ? prev - 1 : uniqueResults.length - 1,
+                prev > 0 ? prev - 1 : activeListLength - 1,
               );
             }
 
@@ -75,7 +78,7 @@ export function Search() {
             }
           }}
           onBlur={() => setTimeout(() => setIsOpen(false), 150)}
-          onFocus={() => query.length > 0 && setIsOpen(true)}
+          onFocus={() => setIsOpen(true)}
           placeholder="Search movies"
           aria-expanded={isOpen}
           aria-autocomplete="list"
@@ -87,13 +90,63 @@ export function Search() {
           <SearchIcon className="cursor-pointer transition-colors hover:text-primary" />
         </button>
       </InputGroup>
+      {isOpen && !query && recentSearches.length > 0 && (
+        <div className="absolute left-0 right-0 top-full z-50 max-w-2xl overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900">
+          <div className="flex items-center justify-between px-4 py-2 text-sm text-muted-foreground">
+            <span>Recent searches</span>
+            <button
+              type="button"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                clearSearches();
+              }}
+              className="text-xs hover:text-primary"
+            >
+              Clear all
+            </button>
+          </div>
 
+          {recentSearches.map((search, index) => (
+            <div
+              key={search}
+              onMouseEnter={() => setHighlightedIndex(index)}
+              className={cn(
+                "flex items-center justify-between px-4 py-2 transition-colors",
+                highlightedIndex === index
+                  ? "bg-slate-100 dark:bg-slate-800"
+                  : "bg-transparent",
+              )}
+            >
+              <button
+                type="button"
+                role="option"
+                aria-selected={highlightedIndex === index}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleSelect(search);
+                }}
+                className="flex-1 text-left"
+              >
+                {search}
+              </button>
+
+              <button
+                type="button"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  removeSearch(search);
+                }}
+                className="ml-2 rounded p-1 text-muted-foreground hover:text-red-500"
+                aria-label={`Remove ${search} from recent searches`}
+              >
+                <XIcon className="h-4 w-4" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
       {isOpen && query && (uniqueResults.length > 0 || noResults) && (
-        <div
-          id="search-suggestions"
-          role="listbox"
-          className="absolute left-0 right-0 top-full z-50 max-w-2xl overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900"
-        >
+        <div className="absolute left-0 right-0 top-full z-50 max-w-2xl overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900">
           {uniqueResults.map((item: Movie, index: number) => (
             <button
               type="button"
