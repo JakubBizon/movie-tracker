@@ -19,8 +19,16 @@ type DatePickerProps = {
 
 export function DatePicker({ date, onChange, disabled }: DatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [month, setMonth] = useState<Date>(date ?? new Date());
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      setMonth(date ?? new Date());
+    }
+  };
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
+    <Popover open={isOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -35,12 +43,24 @@ export function DatePicker({ date, onChange, disabled }: DatePickerProps) {
         <Calendar
           mode="single"
           selected={date}
+          month={month}
+          onMonthChange={setMonth}
           onSelect={(newDate) => {
             onChange(newDate);
             setIsOpen(false);
           }}
-          autoFocus
           disabled={disabled}
+          startMonth={new Date(1900, 0, 1)}
+          endMonth={
+            new Date(
+              new Date().getFullYear() + 3,
+              new Date().getMonth(),
+              new Date().getDate(),
+            )
+          }
+          captionLayout="dropdown"
+          fixedWeeks
+          autoFocus
         />
       </PopoverContent>
     </Popover>
