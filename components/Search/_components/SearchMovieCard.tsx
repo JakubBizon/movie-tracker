@@ -34,7 +34,7 @@ export default function SearchMovieCard({ movie, initialSelections }: Props) {
             alt={movie.title}
             width={100}
             height={150}
-            className="w-full h-full rounded-l-lg object-cover"
+            className="w-full h-full rounded-l-lg object-cover aspect-2/3"
           />
         </Link>
 
