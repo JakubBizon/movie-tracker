@@ -25,18 +25,21 @@ export default async function MovieCarousel({
   const displayedMovies = limit ? movies.slice(0, limit) : movies;
 
   const renderedItems = displayedMovies.map((movie: Movie) => {
-    const movieIdStr = movie.id.toString();
     return (
-      <MovieCard
-        movie={movie}
+      <div
         key={movie.id}
-        slug={slugify(movie.title, movie.id)}
-        initialSelections={{
-          favoriteIds,
-          bookmarkedIds,
-        }}
-        priority={limit ? movies.indexOf(movie) < 5 : false}
-      />
+        className="w-[140px] xs:w-[160px] sm:w-[180px] md:w-[220px] lg:w-[240px] shrink-0"
+      >
+        <MovieCard
+          movie={movie}
+          slug={slugify(movie.title, movie.id)}
+          initialSelections={{
+            favoriteIds,
+            bookmarkedIds,
+          }}
+          priority={limit ? movies.indexOf(movie) < 5 : false}
+        />
+      </div>
     );
   });
 

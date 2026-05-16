@@ -14,18 +14,20 @@ export default function MoviesGrid({
   favoriteIds,
 }: Props) {
   return (
-    <div className="grid grid-cols-2 xs:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
+    <div className="grid gap-3 grid-cols-2 xs:grid-cols-3 md:grid-cols-4">
       {movies.map((movie, index) => (
-        <MovieCard
-          key={movie.id}
-          movie={movie}
-          initialSelections={{
-            favoriteIds,
-            bookmarkedIds,
-          }}
-          slug={slugify(movie.title, movie.id)}
-          priority={index < 8}
-        />
+        <div key={movie.id} className="w-full min-w-0">
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            initialSelections={{
+              favoriteIds,
+              bookmarkedIds,
+            }}
+            slug={slugify(movie.title, movie.id)}
+            priority={index < 8}
+          />
+        </div>
       ))}
     </div>
   );
