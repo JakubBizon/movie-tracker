@@ -1,51 +1,106 @@
 import { Skeleton } from "@/components/ui/skeleton";
+import MovieMetaSkeleton from "./MovieMetaSkeleton";
+
+const skeletonBase = "bg-muted-foreground/10";
+const skeletonSoft = "bg-muted-foreground/10";
+const skeletonStrong = "bg-muted-foreground/20";
 
 export function HeroSectionSkeleton() {
   return (
-    <div className="relative w-full bg-muted/20">
-      <div className="relative w-full max-w-480 mx-auto">
-        <div className="absolute inset-0 max-h-150 w-full overflow-hidden">
-          <Skeleton className="w-full h-ful" />
-        </div>
+    <>
+      <div className="relative hidden min-h-100 w-full items-center sm:flex lg:min-h-125">
+        <div className="relative mx-auto mb-15 w-full max-w-480">
+          <Skeleton
+            className={`absolute inset-0 min-h-[500px] w-full overflow-hidden ${skeletonSoft}`}
+          />
 
-        <div className="relative z-20 h-150 container mx-auto px-4 md:px-6 max-w-7xl">
-          <div className="h-full flex items-center">
-            <div className="flex flex-col md:flex-row gap-6 lg:gap-10 w-full">
-              <div className="shrink-0">
-                <Skeleton className="relative w-48 md:w-64 lg:w-80 xl:w-96 aspect-2/3 rounded-xl overflow-hidde"></Skeleton>
+          <div className="absolute inset-0 bg-black/35 dark:bg-black/45" />
+
+          <div className="relative z-20 container mx-auto max-w-7xl px-4 md:px-6">
+            <div className="flex flex-col gap-6 py-8 md:flex-row lg:gap-10">
+              <div className="hidden sm:block">
+                <div className="shrink-0">
+                  <Skeleton
+                    className={`relative aspect-2/3 overflow-hidden rounded-xl sm:w-40 md:w-64 lg:w-80 ${skeletonStrong}`}
+                  />
+                </div>
               </div>
 
-              <div className="flex-1 text-white flex flex-col justify-center max-w-3xl space-y-4 md:space-y-5">
-                <Skeleton className="h-10 md:h-12 lg:h-16 w-3/4" />
+              <div className="flex flex-1 flex-col justify-center">
+                <div className="space-y-5">
+                  <MovieMetaSkeleton />
 
-                <div className="flex flex-wrap items-center gap-3 md:gap-4 ">
-                  <Skeleton className="h-8 w-20 rounded-full" />
-                  <Skeleton className="h-8 w-16 rounded-md" />
-                  <Skeleton className="h-8 w-24 rounded-md" />
-                </div>
+                  <div className="space-y-2">
+                    <Skeleton
+                      className={`h-4 w-full max-w-3xl ${skeletonBase}`}
+                    />
+                    <Skeleton
+                      className={`h-4 w-full max-w-2xl ${skeletonBase}`}
+                    />
+                    <Skeleton
+                      className={`h-4 w-full max-w-xl ${skeletonBase}`}
+                    />
+                  </div>
 
-                <div className="flex items-center gap-2 flex-wrap">
-                  <Skeleton className="h-7 w-20 rounded-full" />
-                  <Skeleton className="h-7 w-24 rounded-full" />
-                  <Skeleton className="h-7 w-20 rounded-full" />
-                </div>
-
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-2/3" />
-                </div>
-
-                <div className="flex flex-wrap gap-3 pt-2">
-                  <Skeleton className="h-12 w-32 md:w-40 rounded-md" />
-                  <Skeleton className="h-12 w-32 md:w-40 rounded-md" />
-                  <Skeleton className="h-12 w-12 rounded-md" />
+                  <div className="flex flex-row flex-wrap items-center gap-3">
+                    <div className="shrink-0">
+                      <Skeleton className={`h-10 w-32 ${skeletonStrong}`} />
+                    </div>
+                    <div className="flex gap-2">
+                      <Skeleton className={`h-10 w-12 ${skeletonBase}`} />
+                      <Skeleton className={`h-10 w-12 ${skeletonBase}`} />
+                      <Skeleton className={`h-10 w-20 ${skeletonBase}`} />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <div className="flex w-full flex-col sm:hidden">
+        <div className="relative min-h-62.5 w-full">
+          <Skeleton
+            className={`absolute inset-0 min-h-[200px] w-full overflow-hidden ${skeletonSoft}`}
+          />
+
+          <div className="absolute inset-0 bg-black/30 dark:bg-black/40" />
+
+          <div className="absolute -bottom-12 left-4 z-30 w-25 shadow-xl">
+            <div className="shrink-0">
+              <Skeleton
+                className={`relative aspect-2/3 w-32 overflow-hidden rounded-xl ${skeletonStrong}`}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 px-4 pb-8 pt-16">
+          <div className="space-y-5">
+            <MovieMetaSkeleton />
+          </div>
+
+          <div className="flex-1 space-y-2">
+            <Skeleton className={`h-4 w-full ${skeletonBase}`} />
+            <Skeleton className={`h-4 w-full ${skeletonBase}`} />
+            <Skeleton className={`h-4 w-11/12 ${skeletonBase}`} />
+          </div>
+
+          <div className="flex flex-row flex-wrap items-center gap-2">
+            <div className="flex flex-row flex-wrap items-center gap-3">
+              <div className="shrink-0">
+                <Skeleton className={`h-10 w-32 ${skeletonStrong}`} />
+              </div>
+              <div className="flex gap-2">
+                <Skeleton className={`h-10 w-12 ${skeletonBase}`} />
+                <Skeleton className={`h-10 w-12 ${skeletonBase}`} />
+                <Skeleton className={`h-10 w-20 ${skeletonBase}`} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
