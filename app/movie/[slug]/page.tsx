@@ -2,6 +2,7 @@ import AdditionalInfo from "@/components/MoviePage/AdditionalInfo/AdditionalInfo
 import SimilarSection from "@/components/MoviePage/Carousel/SimilarSection";
 import Cast from "@/components/MoviePage/Cast/Cast";
 import MovieHero from "@/components/MoviePage/Hero/MovieHero";
+import AdditionalInfoSkeleton from "@/components/MoviePage/Skeletons/AdditionalInfoSkeleton";
 import CastSectionSkeleton from "@/components/MoviePage/Skeletons/CastSectionSkeleton";
 import { HeroSectionSkeleton } from "@/components/MoviePage/Skeletons/HeroSectionSkeleton";
 import SimilarSectionSkeleton from "@/components/MoviePage/Skeletons/SimilarSectionSkeleton";
@@ -33,8 +34,9 @@ export default async function MoviePage({
           <Cast id={movie.id} />
         </Suspense>
 
-        <Suspense fallback={null}>
+        <Suspense fallback={<AdditionalInfoSkeleton />}>
           <AdditionalInfo id={movie.id} movie={movie} />
+          <AdditionalInfoSkeleton />
         </Suspense>
 
         <Suspense fallback={<SimilarSectionSkeleton />}>
