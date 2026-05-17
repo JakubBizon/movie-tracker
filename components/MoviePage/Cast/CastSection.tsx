@@ -27,7 +27,7 @@ export default function CastSection({ castData, limit }: CastSectionProps) {
                   src={`https://image.tmdb.org/t/p/w185${cast.profile_path}`}
                   alt={cast.name}
                   fill
-                  sizes="(max-width: 768px) 20vw, 185px, max-width: 1024px) 33vw, 185px"
+                  sizes="(max-width: 768px) 33vw, (max-width: 1024px) 20vw, 185px"
                   fetchPriority="high"
                   className="object-cover rounded-t-lg"
                 />
