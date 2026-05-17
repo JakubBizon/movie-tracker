@@ -36,7 +36,6 @@ export default async function MoviePage({
 
         <Suspense fallback={<AdditionalInfoSkeleton />}>
           <AdditionalInfo id={movie.id} movie={movie} />
-          <AdditionalInfoSkeleton />
         </Suspense>
 
         <Suspense fallback={<SimilarSectionSkeleton />}>
