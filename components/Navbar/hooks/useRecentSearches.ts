@@ -5,6 +5,9 @@ const RECENT_SEARCHES_KEY = "recent-searches";
 
 const useRecentSearches = () => {
   const localStorageInit = () => {
+    if (typeof window === "undefined") {
+      return [];
+    }
     try {
       const storedSearches = localStorage.getItem(RECENT_SEARCHES_KEY);
       if (!storedSearches) {
