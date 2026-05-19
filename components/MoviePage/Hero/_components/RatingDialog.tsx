@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -6,72 +5,41 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import useCheckRating from "@/hooks/MoviePage/useCheckRating";
-import useMovieRating from "@/hooks/MoviePage/useMovieRating";
-import { authClient } from "@/lib/auth-client";
 import { Loader2, Star } from "lucide-react";
-import { useState } from "react";
 
 type Props = {
+  open: boolean;
+  onOpenChange: (value: boolean) => void;
   title: string;
-  movieId: number;
+  isRated: boolean;
+  currentRating: number;
+  rating: number;
+  setRating: (value: number) => void;
+  hoverRating: number;
+  setHoverRating: (value: number) => void;
+  isSubmitting: boolean;
+  onSave: (value: number) => void;
+  onRemove: () => void;
 };
 
-export default function RatingDialog({ movieId, title }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = authClient.useSession();
-  const userId = session?.user?.id;
-  const { data: ratingData, isLoading } = useCheckRating(
-    userId,
-    movieId,
-    !!userId,
-  );
-  const currentRating = ratingData?.rating ?? 0;
-  const isRated = currentRating > 0;
-
-  const {
-    rating,
-    setRating,
-    hoverRating,
-    setHoverRating,
-    isSubmitting,
-    handleSave,
-    handleRemove,
-  } = useMovieRating(
-    movieId,
-    title,
-    session?.user.id,
-    currentRating,
-    isOpen,
-    () => setIsOpen(false),
-  );
-
+export default function RatingDialog({
+  open,
+  onOpenChange,
+  title,
+  isRated,
+  currentRating,
+  rating,
+  setRating,
+  hoverRating,
+  setHoverRating,
+  isSubmitting,
+  onSave,
+  onRemove,
+}: Props) {
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button
-          size="lg"
-          variant="outline"
-          className="bg-white/10 px-3 hover:bg-white/20 backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform"
-        >
-          {isLoading ? (
-            <div className="flex items-center gap-2 animate-pulse cursor-pointer">
-              <Star className="w-4 h-4 text-white/50" />
-              <span className="text-white/50 text-sm">Checking...</span>
-            </div>
-          ) : (
-            <div className="flex items-center gap-1 cursor-pointer">
-              <Star
-                className={`${isRated ? "fill-amber-500 text-amber-500" : ""}`}
-              />
-              <span>{isRated ? `Your Rating: ${currentRating}` : "Rate"}</span>
-            </div>
-          )}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-150 bg-secondary border-none overflow-hidden">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="w-[95vw] max-w-md rounded-xl border-none bg-secondary p-4 sm:p-6 overflow-hidden">
         <DialogHeader className="sr-only">
           <DialogTitle>Rating Dialog</DialogTitle>
           <DialogDescription>
@@ -79,54 +47,65 @@ export default function RatingDialog({ movieId, title }: Props) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="w-full h-full bg-secondary">
-          <div className="flex flex-col justify-center items-center">
-            {" "}
-            <h2 className="text-lg pb-3">Rate this movie</h2>
-            <span className="text-2xl text-primary">{title}</span>
-            <div className="flex flex-col">
+        <div className="w-full">
+          <div className="flex flex-col items-center text-center">
+            <h2 className="pb-2 text-base sm:text-lg">Rate this movie</h2>
+
+            <span className="max-w-full break-words text-xl sm:text-2xl text-primary">
+              {title}
+            </span>
+
+            <div className="mt-4 flex flex-col items-center">
               <div
                 onMouseLeave={() => setHoverRating(0)}
-                className="flex gap-1 pt-3 pb-2"
+                className="flex flex-wrap justify-center gap-1 sm:gap-2"
               >
-                {Array.from({ length: 10 }).map((item, index) => {
+                {Array.from({ length: 10 }).map((_, index) => {
                   const starIndex = index + 1;
                   const isActive = starIndex <= (hoverRating || rating);
+
                   return (
                     <button
+                      type="button"
+                      key={index}
                       onClick={() => setRating(starIndex)}
                       onMouseEnter={() => setHoverRating(starIndex)}
-                      key={index}
                       className="transition-transform hover:scale-110 active:scale-90"
                     >
                       <Star
-                        className={`w-10 h-10 transition-colors duration-150 ${isActive ? "fill-amber-500 text-amber-500" : "text-muted-foreground/40"}`}
+                        className={`h-6 w-6 sm:h-9 sm:w-9  transition-colors duration-150 ${
+                          isActive
+                            ? "fill-amber-500 text-amber-500"
+                            : "text-muted-foreground/40"
+                        }`}
                       />
                     </button>
                   );
                 })}
               </div>
+
               {isRated && (
                 <button
-                  onClick={handleRemove}
+                  onClick={onRemove}
                   disabled={isSubmitting}
-                  className="flex items-center gap-1 justify-end cursor-pointer mt-2 text-sm text-muted-foreground hover:text-destructive transition-colors"
+                  className="mt-3 flex items-center justify-center gap-1 text-sm text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
                 >
                   {isSubmitting && rating === 0 && (
-                    <Loader2 className="w-3 h-3 animate-spin" />
+                    <Loader2 className="h-3 w-3 animate-spin" />
                   )}
                   Remove my rating
                 </button>
               )}
             </div>
+
             <Button
-              onClick={() => handleSave(rating)}
+              onClick={() => onSave(rating)}
               disabled={
                 isSubmitting ||
                 rating === currentRating ||
                 (rating === 0 && !isRated)
               }
-              className="px-5 cursor-pointer"
+              className="mt-5 w-full sm:w-auto px-5"
             >
               {isSubmitting ? "Saving..." : isRated ? "Update Rating" : "Rate"}
             </Button>

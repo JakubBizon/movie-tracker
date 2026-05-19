@@ -2,8 +2,8 @@ import { Movie } from "@/app/types/movie";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { Bookmark, Heart } from "lucide-react";
-import RatingDialog from "./RatingDialog";
 import useMovieInteractions from "@/hooks/useMovieInteractions";
+import RateButton from "./RateButton";
 
 type Props = {
   glassClass?: string;
@@ -80,7 +80,7 @@ export default function InteractionButtons({
           </Button>
         ),
       )}
-      {showRating && <RatingDialog title={data.title} movieId={data.id} />}
+      {showRating && <RateButton title={data.title} movieId={data.id} />}
     </>
   );
 }
