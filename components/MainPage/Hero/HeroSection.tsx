@@ -13,11 +13,13 @@ export default async function HeroSection() {
   const filteredData = data.results
     .filter((movie: Movie) => movie.vote_average >= 7.0)
     .slice(0, 3);
+
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   const userId = session?.user?.id;
+
   const { favoriteIds, bookmarkedIds } = userId
     ? await getUserSelections(userId)
     : { favoriteIds: [], bookmarkedIds: [] };
@@ -28,15 +30,17 @@ export default async function HeroSection() {
         getMovieDetails(movie.id),
         getTrailerLink(movie.id),
       ]);
+
       return {
         ...movie,
         runtime: details.runtime,
         genres: details.genres,
-        favoriteIds: favoriteIds,
-        isBookmarked: bookmarkedIds,
-        trailer: trailer,
+        favoriteIds,
+        bookmarkedIds,
+        trailer,
       };
     }),
   );
+
   return <HeroCarousel data={moviesWithDetails} />;
 }

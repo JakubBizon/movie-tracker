@@ -4,6 +4,8 @@ import { authClient } from "@/lib/auth-client";
 import { Bookmark, Heart } from "lucide-react";
 import useMovieInteractions from "@/hooks/useMovieInteractions";
 import RateButton from "./RateButton";
+import { useState } from "react";
+import AuthDialog from "./AuthDialog";
 
 type Props = {
   glassClass?: string;
@@ -35,7 +37,7 @@ export default function InteractionButtons({
 }: Props) {
   const { data: session } = authClient.useSession();
   const userId = session?.user?.id;
-
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const {
     isFavorite,
     isBookmarked,
@@ -43,7 +45,9 @@ export default function InteractionButtons({
     handleBookmark,
     isFavoritePending,
     isBookmarkPending,
-  } = useMovieInteractions(data, userId, initialSelections);
+  } = useMovieInteractions(data, userId, initialSelections, () =>
+    setIsAuthOpen(true),
+  );
 
   const interactionButtons = [
     {
@@ -68,7 +72,7 @@ export default function InteractionButtons({
         ({ icon: Icon, state, handler, fillColor, pending }, index) => (
           <Button
             key={index}
-            size={size ? size : "lg"}
+            size={size ?? "lg"}
             variant="outline"
             onClick={handler}
             disabled={pending}
@@ -81,6 +85,11 @@ export default function InteractionButtons({
         ),
       )}
       {showRating && <RateButton title={data.title} movieId={data.id} />}
+      <AuthDialog
+        open={isAuthOpen}
+        onOpenChange={setIsAuthOpen}
+        type="interaction"
+      />
     </>
   );
 }

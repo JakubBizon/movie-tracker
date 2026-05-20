@@ -46,7 +46,7 @@ export default function useMovieRating(
       } else {
         toast.error("Something went wrong");
       }
-    } catch (error) {
+    } catch {
       toast.error("An error occurred");
     } finally {
       setIsSubmitting(false);

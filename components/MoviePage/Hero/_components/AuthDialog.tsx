@@ -9,13 +9,33 @@ import {
 } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 
+type DialogType = "interaction" | "rate";
+
 type Props = {
   open: boolean;
   onOpenChange: (value: boolean) => void;
+  type: DialogType;
 };
 
-export default function AuthDialog({ open, onOpenChange }: Props) {
+const dialogContent: Record<
+  DialogType,
+  { title: string; description: string }
+> = {
+  interaction: {
+    title: "Log in to continue",
+    description:
+      "You need to be logged in to add movies to your favorites or bookmarks.",
+  },
+
+  rate: {
+    title: "Log in to rate this movie",
+    description: "You need to be logged in to rate movies.",
+  },
+};
+
+export default function AuthDialog({ open, onOpenChange, type }: Props) {
   const router = useRouter();
+  const content = dialogContent[type];
 
   const handleLogIn = () => {
     onOpenChange(false);
@@ -29,11 +49,9 @@ export default function AuthDialog({ open, onOpenChange }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md p-8">
-        <DialogHeader className="flex items-center">
-          <DialogTitle>Log in to rate this movie</DialogTitle>
-          <DialogDescription>
-            You need to be logged in to perform this action.
-          </DialogDescription>
+        <DialogHeader className="flex items-center text-center">
+          <DialogTitle>{content.title}</DialogTitle>
+          <DialogDescription>{content.description}</DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col gap-3 pt-2">

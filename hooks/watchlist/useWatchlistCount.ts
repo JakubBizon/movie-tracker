@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function useWatchlistCount(enabled: boolean) {
   return useQuery({
-    queryKey: ["bookmarks", "count"],
+    queryKey: ["watchlist", "count"],
     queryFn: async () => {
       const res = await fetch("/api/watchlist/count");
       if (!res.ok) throw new Error("Failed to fetch count");

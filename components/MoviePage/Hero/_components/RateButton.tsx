@@ -84,7 +84,7 @@ export default function RateButton({ movieId, title }: Props) {
         onRemove={handleRemove}
       />
 
-      <AuthDialog open={isAuthOpen} onOpenChange={setIsAuthOpen} />
+      <AuthDialog open={isAuthOpen} onOpenChange={setIsAuthOpen} type="rate" />
     </>
   );
 }

@@ -56,7 +56,7 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
         toast.success(`Removed ${item.title} from favorites`);
       }
       queryClient.invalidateQueries({
-        queryKey: ["bookmarks", "count"],
+        queryKey: ["watchlist", "count"],
       });
     });
   };

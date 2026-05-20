@@ -13,6 +13,7 @@ export default function useMovieInteractions(
   movie: Movie,
   userId?: string,
   initialData?: UserSelections,
+  setIsAuthOpen?: () => void,
 ) {
   const queryClient = useQueryClient();
   const queryKey = ["user-selections", userId];
@@ -28,12 +29,8 @@ export default function useMovieInteractions(
 
   const favoriteMutation = useMutation({
     mutationFn: async () => {
-      if (!userId) {
-        throw new Error("Please login first");
-      }
-
       return await toggleFavoriteAction(
-        userId,
+        userId!,
         movieId,
         movie.title,
         movie.poster_path,
@@ -41,8 +38,6 @@ export default function useMovieInteractions(
       );
     },
     onMutate: async () => {
-      if (!userId) return;
-
       await queryClient.cancelQueries({ queryKey });
 
       const previous = queryClient.getQueryData<UserSelections>(queryKey);
@@ -84,19 +79,15 @@ export default function useMovieInteractions(
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
       queryClient.invalidateQueries({
-        queryKey: ["favorites", "count"],
+        queryKey: ["watchlist", "count"],
       });
     },
   });
 
   const bookmarkMutation = useMutation({
     mutationFn: async () => {
-      if (!userId) {
-        throw new Error("Please login first");
-      }
-
       return await toggleBookmarkAction(
-        userId,
+        userId!,
         movieId,
         movie.title,
         movie.poster_path,
@@ -104,8 +95,6 @@ export default function useMovieInteractions(
       );
     },
     onMutate: async () => {
-      if (!userId) return;
-
       await queryClient.cancelQueries({ queryKey });
 
       const previous = queryClient.getQueryData<UserSelections>(queryKey);
@@ -145,22 +134,26 @@ export default function useMovieInteractions(
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
       queryClient.invalidateQueries({
-        queryKey: ["bookmarks", "count"],
+        queryKey: ["watchlist", "count"],
       });
     },
   });
 
   const handleFavorite = async () => {
     if (!userId) {
-      return toast.error("Please login first");
+      setIsAuthOpen?.();
+      return;
     }
+    if (favoriteMutation.isPending) return;
     favoriteMutation.mutate();
   };
 
   const handleBookmark = async () => {
     if (!userId) {
-      return toast.error("Please login first");
+      setIsAuthOpen?.();
+      return;
     }
+    if (bookmarkMutation.isPending) return;
     bookmarkMutation.mutate();
   };
 

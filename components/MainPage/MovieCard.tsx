@@ -2,11 +2,12 @@
 import { Movie } from "@/app/types/movie";
 import useMovieInteractions from "@/hooks/useMovieInteractions";
 import { authClient } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
-import { Bookmark, Heart, Info, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import AuthDialog from "../MoviePage/Hero/_components/AuthDialog";
+import MovieInteractionButtons from "./MovieInteractionButtons";
 
 interface MovieCardProps {
   movie: Movie;
@@ -27,8 +28,11 @@ export default function MovieCard({
   const [isHovered, setIsHovered] = useState(false);
   const { data: session } = authClient.useSession();
   const userId = session?.user?.id;
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const { isFavorite, isBookmarked, handleFavorite, handleBookmark } =
-    useMovieInteractions(movie, userId, initialSelections);
+    useMovieInteractions(movie, userId, initialSelections, () =>
+      setIsAuthOpen(true),
+    );
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
@@ -80,37 +84,20 @@ export default function MovieCard({
       </Link>
 
       {isHovered && (
-        <div className="absolute inset-0 z-20 sm:flex hidden items-center justify-center bg-black/40 rounded-lg pointer-events-none">
-          <div className="flex items-center gap-3 text-white pointer-events-auto">
-            <div
-              className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer hover:bg-white transition pointer-events-auto"
-              onClick={handleBookmark}
-            >
-              <Bookmark
-                className={cn(
-                  "w-5 h-5 text-black",
-                  isBookmarked && "fill-blue-500 text-blue-500",
-                )}
-              />
-            </div>
-
-            <div
-              className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer hover:bg-white transition pointer-events-auto"
-              onClick={handleFavorite}
-            >
-              <Heart
-                className={`w-5 h-5 ${isFavorite ? "fill-red-500 text-red-500" : "text-black"} `}
-              />
-            </div>
-            <Link
-              href={`/movie/${slug}`}
-              className="bg-gray-100 px-2 py-2 rounded-full cursor-pointer"
-            >
-              <Info className="w-5 h-5 cursor-pointer text-black transition" />
-            </Link>
-          </div>
-        </div>
+        <MovieInteractionButtons
+          setIsHovered={setIsHovered}
+          onBookmark={handleBookmark}
+          onFavorite={handleFavorite}
+          isBookmarked={isBookmarked}
+          isFavorite={isFavorite}
+          slug={slug}
+        />
       )}
+      <AuthDialog
+        open={isAuthOpen}
+        onOpenChange={setIsAuthOpen}
+        type="interaction"
+      />
     </div>
   );
 }
