@@ -30,51 +30,55 @@ const items = [
 
 export default function Footer() {
   return (
-    <div className="w-full dark:bg-slate-900 bg-white border-t border-gray-200 dark:border-slate-800">
-      <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          <div className="sm:col-span-2 lg:col-span-1 sm:text-left text-center sm:items-start items-center flex flex-col">
-            <div className="flex gap-2 text-2xl font-bold items-center mb-4 text-primary">
-              <Film className="w-7 h-7" />
+    <div className="w-full border-t border-gray-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+      <footer className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:gap-16">
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
+            <div className="mb-4 flex gap-2 text-2xl font-bold text-primary">
+              <Film className="h-7 w-7" />
               <span>Movie Tracker</span>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+
+            <p className="min-w-2xs max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400">
               Track, rate, and discover your favorite movies. Build your
               personal watchlist and share your ratings with the community.
             </p>
           </div>
 
-          {items.map((item, index) => (
-            <div key={index} className="flex flex-col gap-4 sm:items-start items-center sm:text-left text-center">
-              <h3 className="text-primary font-bold text-sm uppercase tracking-widest">
-                {item.title}
-              </h3>
-              <ul className="flex flex-col gap-2">
-                {item.links.map((link, idx) => (
-                  <li key={idx}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="grid grid-cols-1 gap-8 text-center sm:grid-cols-3 sm:text-left lg:max-w-2xl lg:justify-self-end">
+            {items.map((item) => (
+              <div key={item.title} className="flex min-w-35 flex-col gap-4">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-primary">
+                  {item.title}
+                </h3>
+
+                <ul className="flex flex-col gap-2">
+                  {item.links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-gray-600 transition-colors duration-200 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-slate-800" />
+        <div className="mt-10 border-t border-gray-200 dark:border-slate-800" />
 
         <div className="pt-8 text-center">
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-500">
+          <p className="text-xs text-gray-600 dark:text-gray-500 sm:text-sm">
             © {new Date().getFullYear()} Movie Tracker. Movie data provided by
             <Link
               href="https://www.themoviedb.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline ml-1"
+              className="ml-1 text-primary hover:underline"
             >
               TMDB
             </Link>
