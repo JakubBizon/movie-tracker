@@ -9,16 +9,14 @@ export default function FiltersSkeleton() {
           <Skeleton className="h-6 w-12" />
           <Skeleton className="h-5 w-5 rounded-sm" />
         </div>
-
-        <hr className="border-border" />
-
-        <div className="px-4 py-4 space-y-4">
-          <Skeleton className="h-5 w-16" />
-          <Skeleton className="h-10 w-full" />
-        </div>
       </Card>
 
       <Card className="overflow-hidden">
+        <div className="flex items-center justify-between px-4 gap-4">
+          <Skeleton className="h-4 w-16" />
+          <hr className="border-border" />
+        </div>
+        <hr className="border-border" />
         <div className="px-4 py-4 space-y-4">
           <div className="flex items-center justify-between gap-4">
             <Skeleton className="h-4 w-10" />
