@@ -1,12 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import useCheckRating from "@/hooks/MoviePage/useCheckRating";
 import useMovieRating from "@/hooks/MoviePage/useMovieRating";
 import { authClient } from "@/lib/auth-client";
