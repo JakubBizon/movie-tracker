@@ -4,11 +4,12 @@ import { Movie } from "@/app/types/movie";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthDialog from "../MoviePage/Hero/_components/AuthDialog";
 import MovieInteractionButtons from "./MovieInteractionButtons";
 import MovieInteractionDropdown from "./MovieInteractionDropdown";
 import { useMovieMutations } from "@/hooks/useMovieMutations";
+import useDesktopLayout from "@/hooks/useDesktopLayout";
 
 interface MovieCardProps {
   movie: Movie;
@@ -30,16 +31,23 @@ export default function MovieCard({
   const [isHovered, setIsHovered] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
+  const { isDesktopLayout } = useDesktopLayout();
+
   const { handleBookmark, handleFavorite } = useMovieMutations(
     movie,
     userId,
     () => setIsAuthOpen(true),
   );
 
+  const showHoverButtons = isDesktopLayout && isHovered;
   return (
     <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onPointerEnter={() => {
+        if (isDesktopLayout) setIsHovered(true);
+      }}
+      onPointerLeave={() => {
+        if (isDesktopLayout) setIsHovered(false);
+      }}
       className="relative w-full aspect-[2/3] overflow-hidden rounded-lg transition-transform duration-200 hover:scale-[1.02] md:hover:scale-[1.03]"
     >
       <Link
@@ -88,14 +96,16 @@ export default function MovieCard({
         </div>
       </Link>
 
-      <MovieInteractionDropdown
-        onBookmark={handleBookmark}
-        onFavorite={handleFavorite}
-        isBookmarked={isBookmarked}
-        isFavorite={isFavorite}
-      />
+      {!isDesktopLayout && (
+        <MovieInteractionDropdown
+          onBookmark={handleBookmark}
+          onFavorite={handleFavorite}
+          isBookmarked={isBookmarked}
+          isFavorite={isFavorite}
+        />
+      )}
 
-      {isHovered && (
+      {showHoverButtons && (
         <MovieInteractionButtons
           setIsHovered={setIsHovered}
           onBookmark={handleBookmark}
