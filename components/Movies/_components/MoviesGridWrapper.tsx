@@ -1,7 +1,7 @@
 import { Movie } from "@/app/types/movie";
-import MoviesGrid from "./MoviesGrid";
 import CustomPagination from "./CustomPagination";
 import { Suspense } from "react";
+import MoviesGridClient from "./MoviesGridClient";
 
 type Props = {
   moviesPromise: Promise<{
@@ -21,10 +21,9 @@ export default async function MovieGridWrapper({ moviesPromise }: Props) {
 
   return (
     <div className="flex flex-col">
-      <MoviesGrid
+      <MoviesGridClient
         movies={movies}
-        bookmarkedIds={bookmarkedIds}
-        favoriteIds={favoriteIds}
+        initialSelections={{ bookmarkedIds, favoriteIds }}
       />
       <Suspense fallback={null}>
         <CustomPagination

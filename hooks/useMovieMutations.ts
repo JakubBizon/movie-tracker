@@ -1,41 +1,26 @@
 "use client";
 
 import { Movie } from "@/app/types/movie";
-import { UserSelections, useUserSelections } from "./useUserSelections";
+import { UserSelections } from "./useUserSelections";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   toggleBookmarkAction,
   toggleFavoriteAction,
 } from "@/app/actions/movieActions";
 import { toast } from "sonner";
-import { useMemo } from "react";
 
-export default function useMovieInteractions(
+export function useMovieMutations(
   movie: Movie,
   userId?: string,
-  initialData?: UserSelections,
   setIsAuthOpen?: () => void,
 ) {
   const queryClient = useQueryClient();
   const queryKey = ["user-selections", userId];
-
-  const { data } = useUserSelections(userId, initialData);
   const movieId = movie.id.toString();
-  const favoriteSet = useMemo(
-    () => new Set(data?.favoriteIds ?? []),
-    [data?.favoriteIds],
-  );
-  const bookmarkedSet = useMemo(
-    () => new Set(data?.bookmarkedIds ?? []),
-    [data?.bookmarkedIds],
-  );
-
-  const isFavorite = !!userId && favoriteSet.has(movieId);
-  const isBookmarked = !!userId && bookmarkedSet.has(movieId);
 
   const favoriteMutation = useMutation({
     mutationFn: async () => {
-      return await toggleFavoriteAction(
+      return toggleFavoriteAction(
         userId!,
         movieId,
         movie.title,
@@ -82,12 +67,11 @@ export default function useMovieInteractions(
       }
       toast.error("Failed to update favorites");
     },
-    onSettled: () => {},
   });
 
   const bookmarkMutation = useMutation({
     mutationFn: async () => {
-      return await toggleBookmarkAction(
+      return toggleBookmarkAction(
         userId!,
         movieId,
         movie.title,
@@ -105,6 +89,7 @@ export default function useMovieInteractions(
           favoriteIds: [],
           bookmarkedIds: [],
         };
+
         const exists = current.bookmarkedIds.includes(movieId);
 
         return {
@@ -114,6 +99,7 @@ export default function useMovieInteractions(
             : [...current.bookmarkedIds, movieId],
         };
       });
+
       return { previous };
     },
     onSuccess: (result, _variables, context) => {
@@ -132,15 +118,9 @@ export default function useMovieInteractions(
       }
       toast.error("Failed to update bookmarks");
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
-      queryClient.invalidateQueries({
-        queryKey: ["watchlist", "count"],
-      });
-    },
   });
 
-  const handleFavorite = async () => {
+  const handleFavorite = () => {
     if (!userId) {
       setIsAuthOpen?.();
       return;
@@ -149,7 +129,7 @@ export default function useMovieInteractions(
     favoriteMutation.mutate();
   };
 
-  const handleBookmark = async () => {
+  const handleBookmark = () => {
     if (!userId) {
       setIsAuthOpen?.();
       return;
@@ -159,8 +139,6 @@ export default function useMovieInteractions(
   };
 
   return {
-    isFavorite,
-    isBookmarked,
     handleFavorite,
     handleBookmark,
     isFavoritePending: favoriteMutation.isPending,

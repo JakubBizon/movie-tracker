@@ -43,7 +43,7 @@ export default async function MovieExplorer({
             </Suspense>
           </div>
         </div>
-        <div className="flex lg:flex-row flex-col gap-10 justiy-center w-full">
+        <div className="flex lg:flex-row flex-col gap-10 justify-center w-full">
           <aside className="w-full lg:w-80 hidden lg:block shrink-0">
             <Suspense fallback={<FiltersSkeleton />}>
               <FiltersWrapper defaultFrom={defaultFrom} defaultTo={defaultTo} />
