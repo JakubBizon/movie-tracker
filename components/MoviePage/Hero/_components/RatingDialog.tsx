@@ -105,7 +105,7 @@ export default function RatingDialog({
                 rating === currentRating ||
                 (rating === 0 && !isRated)
               }
-              className="mt-5 w-full sm:w-auto px-5"
+              className="mt-5 w-full sm:w-auto px-5 xs:text-sm text-xs"
             >
               {isSubmitting ? "Saving..." : isRated ? "Update Rating" : "Rate"}
             </Button>
