@@ -3,7 +3,6 @@
 import { Movie } from "@/app/types/movie";
 import { useUserSelections } from "@/hooks/useUserSelections";
 import { authClient } from "@/lib/auth-client";
-import { useMemo } from "react";
 import MovieCard from "./MovieCard";
 import { slugify } from "@/lib/utils/slugify";
 import { Carousel } from "./Carousel";
