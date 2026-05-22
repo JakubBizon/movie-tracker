@@ -3,38 +3,34 @@
 import MediaGrid from "./MediaGrid";
 import ListTabs from "./ListTabs";
 import { useRefreshOnFocus } from "@/hooks/useRefreshOnFocus";
-import { useState } from "react";
 import { UserMediaItem } from "@/app/types/user-media-item";
 
 interface MyListsProps {
-  favorites: UserMediaItem[];
-  bookmarks: UserMediaItem[];
+  items: UserMediaItem[];
   userId: string;
+  activeTab: "watchlist" | "favorites";
+  favoritesLength: number;
+  bookmarksLength: number;
 }
 
 export default function MyLists({
-  favorites,
-  bookmarks,
+  items,
   userId,
+  activeTab,
+  favoritesLength,
+  bookmarksLength,
 }: MyListsProps) {
   useRefreshOnFocus();
-  const [isActive, setIsActive] = useState<"watchlist" | "favorites">(
-    "watchlist",
-  );
 
   return (
     <div className="flex flex-col max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(100vh-300px)]">
       <h2 className="text-4xl py-10">My lists</h2>
       <ListTabs
-        active={isActive}
-        onChange={setIsActive}
-        favoritesLength={favorites.length}
-        bookmarksLength={bookmarks.length}
+        activeTab={activeTab}
+        favoritesLength={favoritesLength}
+        bookmarksLength={bookmarksLength}
       />
-      <MediaGrid
-        items={isActive === "watchlist" ? bookmarks : favorites}
-        userId={userId}
-      />
+      <MediaGrid items={items} userId={userId} />
     </div>
   );
 }

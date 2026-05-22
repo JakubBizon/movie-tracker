@@ -14,6 +14,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 interface Props {
   currentPage: number;
   totalPages: number;
+  activeTab?: "watchlist" | "favorites";
 }
 
 export default function CustomPagination({ currentPage, totalPages }: Props) {

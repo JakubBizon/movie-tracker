@@ -1,4 +1,4 @@
-export type MediaItemType = "favorite" | "bookmark";
+export type MediaItemType = "favorite" | "watchlist";
 
 export interface UserMediaItem {
   userId: string;

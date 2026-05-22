@@ -6,8 +6,21 @@ import { bookmarks, favorites } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { UserMediaItem } from "../types/user-media-item";
 import LoggedOutState from "@/components/MyLists/LoggedOutState";
+import CustomPagination from "@/components/Movies/_components/CustomPagination";
 
-export default async function MyListsHome() {
+type Props = {
+  searchParams: Promise<{
+    tab?: "watchlist" | "favorites";
+    page?: string;
+  }>;
+};
+
+const limit = 12;
+
+export default async function MyListsHome({ searchParams }: Props) {
+  const { page, tab } = await searchParams;
+  const currentPage = Math.max(1, Number(page) || 1);
+  const activeTab = tab === "favorites" ? "favorites" : "watchlist";
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -16,25 +29,52 @@ export default async function MyListsHome() {
     return <LoggedOutState />;
   }
 
-  const [rawFavorites, rawBookmarks] = await Promise.all([
-    db.select().from(favorites).where(eq(favorites.userId, session.user.id)),
-    db.select().from(bookmarks).where(eq(bookmarks.userId, session.user.id)),
+  const userId = session.user.id;
+  const isWatchlist = activeTab === "watchlist";
+
+  const [rawItems, totalCount] = await Promise.all([
+    isWatchlist
+      ? db
+          .select()
+          .from(bookmarks)
+          .where(eq(bookmarks.userId, userId))
+          .limit(limit)
+          .offset((currentPage - 1) * limit)
+      : db
+          .select()
+          .from(favorites)
+          .where(eq(favorites.userId, userId))
+          .limit(limit)
+          .offset((currentPage - 1) * limit),
+    isWatchlist
+      ? db.$count(bookmarks, eq(bookmarks.userId, userId))
+      : db.$count(favorites, eq(favorites.userId, userId)),
   ]);
 
-  const userFavorites: UserMediaItem[] = rawFavorites.map((item) => ({
+  const items: UserMediaItem[] = rawItems.map((item) => ({
     ...item,
-    type: "favorite",
+    type: isWatchlist ? "watchlist" : "favorite",
   }));
 
-  const userBookmarks: UserMediaItem[] = rawBookmarks.map((item) => ({
-    ...item,
-    type: "bookmark",
-  }));
+  const [favoritesCount, bookmarksCount] = await Promise.all([
+    db.$count(favorites, eq(favorites.userId, userId)),
+    db.$count(bookmarks, eq(bookmarks.userId, userId)),
+  ]);
+  const totalPages = Math.max(1, Math.ceil(totalCount / limit));
   return (
-    <MyLists
-      favorites={userFavorites}
-      bookmarks={userBookmarks}
-      userId={session.user.id}
-    />
+    <>
+      <MyLists
+        items={items}
+        userId={userId}
+        activeTab={activeTab}
+        favoritesLength={favoritesCount}
+        bookmarksLength={bookmarksCount}
+      />
+      <CustomPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        activeTab={activeTab}
+      />
+    </>
   );
 }
