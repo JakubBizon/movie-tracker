@@ -4,12 +4,19 @@ import { Providers } from "@/components/Providers";
 import { Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
 import Footer from "@/components/Footer/Footer";
+import { Metadata } from "next";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-
+export const metadata: Metadata = {
+  title: {
+    default: "Movie Tracker",
+    template: "%s | Movie Tracker",
+  },
+  description: "Track your favorite movies and discover new ones",
+};
 export default function RootLayout({
   children,
 }: Readonly<{
