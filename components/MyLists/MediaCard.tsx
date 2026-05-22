@@ -36,7 +36,7 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
       const posterPath = item.posterPath ?? "";
       const voteAverageStr = item.voteAverage ?? "0.0";
 
-      if (item.type === "bookmark") {
+      if (item.type === "watchlist") {
         await toggleBookmarkAction(
           userId,
           movieId,
@@ -88,7 +88,7 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
       >
         {isPending ? (
           <Loader2 size={20} className="animate-spin" />
-        ) : item.type === "bookmark" ? (
+        ) : item.type === "watchlist" ? (
           <BookmarkX size={20} />
         ) : (
           <HeartOff size={20} />
