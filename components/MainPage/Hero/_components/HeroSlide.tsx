@@ -47,11 +47,11 @@ export default function HeroSlide({ movie, index }: Props) {
         className="absolute inset-0 z-30 md:hidden"
       />
 
-      <div className="max-w-3/4 absolute xs:top-1/2 top-2/3 -translate-y-1/2 left-0 z-20 space-y-3 p-8 pointer-events-none md:pointer-events-auto">
+      <div className="max-w-full absolute md:top-1/2 top-2/3 -translate-y-1/2 left-0 z-20 space-y-3 sm:p-6 p-4 pointer-events-none md:pointer-events-auto">
         <h2 className="md:text-5xl xs:text-4xl font-semibold text-white">
           {movie.title}
         </h2>
-        <div className="flex flex-wrap items-center gap-4 text-sm">
+        <div className="flex flex-wrap items-center gap-4 xs:text-sm text-xs">
           <div className="flex items-center gap-1">
             <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
             <span className="font-semibold">
@@ -59,22 +59,24 @@ export default function HeroSlide({ movie, index }: Props) {
             </span>
           </div>
           <div className="flex items-center gap-1">
-            <Calendar className="h-5 w-5 text-muted-foreground" />
+            <Calendar className="xs:h-5 xs:w-5 h-4 w-4 " />
             <span>{formatDate(movie.release_date)}</span>
           </div>
           {movie.runtime && (
             <div className="flex items-center gap-1">
-              <Clock className="h-5 w-5" />
+              <Clock className="xs:h-5 xs:w-5 h-4 w-4" />
               <span>{minutesToTime(movie.runtime)}</span>
             </div>
           )}
         </div>
         <div className="flex items-center gap-2">
           {movie.genres?.map((genre) => (
-            <Badge key={genre.id}>{genre.name}</Badge>
+            <Badge className="xs:text-sm text-xs " key={genre.id}>
+              {genre.name}
+            </Badge>
           ))}
         </div>
-        <div className="w-3/5 text-lg hidden md:line-clamp-3 text-pretty">
+        <div className="max-w-[60ch] text-lg hidden md:line-clamp-3 text-pretty">
           {movie.overview}
         </div>
         <div className="relative z-30 hidden items-center gap-2 md:flex pointer-events-auto">
