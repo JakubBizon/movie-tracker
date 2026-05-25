@@ -44,7 +44,7 @@ export default function MovieMeta({ data }: Props) {
           ))}
         </div>
 
-        <p className=" text-xs md:text-sm lg:text-lg text-gray-100 leading-relaxed  text-pretty drop-shadow-md">
+        <p className="text-sm lg:text-lg text-gray-100 leading-relaxed  text-pretty drop-shadow-md">
           {data.overview}
         </p>
       </div>
