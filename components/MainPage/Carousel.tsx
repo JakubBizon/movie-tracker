@@ -39,7 +39,7 @@ export function Carousel({ items }: CarouselProps) {
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const width = el.clientWidth;
+    const width = el.clientWidth - 220;
     const scrollAmount = direction === "left" ? -width : width;
     el.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
