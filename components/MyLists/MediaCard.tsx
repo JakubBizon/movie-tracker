@@ -1,17 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 import { slugify } from "@/lib/utils/slugify";
 import { BookmarkX, HeartOff, Loader2, Star } from "lucide-react";
 import Image from "next/image";
-import {
-  toggleBookmarkAction,
-  toggleFavoriteAction,
-} from "@/app/actions/movieActions";
-import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+
 import { UserMediaItem } from "@/app/types/user-media-item";
+import useMovieCard from "@/hooks/MyLists/useMovieCard";
 
 interface MediaCardProps {
   item: UserMediaItem;
@@ -20,46 +15,11 @@ interface MediaCardProps {
 
 export default function MediaCard({ item, userId }: MediaCardProps) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-
   const handleNavigate = () => {
     router.push(`/movie/${slugify(item.title, Number(item.movieId))}`);
   };
 
-  const queryClient = useQueryClient();
-  const displayVote = item.voteAverage
-    ? Number(item.voteAverage).toFixed(1)
-    : "N/A";
-  const handleRemove = () => {
-    startTransition(async () => {
-      const movieId = String(item.movieId);
-      const posterPath = item.posterPath ?? "";
-      const voteAverageStr = item.voteAverage ?? "0.0";
-
-      if (item.type === "watchlist") {
-        await toggleBookmarkAction(
-          userId,
-          movieId,
-          item.title,
-          posterPath,
-          voteAverageStr,
-        );
-        toast.success(`Removed ${item.title} from bookmarks`);
-      } else {
-        await toggleFavoriteAction(
-          userId,
-          movieId,
-          item.title,
-          posterPath,
-          voteAverageStr,
-        );
-        toast.success(`Removed ${item.title} from favorites`);
-      }
-      queryClient.invalidateQueries({
-        queryKey: ["watchlist", "count"],
-      });
-    });
-  };
+  const { isPending, handleRemove, displayVote } = useMovieCard(item, userId);
 
   return (
     <div
@@ -83,7 +43,7 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
         type="button"
         onClick={handleRemove}
         disabled={isPending}
-        className="absolute right-2 top-2 z-50 cursor-pointer rounded-full bg-destructive p-2 text-destructive-foreground opacity-0 transition-all duration-300 hover:scale-110 hover:bg-destructive/90 group-hover:opacity-100"
+        className="absolute right-2 top-2 z-10 cursor-pointer rounded-full bg-destructive p-2 text-destructive-foreground  transition-all duration-300 hover:scale-110 hover:bg-destructive/90 md:group-hover:opacity-100 md:opacity-0 opacity-100"
         title="Remove from list"
       >
         {isPending ? (
