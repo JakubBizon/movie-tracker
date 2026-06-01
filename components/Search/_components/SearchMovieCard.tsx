@@ -16,9 +16,14 @@ type Props = {
     favoriteIds: string[];
     bookmarkedIds: string[];
   };
+  userId?: string;
 };
 
-export default function SearchMovieCard({ movie, initialSelections }: Props) {
+export default function SearchMovieCard({
+  movie,
+  initialSelections,
+  userId,
+}: Props) {
   const href = `/movie/${slugify(movie.title, movie.id)}`;
 
   return (
@@ -77,6 +82,7 @@ export default function SearchMovieCard({ movie, initialSelections }: Props) {
                 bookmarkedIds: initialSelections?.bookmarkedIds ?? [],
               }}
               data={movie}
+              userId={userId}
             />
 
             <Button asChild size="sm" variant="outline">
@@ -94,6 +100,7 @@ export default function SearchMovieCard({ movie, initialSelections }: Props) {
               bookmarkedIds: initialSelections?.bookmarkedIds ?? [],
             }}
             data={movie}
+            userId={userId}
           />
 
           <Button asChild size="lg" variant="outline">

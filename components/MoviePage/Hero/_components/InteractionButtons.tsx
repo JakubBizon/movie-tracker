@@ -1,6 +1,5 @@
 import { Movie } from "@/app/types/movie";
 import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
 import { Bookmark, Heart } from "lucide-react";
 import useMovieInteractions from "@/hooks/useMovieInteractions";
 import RateButton from "./RateButton";
@@ -26,6 +25,7 @@ type Props = {
   };
   data: Movie;
   showRating?: boolean;
+  userId?: string;
 };
 
 export default function InteractionButtons({
@@ -34,9 +34,8 @@ export default function InteractionButtons({
   initialSelections,
   data,
   showRating,
+  userId,
 }: Props) {
-  const { data: session } = authClient.useSession();
-  const userId = session?.user?.id;
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const {
     isFavorite,
