@@ -75,7 +75,7 @@ export default function InteractionButtons({
             variant="outline"
             onClick={handler}
             disabled={pending}
-            className={`cursor-pointer bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white border-white/30 hover:border-white/50 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform ${glassClass}`}
+            className={`cursor-pointer bg-white/10 hover:bg-white/30  text-white border-white/30 hover:border-white/50 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform ${glassClass}`}
           >
             <Icon
               className={`w-5 h-5 ${state ? fillColor : ""} ${pending ? "animate-pulse" : ""}`}

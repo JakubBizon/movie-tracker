@@ -9,12 +9,15 @@ import {
 } from "@/components/ui/carousel";
 import { HeroMovie } from "@/app/types/movie";
 import HeroSlide from "./_components/HeroSlide";
+import { authClient } from "@/lib/auth-client";
 
 interface HeroCarouselProps {
   data: HeroMovie[];
 }
 
 export default function HeroCarousel({ data }: HeroCarouselProps) {
+  const { data: session } = authClient.useSession();
+  const userId = session?.user?.id;
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -60,7 +63,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [api, isVisible]);
+  }, [api, isVisible, current]);
 
   const scrollTo = useCallback(
     (index: number) => {
@@ -79,7 +82,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
         <CarouselContent>
           {data.map((movie, index) => (
             <CarouselItem key={movie.id}>
-              <HeroSlide movie={movie} index={index} />
+              <HeroSlide movie={movie} index={index} userId={userId} />
             </CarouselItem>
           ))}
         </CarouselContent>

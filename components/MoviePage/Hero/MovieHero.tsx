@@ -30,6 +30,7 @@ export default async function MovieHero({ movie }: Props) {
       trailerLink={trailerLink}
       favoriteIds={favoriteIds}
       bookmarkedIds={bookmarkedIds}
+      userId={userId}
     />
   );
 }

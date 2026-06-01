@@ -161,15 +161,15 @@
 
 @layer utilities {
   .glass {
-    @apply bg-card/70 backdrop-blur-xl;
+    @apply bg-card/70 md:backdrop-blur-xl;
+  }
+
+  .glass {
+    @apply bg-card/80 md:backdrop-blur-xl;
   }
 
   .glass-strong {
-    @apply bg-card/90 backdrop-blur-2xl;
-  }
-
-  .gradient-primary {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    @apply bg-card/95 md:backdrop-blur-2xl;
   }
 
   .gradient-text {

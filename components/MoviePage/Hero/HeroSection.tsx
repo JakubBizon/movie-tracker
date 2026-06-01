@@ -14,6 +14,7 @@ type HeroSectionProps = {
   trailerLink: Trailer;
   favoriteIds: string[];
   bookmarkedIds: string[];
+  userId?: string;
 };
 
 export default function HeroSection({
@@ -22,6 +23,7 @@ export default function HeroSection({
   trailerLink,
   favoriteIds,
   bookmarkedIds,
+  userId,
 }: HeroSectionProps) {
   const isLight = isBackgroundLight(color);
 
@@ -56,6 +58,7 @@ export default function HeroSection({
                     }}
                     data={data}
                     showRating={true}
+                    userId={userId}
                   />
                 </div>
               </div>
@@ -97,6 +100,7 @@ export default function HeroSection({
               }}
               data={data}
               showRating={true}
+              userId={userId}
             />
           </div>
         </div>

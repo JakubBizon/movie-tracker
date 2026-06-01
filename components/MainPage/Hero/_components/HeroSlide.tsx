@@ -13,19 +13,16 @@ import Link from "next/link";
 type Props = {
   movie: HeroMovie;
   index: number;
+  userId?: string;
 };
 
 const tmdbImageLink = ({ src, width }: { src: string; width: number }) => {
-  let size = "w300";
-  if (width > 1280) size = "original";
-  else if (width > 780) size = "w1280";
-  else if (width > 342) size = "w780";
-  else size = "w342";
-
-  return `https://image.tmdb.org/t/p/${size}${src}`;
+  if (width <= 640) return `https://image.tmdb.org/t/p/w780${src}`;
+  if (width <= 1280) return `https://image.tmdb.org/t/p/w1280${src}`;
+  return `https://image.tmdb.org/t/p/original${src}`;
 };
 
-export default function HeroSlide({ movie, index }: Props) {
+export default function HeroSlide({ movie, index, userId }: Props) {
   return (
     <div className="relative md:min-h-[500px] xs:min-h-[350px] min-h-[200px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
       <Image
@@ -35,7 +32,8 @@ export default function HeroSlide({ movie, index }: Props) {
         className="object-cover object-top"
         fill
         priority={index === 0}
-        sizes="100vw"
+        loading={index === 0 ? "eager" : "lazy"}
+        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 100vw, 1280px"
       />
 
       <div className="absolute inset-0 bg-linear-to-r from-background/90 via-background/40 to-transparent" />
@@ -93,6 +91,7 @@ export default function HeroSlide({ movie, index }: Props) {
             </Link>
           </Button>
           <InteractionButtons
+            userId={userId}
             initialSelections={{
               bookmarkedIds: movie.bookmarkedIds,
               favoriteIds: movie.favoriteIds,
