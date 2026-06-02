@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-const useDesktopLayout = () => {
+const useIsDesktop = (minWidth: number = 768) => {
   const [isDesktopLayout, setIsDesktopLayout] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const mediaQuery = window.matchMedia(`(min-width: ${minWidth}px)`);
 
     const updateLayout = () => {
       setIsDesktopLayout(mediaQuery.matches);
@@ -18,9 +18,9 @@ const useDesktopLayout = () => {
     return () => {
       mediaQuery.removeEventListener("change", updateLayout);
     };
-  }, []);
+  }, [minWidth]);
 
   return { isDesktopLayout };
 };
 
-export default useDesktopLayout;
+export default useIsDesktop;

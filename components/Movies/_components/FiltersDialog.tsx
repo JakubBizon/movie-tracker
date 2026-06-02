@@ -11,6 +11,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import GenresAndDatesFilter from "./GenresAndDatesFilter";
 import { Genre } from "@/app/types/movie";
+import { useCloseOnDesktop } from "@/hooks/useCloseOnDesktop";
 
 type Props = {
   genres: Genre[];
@@ -23,6 +24,7 @@ export default function FiltersDialog({
   defaultTo,
 }: Props) {
   const [open, setOpen] = useState(false);
+  useCloseOnDesktop(setOpen);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -33,7 +35,7 @@ export default function FiltersDialog({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-h-[80vh] overflow-y-auto p-0">
+      <DialogContent className="max-h-[80vh] overflow-y-auto p-0 rounded-xl border-none">
         <div className="hidden">
           <DialogTitle>Filters</DialogTitle>
         </div>
