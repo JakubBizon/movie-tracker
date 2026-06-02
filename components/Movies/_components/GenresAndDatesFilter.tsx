@@ -36,18 +36,8 @@ export default function GenresAndDatesFilter({
   return (
     <form onSubmit={handleSearch} className="w-full space-y-4">
       <Card className="flex flex-col">
-        <div className="flex items-center justify-between px-4">
+        <div className="px-4">
           <h1 className="text-lg font-bold">Filters</h1>
-
-          {checkIfFiltersApplied() && (
-            <button
-              type="button"
-              className="cursor-pointer text-sm "
-              onClick={clearFilters}
-            >
-              Clear filters
-            </button>
-          )}
         </div>
         <hr className="border-border" />
 
@@ -87,14 +77,19 @@ export default function GenresAndDatesFilter({
         </div>
         <hr className="border-border" />
 
-        <div className="px-4 space-y-3 flex items-center flex-col">
-          <Button
-            type="submit"
-            disabled={!isChanged}
-            className="w-full cursor-pointer"
-          >
+        <div className="px-4 space-y-2 flex flex-col items-center">
+          <Button type="submit" disabled={!isChanged} className="w-full">
             Apply Filters
           </Button>
+          {checkIfFiltersApplied() && (
+            <button
+              type="button"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+              onClick={clearFilters}
+            >
+              Clear filters
+            </button>
+          )}
         </div>
       </Card>
     </form>
