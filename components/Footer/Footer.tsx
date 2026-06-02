@@ -39,7 +39,7 @@ export default function Footer() {
               <span>Movie Tracker</span>
             </div>
 
-            <p className="min-w-2xs max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            <p className="min-w-2xs lg:max-w-md max-w-64 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
               Track, rate, and discover your favorite movies. Build your
               personal watchlist and share your ratings with the community.
             </p>
@@ -47,7 +47,7 @@ export default function Footer() {
 
           <div className="grid grid-cols-1 gap-8 text-center sm:grid-cols-3 sm:text-left lg:max-w-2xl lg:justify-self-end">
             {items.map((item) => (
-              <div key={item.title} className="flex min-w-35 flex-col gap-4">
+              <div key={item.title} className="flex min-w-fit flex-col gap-4">
                 <h3 className="text-sm font-bold uppercase tracking-widest text-primary">
                   {item.title}
                 </h3>
