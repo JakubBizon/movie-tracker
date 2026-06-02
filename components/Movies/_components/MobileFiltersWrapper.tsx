@@ -1,5 +1,5 @@
 import FiltersDialog from "./FiltersDialog";
-import SortDialog from "./SortDialog";
+import SortDropdown from "./SortDropdown";
 import { getMovieGenres } from "@/lib/movies/getMovieGenres";
 
 type Props = {
@@ -12,10 +12,9 @@ export default async function MobileFiltersWrapper({
   defaultTo,
 }: Props) {
   const { genres } = await getMovieGenres();
-
   return (
     <>
-      <SortDialog />
+      <SortDropdown />
       <FiltersDialog
         genres={genres}
         defaultFrom={defaultFrom}
