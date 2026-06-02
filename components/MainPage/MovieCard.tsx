@@ -9,7 +9,7 @@ import AuthDialog from "../MoviePage/Hero/_components/AuthDialog";
 import MovieInteractionButtons from "./MovieInteractionButtons";
 import MovieInteractionDropdown from "./MovieInteractionDropdown";
 import { useMovieMutations } from "@/hooks/useMovieMutations";
-import useDesktopLayout from "@/hooks/useDesktopLayout";
+import useIsDesktop from "@/hooks/useIsDesktop";
 
 interface MovieCardProps {
   movie: Movie;
@@ -31,7 +31,7 @@ export default function MovieCard({
   const [isHovered, setIsHovered] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
-  const { isDesktopLayout } = useDesktopLayout();
+  const { isDesktopLayout } = useIsDesktop();
 
   const { handleBookmark, handleFavorite } = useMovieMutations(
     movie,

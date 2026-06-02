@@ -1,4 +1,3 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -7,25 +6,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useSort from "../hooks/useSort";
 type Props = {
   onSelect?: () => void;
 };
+const SORT_OPTIONS = [
+  { label: "Popularity Descending", value: "p_desc" },
+  { label: "Popularity Ascending", value: "p_asc" },
+  { label: "Rating Descending", value: "r_desc" },
+  { label: "Rating Ascending", value: "r_asc" },
+  { label: "Release Date Descending", value: "date_desc" },
+  { label: "Release Date Ascending", value: "date_asc" },
+];
 export default function SelectSort({ onSelect }: Props) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const getDefaultSort = () => {
-    if (pathname === "/movie/top-rated") return "r_desc";
-    else return "p_desc";
-  };
-  const currentSort = searchParams.get("sort") || getDefaultSort();
-
-  const handleValueChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("sort", value);
-    params.set("page", "1");
-    router.push(`${pathname}?${params.toString()}`);
-  };
+  const { currentSort, handleValueChange } = useSort();
 
   return (
     <Select
@@ -42,12 +36,11 @@ export default function SelectSort({ onSelect }: Props) {
       </SelectTrigger>
       <SelectContent className="max-w-70">
         <SelectGroup>
-          <SelectItem value="p_desc">Popularity Descending</SelectItem>
-          <SelectItem value="p_asc">Popularity Ascending</SelectItem>
-          <SelectItem value="r_desc">Rating Descending</SelectItem>
-          <SelectItem value="r_asc">Rating Ascending</SelectItem>
-          <SelectItem value="date_desc">Release Date Descending</SelectItem>
-          <SelectItem value="date_asc">Release Date Ascending</SelectItem>
+          {SORT_OPTIONS.map(({ label, value }) => (
+            <SelectItem key={value} value={value}>
+              {label}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>
