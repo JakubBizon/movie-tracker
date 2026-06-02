@@ -42,7 +42,10 @@ export default function SortDropdown() {
           <DropdownMenuItem
             key={value}
             onClick={() => handleValueChange(value)}
-            className={cn(currentSort === value && "bg-primary/60")}
+            className={cn(
+              "flex justify-between",
+              currentSort === value && "bg-primary/60",
+            )}
           >
             {label}
             {currentSort === value && <Check className="text-white" />}
