@@ -12,6 +12,7 @@ import { signInSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 type SignInValues = z.infer<typeof signInSchema>;
 
@@ -53,6 +54,34 @@ export default function SignInForm() {
       },
     );
   };
+  const onSignUpGoogle = async () => {
+    await authClient.signIn.social(
+      {
+        provider: "google",
+      },
+      {
+        onSuccess: () => {
+          router.push("/?loggedIn=true");
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+      },
+    );
+  };
+
+  const onSignUpGithub = async () => {
+    await authClient.signIn.social(
+      {
+        provider: "github",
+      },
+      {
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+      },
+    );
+  };
 
   return (
     <Card className="min-w-100">
@@ -90,11 +119,32 @@ export default function SignInForm() {
             </Link>
           </div>
           <div className="flex justify-center">
-            <Button type="submit" disabled={isLoading}>
+            <Button className="px-8" type="submit" disabled={isLoading}>
               {isLoading ? "Logging in" : "Log in"}
             </Button>
           </div>
         </form>
+        <div className="flex items-center gap-4 text-sm">
+          <div className="flex-1 h-px bg-gray-200" />
+          <span>or continue with</span>
+          <div className="flex-1 h-px bg-gray-200" />
+        </div>
+        <div className="flex flex-col gap-4 items-center justify-center text-sm">
+          <button
+            onClick={onSignUpGithub}
+            className="flex items-center justify-center gap-3 w-full py-2.5 px-4 bg-[#24292e] hover:bg-[#3a3f44] text-white rounded-lg transition-colors text-sm font-medium cursor-pointer"
+          >
+            <FaGithub size={18} />
+            GitHub
+          </button>
+          <button
+            onClick={onSignUpGoogle}
+            className="flex items-center justify-center gap-3 w-full py-2.5 px-4 bg-[#24292e] hover:bg-[#3a3f44] text-white rounded-lg transition-colors text-sm font-medium cursor-pointer"
+          >
+            <FaGoogle size={18} />
+            Google
+          </button>
+        </div>
       </CardContent>
     </Card>
   );
