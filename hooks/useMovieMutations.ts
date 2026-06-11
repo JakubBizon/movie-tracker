@@ -68,6 +68,11 @@ export function useMovieMutations(
       }
       toast.error("Failed to update favorites");
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: watchlistCountQueryKey,
+      });
+    },
   });
 
   const bookmarkMutation = useMutation({
