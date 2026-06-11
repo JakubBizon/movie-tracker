@@ -9,6 +9,7 @@ import {
 } from "@/app/actions/movieActions";
 import { toast } from "sonner";
 import { useMemo } from "react";
+import { watchlistCountQueryKey } from "./watchlist/useWatchlistCount";
 
 export default function useMovieInteractions(
   movie: Movie,
@@ -135,7 +136,7 @@ export default function useMovieInteractions(
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
       queryClient.invalidateQueries({
-        queryKey: ["watchlist", "count"],
+        queryKey: watchlistCountQueryKey,
       });
     },
   });

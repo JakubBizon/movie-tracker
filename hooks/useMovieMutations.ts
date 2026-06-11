@@ -8,6 +8,7 @@ import {
   toggleFavoriteAction,
 } from "@/app/actions/movieActions";
 import { toast } from "sonner";
+import { watchlistCountQueryKey } from "./watchlist/useWatchlistCount";
 
 export function useMovieMutations(
   movie: Movie,
@@ -117,6 +118,11 @@ export function useMovieMutations(
         queryClient.setQueryData(queryKey, context.previous);
       }
       toast.error("Failed to update bookmarks");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: watchlistCountQueryKey,
+      });
     },
   });
 
