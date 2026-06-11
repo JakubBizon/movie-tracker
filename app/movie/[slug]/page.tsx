@@ -30,17 +30,23 @@ export default async function MoviePage({
         <MovieHero movie={movie} />
       </Suspense>
 
-      <div className="max-w-7xl mx-auto mt-5 space-y-10">
+      <div className="mt-5 space-y-10">
         <Suspense fallback={<CastSectionSkeleton />}>
-          <Cast id={movie.id} />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <Cast id={movie.id} />
+          </div>
         </Suspense>
 
         <Suspense fallback={<AdditionalInfoSkeleton />}>
-          <AdditionalInfo id={movie.id} movie={movie} />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <AdditionalInfo id={movie.id} movie={movie} />
+          </div>
         </Suspense>
 
         <Suspense fallback={null}>
-          <Reviews id={movie.id} />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <Reviews id={movie.id} />
+          </div>
         </Suspense>
 
         <Suspense fallback={<SimilarSectionSkeleton />}>

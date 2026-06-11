@@ -11,7 +11,7 @@ export default function CastSection({ castData, limit }: CastSectionProps) {
   const slicedCast = castData.cast.slice(0, limit);
 
   return (
-    <div className="flex flex-col px-4 sm:px-6 max-w-7xl mx-auto space-y-4">
+    <div className="flex flex-col space-y-4">
       <h2 className="dark:text-white flex items-center gap-2 text-black font-semibold text-3xl">
         Cast
       </h2>

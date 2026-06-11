@@ -38,7 +38,7 @@ export default async function AdditionalInfo({ id, movie }: Props) {
   ];
 
   return (
-    <div className="px-4 sm:px-6">
+    <div>
       <h3 className="dark:text-white text-black font-semibold text-3xl">
         Details
       </h3>

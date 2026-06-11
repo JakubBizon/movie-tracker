@@ -11,8 +11,8 @@ export default async function Reviews({ id }: Props) {
   const results = reviews.results ?? [];
 
   return (
-    <section className="space-y-5 px-4 sm:px-6">
-      <h2 className="mb-4 text-2xl font-bold">Reviews</h2>
+    <section className="space-y-5">
+      <h2 className="mb-4 text-3xl font-bold">Reviews</h2>
 
       {results.length === 0 ? (
         <p className="text-muted-foreground">No reviews found.</p>
