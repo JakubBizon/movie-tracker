@@ -58,7 +58,9 @@ export default function SignInForm() {
     await authClient.signIn.social(
       {
         provider: "google",
+        callbackURL: "/?login=success",
       },
+
       {
         onError: (ctx) => {
           toast.error(ctx.error.message);
@@ -71,6 +73,7 @@ export default function SignInForm() {
     await authClient.signIn.social(
       {
         provider: "github",
+        callbackURL: "/?login=success",
       },
       {
         onError: (ctx) => {
