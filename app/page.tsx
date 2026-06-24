@@ -22,7 +22,7 @@ export default async function Home({
   return (
     <div className="bg-transparent dark:bg-secondary w-full font-sans">
       {login === "success" && <LoginSuccessToast />}
-      <div className="flex flex-col max-w-7xl mx-auto pt-5 pb-10 w-full ">
+      <div className="flex flex-col max-w-7xl mx-auto pt-5 pb-10 w-full">
         <Suspense fallback={<HeroSkeleton />}>
           <HeroSection />
         </Suspense>
@@ -30,15 +30,12 @@ export default async function Home({
         <Suspense fallback={<SectionSkeleton isTrending={true} />}>
           <TrendingSection />
         </Suspense>
-
         <Suspense fallback={<SectionSkeleton />}>
           <PopularSection />
         </Suspense>
-
         <Suspense fallback={<SectionSkeleton />}>
           <TopRatedSection />
         </Suspense>
-
         <Suspense fallback={<SectionSkeleton />}>
           <UpcomingSection />
         </Suspense>
