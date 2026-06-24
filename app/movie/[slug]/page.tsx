@@ -1,3 +1,4 @@
+import { checkAverageMovieRating } from "@/app/actions/checkAverageMovieRating";
 import AdditionalInfo from "@/components/MoviePage/AdditionalInfo/AdditionalInfo";
 import SimilarSection from "@/components/MoviePage/Carousel/SimilarSection";
 import Cast from "@/components/MoviePage/Cast/Cast";
@@ -24,10 +25,11 @@ export default async function MoviePage({
     notFound();
   }
   const movie = await canonicalMovieOrRedirect(slug);
+  const rating = await checkAverageMovieRating(id.toString());
   return (
     <div className="bg-transparent dark:bg-secondary w-full font-sans">
       <Suspense fallback={<HeroSectionSkeleton />}>
-        <MovieHero movie={movie} />
+        <MovieHero movie={movie} rating={rating} />
       </Suspense>
 
       <div className="mt-5 space-y-10">

@@ -5,8 +5,9 @@ import { minutesToTime } from "@/lib/utils/minutesToTime";
 import { Calendar, Clock, Star } from "lucide-react";
 type Props = {
   data: Movie;
+  rating: number | null;
 };
-export default function MovieMeta({ data }: Props) {
+export default function MovieMeta({ data, rating }: Props) {
   return (
     <>
       <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight drop-shadow-lg pb-2">
@@ -30,13 +31,27 @@ export default function MovieMeta({ data }: Props) {
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center gap-1.5 text-sm md:text-base bg-yellow-500/20 backdrop-blur-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full border border-yellow-500/30">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+            <span className="text-sm font-semibold text-yellow-400 uppercase tracking-wide">
+              TMDB
+            </span>
             <span className="font-bold text-yellow-400">
               {data.vote_average.toFixed(1)}
             </span>
           </div>
+
+          <div className="flex items-center gap-1.5 text-sm md:text-base bg-purple-600/40 backdrop-blur-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full border border-purple-500">
+            <Star className="h-4 w-4 fill-purple-400 text-purple-400" />
+            <span className="text-sm font-semibold text-purple-300 uppercase tracking-wide">
+              MT
+            </span>
+            <span className="font-bold text-white">
+              {rating ? rating.toFixed(1) : "--"}
+            </span>
+          </div>
+
           {data.genres?.slice(0, 4).map((genre) => (
             <Badge
-              className="text-xs md:text-base bg-white/15 backdrop-blur-sm text-white border border-white/20 px-3 py-1"
+              className="text-sm md:text-base bg-white/15 backdrop-blur-sm text-white border border-white/20 px-3 py-1.5"
               key={genre.id}
             >
               {genre.name}

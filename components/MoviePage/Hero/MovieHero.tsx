@@ -9,8 +9,9 @@ import { Movie } from "@/app/types/movie";
 
 type Props = {
   movie: Movie;
+  rating: number | null;
 };
-export default async function MovieHero({ movie }: Props) {
+export default async function MovieHero({ movie, rating }: Props) {
   if (!movie.id) return notFound();
   const trailerLink = await getTrailerLink(movie.id);
 
@@ -31,6 +32,7 @@ export default async function MovieHero({ movie }: Props) {
       favoriteIds={favoriteIds}
       bookmarkedIds={bookmarkedIds}
       userId={userId}
+      rating={rating}
     />
   );
 }

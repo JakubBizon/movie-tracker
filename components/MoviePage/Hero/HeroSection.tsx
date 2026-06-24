@@ -15,6 +15,7 @@ type HeroSectionProps = {
   favoriteIds: string[];
   bookmarkedIds: string[];
   userId?: string;
+  rating: number | null;
 };
 
 export default function HeroSection({
@@ -24,6 +25,7 @@ export default function HeroSection({
   favoriteIds,
   bookmarkedIds,
   userId,
+  rating,
 }: HeroSectionProps) {
   const isLight = isBackgroundLight(color);
 
@@ -48,7 +50,7 @@ export default function HeroSection({
                 <MoviePoster data={data} />
               </div>
               <div className="flex-1 text-white flex flex-col justify-center">
-                <MovieMeta data={data} />
+                <MovieMeta data={data} rating={rating} />
                 <div className="flex items-start flex-wrap gap-3 pt-6">
                   <TrailerDialog trailerLink={trailerLink} movie={data} />
                   <InteractionButtons
@@ -85,7 +87,7 @@ export default function HeroSection({
           style={{ backgroundColor: color }}
         >
           <div className="text-white">
-            <MovieMeta data={data} />
+            <MovieMeta data={data} rating={rating} />
           </div>
 
           <div className="flex items-center flex-wrap flex-row gap-2">
