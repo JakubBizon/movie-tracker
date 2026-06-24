@@ -60,9 +60,6 @@ export default function SignInForm() {
         provider: "google",
       },
       {
-        onSuccess: () => {
-          router.push("/?loggedIn=true");
-        },
         onError: (ctx) => {
           toast.error(ctx.error.message);
         },
