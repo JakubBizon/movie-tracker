@@ -2,6 +2,7 @@ import getUpcomingDateRange from "@/components/Movies/hooks/getUpcomingDateRange
 import MovieExplorer from "@/components/Movies/MovieExplorer";
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import { getMovies } from "@/lib/movies/getMovies";
+import { Metadata } from "next";
 
 interface Props {
   searchParams: Promise<{
@@ -12,6 +13,10 @@ interface Props {
     to?: string;
   }>;
 }
+export const metadata: Metadata = {
+  title: "Upcoming",
+};
+
 export default async function UpcomingMovies({ searchParams }: Props) {
   const { page, sort, genres, from, to } = await searchParams;
   const currentPage = Number(page) || 1;

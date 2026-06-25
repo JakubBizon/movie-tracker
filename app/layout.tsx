@@ -10,6 +10,7 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-sans",
 });
+
 export const metadata: Metadata = {
   title: {
     default: "Movie Tracker",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   },
   description: "Track your favorite movies and discover new ones",
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{

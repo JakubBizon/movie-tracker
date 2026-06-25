@@ -10,6 +10,13 @@ interface Props {
   }>;
 }
 
+export async function generateMetadata({ searchParams }: Props) {
+  const { q } = await searchParams;
+  return {
+    title: q ? q : "Search",
+  };
+}
+
 export default async function SearchPage({ searchParams }: Props) {
   const { q, page } = await searchParams;
   const { currentPage, normalizedUrl, shouldRedirect } = getNormalizedSearchUrl(

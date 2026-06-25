@@ -8,19 +8,30 @@ import AdditionalInfoSkeleton from "@/components/MoviePage/Skeletons/AdditionalI
 import CastSectionSkeleton from "@/components/MoviePage/Skeletons/CastSectionSkeleton";
 import { HeroSectionSkeleton } from "@/components/MoviePage/Skeletons/HeroSectionSkeleton";
 import SimilarSectionSkeleton from "@/components/MoviePage/Skeletons/SimilarSectionSkeleton";
+import { getMovieDetails } from "@/lib/movies/getMovieDetails";
 import { canonicalMovieOrRedirect } from "@/lib/utils/canonicalMovieOrRedirect";
 import { extractIdFromSlug } from "@/lib/utils/extractIdFromSlug";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-export default async function MoviePage({
-  params,
-}: {
+type Props = {
   params: Promise<{ slug: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const id = extractIdFromSlug(slug);
+  if (!id) return;
+  const movie = await getMovieDetails(id);
+  if (!movie) return;
+  return {
+    title: movie.title,
+  };
+}
 
+export default async function MoviePage({ params }: Props) {
+  const { slug } = await params;
+  const id = extractIdFromSlug(slug);
   if (!id) {
     notFound();
   }

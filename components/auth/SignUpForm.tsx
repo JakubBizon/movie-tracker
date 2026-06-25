@@ -105,7 +105,7 @@ export default function SignUpForm() {
           </div>
 
           <div className="flex justify-center">
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" className="px-8" disabled={isLoading}>
               {isLoading ? "Signing up" : "Sign up"}
             </Button>
           </div>

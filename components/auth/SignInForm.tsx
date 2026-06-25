@@ -119,7 +119,7 @@ export default function SignInForm() {
             </Link>
           </div>
           <div className="flex justify-center">
-            <Button className="px-8" type="submit" disabled={isLoading}>
+            <Button className="px-10" type="submit" disabled={isLoading}>
               {isLoading ? "Logging in" : "Log in"}
             </Button>
           </div>

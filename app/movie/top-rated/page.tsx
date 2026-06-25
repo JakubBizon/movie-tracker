@@ -1,6 +1,7 @@
 import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
 import { getMovies } from "@/lib/movies/getMovies";
+import { Metadata } from "next";
 
 interface Props {
   searchParams: Promise<{
@@ -11,6 +12,10 @@ interface Props {
     to?: string;
   }>;
 }
+export const metadata: Metadata = {
+  title: "Top Rated",
+};
+
 export default async function TopRatedPage({ searchParams }: Props) {
   const { page, sort, genres, from, to } = await searchParams;
   const currentPage = Number(page) || 1;

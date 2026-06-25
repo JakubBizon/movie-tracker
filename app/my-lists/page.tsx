@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import { UserMediaItem } from "../types/user-media-item";
 import LoggedOutState from "@/components/MyLists/LoggedOutState";
 import CustomPagination from "@/components/Movies/_components/CustomPagination";
+import { Metadata } from "next";
 
 type Props = {
   searchParams: Promise<{
@@ -16,6 +17,10 @@ type Props = {
 };
 
 const limit = 12;
+
+export const metadata: Metadata = {
+  title: "My Lists",
+};
 
 export default async function MyListsHome({ searchParams }: Props) {
   const { page, tab } = await searchParams;

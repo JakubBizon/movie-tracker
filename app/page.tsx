@@ -6,12 +6,7 @@ import HeroSection from "@/components/MainPage/Hero/HeroSection";
 import HeroSkeleton from "@/components/MainPage/Hero/HeroSkeleton";
 import { SectionSkeleton } from "@/components/MainPage/SectionSkeleton";
 import UpcomingSection from "@/components/MainPage/CarouselSections/UpcomingSection";
-import { Metadata } from "next";
 import LoginSuccessToast from "@/components/LoginSuccessToast";
-
-export const metadata: Metadata = {
-  title: "Home",
-};
 
 export default async function Home({
   searchParams,

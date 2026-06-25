@@ -9,7 +9,7 @@ export default function LoggedOutState() {
       </p>
       <Link
         href="/login"
-        className="bg-primary text-white px-6 py-2 rounded-md mb-4"
+        className="bg-primary text-white px-10 py-2 rounded-md mb-4"
       >
         Log in
       </Link>
