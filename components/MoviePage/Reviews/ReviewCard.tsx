@@ -17,9 +17,9 @@ function formatDate(dateString: string) {
 }
 export default function ReviewCard({ review }: Props) {
   const [expanded, setExpanded] = useState(false);
-  const isLongReview = review.content.length > 300;
+  const isLongReview = review.content.length > 350;
   return (
-    <Card className="p-4">
+    <Card className="p-4 border border-muted-foreground/10">
       <h3 className="text-lg font-semibold">{review.author}</h3>
       <p className="mb-2 text-sm text-gray-600">
         {formatDate(review.created_at)}

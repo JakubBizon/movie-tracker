@@ -38,15 +38,13 @@ export default async function AdditionalInfo({ id, movie }: Props) {
   ];
 
   return (
-    <div>
-      <h3 className="dark:text-white text-black font-semibold text-3xl">
-        Details
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 text-md text-muted-foreground">
+    <div className="dark:text-white text-black ">
+      <h3 className="font-semibold text-3xl">Details</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 text-md text-black dark:text-white">
         {detailItems.map((item) => (
           <div key={item.label} className="flex flex-col">
             <span className="font-semibold text-primary">{item.label}: </span>
-            <span className="text-white">{item.value}</span>
+            <span>{item.value}</span>
           </div>
         ))}
 
@@ -56,7 +54,7 @@ export default async function AdditionalInfo({ id, movie }: Props) {
             {keywords.keywords.map((keyword: Keyword) => (
               <span
                 key={keyword.id}
-                className="inline-block bg-muted-foreground/30 text-primary-foreground rounded-full px-3 py-1 text-sm font-medium"
+                className="inline-block text-black dark:text-white border-primary/50 border-2 rounded-full px-3 py-1 text-sm font-medium"
               >
                 {keyword.name}
               </span>

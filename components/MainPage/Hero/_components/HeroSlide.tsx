@@ -24,7 +24,7 @@ const tmdbImageLink = ({ src, width }: { src: string; width: number }) => {
 
 export default function HeroSlide({ movie, index, userId }: Props) {
   return (
-    <div className="relative md:min-h-[500px] xs:min-h-[350px] min-h-[200px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
+    <div className="relative text-white md:min-h-[500px] xs:min-h-[350px] min-h-[200px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
       <Image
         loader={tmdbImageLink}
         src={movie.backdrop_path}
@@ -36,8 +36,8 @@ export default function HeroSlide({ movie, index, userId }: Props) {
         sizes="(max-width: 640px) 100vw, (max-width: 1280px) 100vw, 1280px"
       />
 
-      <div className="absolute inset-0 bg-linear-to-r from-background/90 via-background/40 to-transparent" />
-      <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-r from-slate-900/85 via-slate-900/40 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-slate-900/70 via-transparent to-transparent" />
 
       {/* Mobile overlay */}
       <Link
@@ -79,17 +79,6 @@ export default function HeroSlide({ movie, index, userId }: Props) {
         </div>
         <div className="relative z-30 hidden items-center gap-2 md:flex pointer-events-auto">
           <TrailerDialog trailerLink={movie.trailer} movie={movie} />
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="glass border-border/50 bg-transparent cursor-pointer"
-          >
-            <Link href={`/movie/${slugify(movie.title, movie.id)}`}>
-              <Info className="mr-2 h-5 w-5" />
-              More info
-            </Link>
-          </Button>
           <InteractionButtons
             userId={userId}
             initialSelections={{
@@ -99,6 +88,16 @@ export default function HeroSlide({ movie, index, userId }: Props) {
             data={movie}
             showRating={false}
           />
+          <Button
+            asChild
+            size="lg"
+            className="bg-white/10 hover:bg-white/20 xs:text-sm text-xs cursor-pointer text-white border border-white/20 backdrop-blur-md transition-all duration-300 shadow-xl font-medium"
+          >
+            <Link href={`/movie/${slugify(movie.title, movie.id)}`}>
+              <Info className="mr-2 h-5 w-5" />
+              More info
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

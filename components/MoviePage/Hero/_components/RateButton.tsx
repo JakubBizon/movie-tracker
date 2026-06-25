@@ -51,9 +51,8 @@ export default function RateButton({ movieId, title }: Props) {
     <>
       <Button
         size="lg"
-        variant="outline"
         onClick={handleRateClick}
-        className="bg-white/10 px-3 hover:bg-white/20 backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform"
+        className="bg-white/10 px-3 hover:bg-white/20 border backdrop-blur-sm text-white border-white/30 hover:border-white/50 shadow-lg hover:scale-105 transition-transform"
       >
         <div className="flex items-center gap-1 cursor-pointer">
           <Star className={isRated ? "fill-amber-500 text-amber-500" : ""} />

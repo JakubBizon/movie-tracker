@@ -19,7 +19,7 @@ export default function CastSection({ castData, limit }: CastSectionProps) {
         {slicedCast.map((cast) => (
           <Card
             key={cast.id}
-            className="sm:w-40 w-32 shrink-0 p-0 rounded-lg overflow-hidden border-0 shadow-none dark:glass bg-muted-foreground/10 "
+            className="sm:w-40 w-32 shrink-0 p-0 rounded-lg overflow-hidden border-0 shadow-none dark:glass bg-card"
           >
             <div className="relative w-full aspect-3/4 sm:min-h-52 min-h-40 bg-gray-800 ]">
               {cast.profile_path ? (
