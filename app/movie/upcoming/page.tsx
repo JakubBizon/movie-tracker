@@ -1,7 +1,7 @@
 import getUpcomingDateRange from "@/components/Movies/hooks/getUpcomingDateRange";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
-import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
-import { getMovies } from "@/lib/movies/getMovies";
+import { getMovieExplorerData } from "@/lib/movies/getMovieExplorerData";
+import { getUpcomingMovies } from "@/lib/movies/getUpcomingMovies";
 import { Metadata } from "next";
 
 interface Props {
@@ -18,29 +18,11 @@ export const metadata: Metadata = {
 };
 
 export default async function UpcomingMovies({ searchParams }: Props) {
-  const { page, sort, genres, from, to } = await searchParams;
-  const currentPage = Number(page) || 1;
-
-  const moviesPromise = getMoviesPageData(
-    getMovies,
-    currentPage,
-    {
-      sort,
-      genres,
-      from,
-      to,
-    },
-    "upcoming",
-  ).then((data) => ({
-    movies: data.movies,
-    bookmarkedIds: data.bookmarkedIds,
-    favoriteIds: data.favoriteIds,
-    pagination: {
-      currentPage,
-      totalPages: data.totalPages,
-    },
-  }));
-
+  const data = getMovieExplorerData(
+    getUpcomingMovies,
+    await searchParams,
+    "/movie/upcoming",
+  );
   const { defaultFrom, defaultTo } = getUpcomingDateRange();
 
   return (
@@ -48,7 +30,7 @@ export default async function UpcomingMovies({ searchParams }: Props) {
       defaultFrom={defaultFrom}
       defaultTo={defaultTo}
       title="Upcoming Movies"
-      moviesPromise={moviesPromise}
+      moviesPromise={Promise.resolve(data)}
     />
   );
 }

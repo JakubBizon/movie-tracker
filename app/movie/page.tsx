@@ -1,6 +1,6 @@
 import MovieExplorer from "@/components/Movies/MovieExplorer";
-import { getMoviesPageData } from "@/lib/movies/getMoviePagesData";
-import { getMovies } from "@/lib/movies/getMovies";
+import { getMovieExplorerData } from "@/lib/movies/getMovieExplorerData";
+import { getPopularMovies } from "@/lib/movies/getPopularMovies";
 import { Metadata } from "next";
 
 interface Props {
@@ -17,27 +17,18 @@ export const metadata: Metadata = {
 };
 
 export default async function PopularMovies({ searchParams }: Props) {
-  const { page, sort, genres, from, to } = await searchParams;
-  const currentPage = Number(page) || 1;
-
-  const data = getMoviesPageData(getMovies, currentPage, {
-    sort,
-    genres,
-    from,
-    to,
-  }).then((data) => ({
-    movies: data.movies,
-    bookmarkedIds: data.bookmarkedIds,
-    favoriteIds: data.favoriteIds,
-    pagination: {
-      currentPage: currentPage,
-      totalPages: data.totalPages,
-    },
-  }));
+  const data = getMovieExplorerData(
+    getPopularMovies,
+    await searchParams,
+    "/movie",
+  );
 
   return (
     <div className="max-w-7xl mx-auto">
-      <MovieExplorer title="Popular Movies" moviesPromise={data} />
+      <MovieExplorer
+        title="Popular Movies"
+        moviesPromise={Promise.resolve(data)}
+      />
     </div>
   );
 }

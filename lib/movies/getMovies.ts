@@ -56,7 +56,7 @@ export async function getMovies(
   if (!res.ok) {
     const errorData = await res.json();
     console.error("TMDB API Error:", errorData);
-    throw new Error("Failed to fetch movies");
+    return { results: [], total_pages: 0 };
   }
   return res.json();
 }
