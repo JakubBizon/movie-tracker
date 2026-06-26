@@ -23,7 +23,7 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
 
   if (totalPages <= 1) return null;
 
-  const createPageUrl = (pageNumber: number | string) => {
+  const createPageUrl = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", pageNumber.toString());
     return `${pathname}?${params.toString()}`;

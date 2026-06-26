@@ -8,6 +8,7 @@ import { UserMediaItem } from "../types/user-media-item";
 import LoggedOutState from "@/components/MyLists/LoggedOutState";
 import CustomPagination from "@/components/Movies/_components/CustomPagination";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 type Props = {
   searchParams: Promise<{
@@ -24,8 +25,13 @@ export const metadata: Metadata = {
 
 export default async function MyListsHome({ searchParams }: Props) {
   const { page, tab } = await searchParams;
-  const currentPage = Math.max(1, Number(page) || 1);
+  const pageNum = Number(page);
+  const isInvalidPage =
+    page !== undefined && (!Number.isInteger(pageNum) || pageNum < 1);
   const activeTab = tab === "favorites" ? "favorites" : "watchlist";
+  if (isInvalidPage) {
+    redirect(`/my-lists?tab=${activeTab}&page=1`);
+  }
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -44,13 +50,13 @@ export default async function MyListsHome({ searchParams }: Props) {
           .from(bookmarks)
           .where(eq(bookmarks.userId, userId))
           .limit(limit)
-          .offset((currentPage - 1) * limit)
+          .offset((pageNum - 1) * limit)
       : db
           .select()
           .from(favorites)
           .where(eq(favorites.userId, userId))
           .limit(limit)
-          .offset((currentPage - 1) * limit),
+          .offset((pageNum - 1) * limit),
     isWatchlist
       ? db.$count(bookmarks, eq(bookmarks.userId, userId))
       : db.$count(favorites, eq(favorites.userId, userId)),
@@ -66,6 +72,12 @@ export default async function MyListsHome({ searchParams }: Props) {
     db.$count(bookmarks, eq(bookmarks.userId, userId)),
   ]);
   const totalPages = Math.max(1, Math.ceil(totalCount / limit));
+  if (pageNum > totalPages) {
+    redirect(`/my-lists?tab=${activeTab}&page=${totalPages}`);
+  }
+
+  const currentPage = page ? pageNum : 1;
+
   return (
     <>
       <MyLists
