@@ -50,7 +50,7 @@ export default function SearchListWrapper({
             <div className="flex gap-3">
               <Link
                 href="/movie"
-                className="rounded px-4 py-2 border border-indigo-400/30 bg-transparent text-indigo-200 hover:bg-indigo-500/10"
+                className="rounded-md px-4 py-2 border bg-indigo-500 text-white hover:bg-indigo-400 "
               >
                 Browse movies
               </Link>

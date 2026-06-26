@@ -9,13 +9,13 @@ export default function NotFound() {
       <div className="flex gap-3">
         <Link
           href="/"
-          className="rounded border px-4 py-2 bg-indigo-500 text-white hover:bg-indigo-400 "
+          className="rounded-md border px-4 py-2 bg-indigo-500 text-white hover:bg-indigo-400 "
         >
           Homepage
         </Link>
         <Link
           href="/movie"
-          className="rounded px-4 py-2 border border-indigo-400/30 bg-transparent text-indigo-200 hover:bg-indigo-500/10"
+          className="rounded-md px-4 py-2 border border-indigo-500/50 bg-transparent text-indigo-500 dark:text-indigo-200 dark:hover:bg-indigo-500/10"
         >
           Browse movies
         </Link>
