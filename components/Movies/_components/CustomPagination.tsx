@@ -3,13 +3,13 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 interface Props {
   currentPage: number;
@@ -20,6 +20,17 @@ interface Props {
 export default function CustomPagination({ currentPage, totalPages }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [leftValue, setLeftValue] = useState("");
+  const [rightValue, setRightValue] = useState("");
+  const router = useRouter();
+
+  const handleJump = (value: string, setter: (v: string) => void) => {
+    const page = parseInt(value);
+    if (page >= 1 && page <= totalPages) {
+      router.push(createPageUrl(page));
+    }
+    setter("");
+  };
 
   if (totalPages <= 1) return null;
 
@@ -47,7 +58,6 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
   };
 
   const pages = getPages();
-
   return (
     <Pagination className="my-8">
       <PaginationContent className="gap-2">
@@ -65,7 +75,23 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
             <PaginationItem>
               <PaginationLink href={createPageUrl(1)}>1</PaginationLink>
             </PaginationItem>
-            {pages[0] > 2 && <PaginationEllipsis />}
+            {pages[0] > 5 && (
+              <PaginationItem>
+                <input
+                  className="w-10 h-8 rounded-md text-center bg-transparent border border-slate-600 text-slate-200 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  type="number"
+                  min={1}
+                  max={totalPages}
+                  value={leftValue}
+                  placeholder="..."
+                  onChange={(e) => setLeftValue(e.target.value)}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && handleJump(leftValue, setLeftValue)
+                  }
+                  onBlur={() => handleJump(leftValue, setLeftValue)}
+                />
+              </PaginationItem>
+            )}
           </>
         )}
 
@@ -87,7 +113,23 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
 
         {pages[pages.length - 1] < totalPages && (
           <>
-            {pages[pages.length - 1] < totalPages - 1 && <PaginationEllipsis />}
+            {pages[pages.length - 1] < totalPages - 1 && (
+              <PaginationItem>
+                <input
+                  className="w-10 h-8 rounded-md text-center bg-transparent border border-slate-600 text-slate-200 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  type="number"
+                  min={1}
+                  max={totalPages}
+                  value={rightValue}
+                  placeholder="..."
+                  onChange={(e) => setRightValue(e.target.value)}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && handleJump(rightValue, setRightValue)
+                  }
+                  onBlur={() => handleJump(rightValue, setRightValue)}
+                />
+              </PaginationItem>
+            )}
             <PaginationItem>
               <PaginationLink href={createPageUrl(totalPages)}>
                 {totalPages}
