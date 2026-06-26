@@ -16,12 +16,19 @@ import Link from "next/link";
 import SignOutButton from "./SignOutButton";
 import { useState } from "react";
 import MenuThemeToggle from "./MenuThemeToggle";
+import { Badge } from "@/components/ui/badge";
 
 type UserMenuProps = {
   session: SessionData;
+  watchlistCount: number;
+  showWatchlistCount: boolean;
 };
 
-export default function UserMenu({ session }: UserMenuProps) {
+export default function UserMenu({
+  session,
+  watchlistCount,
+  showWatchlistCount,
+}: UserMenuProps) {
   const isLoggedIn = !!session;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -70,10 +77,13 @@ export default function UserMenu({ session }: UserMenuProps) {
             <SheetClose asChild>
               <Link
                 href="/my-lists"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-accent transition-colors text-sm font-medium"
+                className="flex items-center justify-between px-3 py-2.5 rounded-md hover:bg-accent transition-colors text-sm font-medium"
               >
-                <List className="h-4 w-4" />
-                My Lists
+                <div className="flex items-center gap-3">
+                  <List className="h-4 w-4" />
+                  My Lists
+                </div>
+                {showWatchlistCount && <Badge>{watchlistCount}</Badge>}
               </Link>
             </SheetClose>
 
