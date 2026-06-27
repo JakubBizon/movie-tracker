@@ -19,6 +19,7 @@ type Props = {
     | "icon-lg"
     | null
     | undefined;
+  variant?: "outline";
   initialSelections?: {
     favoriteIds: string[];
     bookmarkedIds: string[];
@@ -29,12 +30,13 @@ type Props = {
 };
 
 export default function InteractionButtons({
+  userId,
+  data,
+  initialSelections,
+  showRating,
   glassClass,
   size,
-  initialSelections,
-  data,
-  showRating,
-  userId,
+  variant,
 }: Props) {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const {
@@ -71,10 +73,11 @@ export default function InteractionButtons({
         ({ icon: Icon, state, handler, fillColor, pending }, index) => (
           <Button
             key={index}
+            variant={variant ?? "default"}
             size={size ?? "lg"}
             onClick={handler}
             disabled={pending}
-            className={`cursor-pointer bg-white/10 hover:bg-white/30 text-white border border-white/20 font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform ${glassClass}`}
+            className={`cursor-pointer  border  font-semibold px-6 md:px-8 shadow-lg hover:scale-105 transition-transform ${glassClass} ${variant === "outline" ? "bg-background text-black dark:text-white border-input" : "bg-white/10 hover:bg-white/30 border-white/20"}`}
           >
             <Icon
               className={`w-5 h-5 ${state ? fillColor : ""} ${pending ? "animate-pulse" : ""}`}

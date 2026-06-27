@@ -77,6 +77,7 @@ export default function SearchMovieCard({
           <div className="mt-3 flex gap-2 xs:hidden">
             <InteractionButtons
               size={"sm"}
+              variant="outline"
               initialSelections={{
                 favoriteIds: initialSelections?.favoriteIds ?? [],
                 bookmarkedIds: initialSelections?.bookmarkedIds ?? [],
@@ -95,6 +96,7 @@ export default function SearchMovieCard({
 
         <div className="hidden xs:flex gap-2 p-3 md:p-4">
           <InteractionButtons
+            variant="outline"
             initialSelections={{
               favoriteIds: initialSelections?.favoriteIds ?? [],
               bookmarkedIds: initialSelections?.bookmarkedIds ?? [],
