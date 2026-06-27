@@ -22,6 +22,7 @@ export default async function UpcomingMovies({ searchParams }: Props) {
     getMovies,
     await searchParams,
     "/movie/upcoming",
+    "upcoming",
   );
   const { defaultFrom, defaultTo } = getUpcomingDateRange();
 

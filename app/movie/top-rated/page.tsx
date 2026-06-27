@@ -21,6 +21,7 @@ export default async function TopRatedPage({ searchParams }: Props) {
     getMovies,
     await searchParams,
     "/movie/top-rated",
+    "top-rated",
   );
   return (
     <div className="max-w-7xl mx-auto ">

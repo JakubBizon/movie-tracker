@@ -14,6 +14,7 @@ export async function getMovieExplorerData(
   getMoviesFn: getMoviesFn,
   searchParams: SearchParams,
   basePath: string,
+  preset?: "top-rated" | "upcoming",
 ) {
   const { page, sort, genres, from, to } = searchParams;
   const pageNum = Number(page);
@@ -24,12 +25,17 @@ export async function getMovieExplorerData(
   }
   const currentPage = page ? pageNum : 1;
 
-  const rawData = await getMoviesPageData(getMoviesFn, currentPage, {
-    sort,
-    genres,
-    from,
-    to,
-  });
+  const rawData = await getMoviesPageData(
+    getMoviesFn,
+    currentPage,
+    {
+      sort,
+      genres,
+      from,
+      to,
+    },
+    preset,
+  );
 
   if (currentPage > 500) {
     const params = new URLSearchParams();
