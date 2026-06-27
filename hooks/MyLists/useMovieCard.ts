@@ -10,14 +10,13 @@ import { toast } from "sonner";
 const useMovieCard = (item: UserMediaItem, userId: string) => {
   const [isPending, startTransition] = useTransition();
   const queryClient = useQueryClient();
-  const displayVote = item.voteAverage
-    ? Number(item.voteAverage).toFixed(1)
-    : "N/A";
+  const voteAverage = Number(item.voteAverage);
+  const displayVote = voteAverage > 0 ? voteAverage.toFixed(1) : null;
   const handleRemove = () => {
     startTransition(async () => {
       const movieId = String(item.movieId);
       const posterPath = item.posterPath ?? "";
-      const voteAverageStr = item.voteAverage ?? "0.0";
+      const voteAverageStr = displayVote?.toString() ?? "0.0";
 
       if (item.type === "watchlist") {
         await toggleBookmarkAction(

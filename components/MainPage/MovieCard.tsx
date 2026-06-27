@@ -1,7 +1,7 @@
 "use client";
 
 import { Movie } from "@/app/types/movie";
-import { Star } from "lucide-react";
+import { Clock, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -85,13 +85,16 @@ export default function MovieCard({
         <div className="text-white absolute top-2 left-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center justify-center gap-2 leading-none">
           {movie.vote_average ? (
             <>
-              <Star className="fill-yellow-400 hidden md:block md:w-4 md:h-4 w-3 h-3 text-yellow-400" />
+              <Star className="fill-yellow-400 md:w-4 md:h-4 w-3 h-3 text-yellow-400" />
               <span className="md:text-base text-sm">
                 {movie.vote_average.toFixed(1)}
               </span>
             </>
           ) : (
-            <span className="text-base">nr</span>
+            <>
+              <Clock className="md:w-4 md:h-4 w-3 h-3" />
+              <span className="md:text-base text-sm">TBD</span>
+            </>
           )}
         </div>
       </Link>

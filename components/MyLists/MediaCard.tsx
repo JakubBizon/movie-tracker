@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { slugify } from "@/lib/utils/slugify";
-import { BookmarkX, HeartOff, Loader2, Star } from "lucide-react";
+import { BookmarkX, Clock, HeartOff, Loader2, Star } from "lucide-react";
 import Image from "next/image";
 
 import { UserMediaItem } from "@/app/types/user-media-item";
@@ -20,7 +20,6 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
   };
 
   const { isPending, handleRemove, displayVote } = useMovieCard(item, userId);
-
   return (
     <div
       className={`group relative overflow-hidden rounded-lg ${
@@ -55,13 +54,19 @@ export default function MediaCard({ item, userId }: MediaCardProps) {
         )}
       </button>
 
-      <button
-        type="button"
-        className="text-white absolute top-2 left-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center justify-center gap-2 leading-none"
-      >
-        <Star className="fill-yellow-400 w-4 h-4 text-yellow-400" />
-        <span className="text-base">{displayVote}</span>
-      </button>
+      <div className="text-white absolute top-2 left-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center justify-center gap-2 leading-none">
+        {displayVote ? (
+          <>
+            <Star className="fill-yellow-400 md:w-4 md:h-4 w-3 h-3 text-yellow-400" />
+            <span className="md:text-base text-sm">{displayVote}</span>
+          </>
+        ) : (
+          <>
+            <Clock className="md:w-4 md:h-4 w-3 h-3" />
+            <span className="md:text-base text-sm">TBD</span>
+          </>
+        )}
+      </div>
     </div>
   );
 }
