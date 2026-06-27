@@ -1,6 +1,6 @@
 import MovieExplorer from "@/components/Movies/MovieExplorer";
 import { getMovieExplorerData } from "@/lib/movies/getMovieExplorerData";
-import { getPopularMovies } from "@/lib/movies/getPopularMovies";
+import { getMovies } from "@/lib/movies/getMovies";
 import { Metadata } from "next";
 
 interface Props {
@@ -17,11 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PopularMovies({ searchParams }: Props) {
-  const data = getMovieExplorerData(
-    getPopularMovies,
-    await searchParams,
-    "/movie",
-  );
+  const data = getMovieExplorerData(getMovies, await searchParams, "/movie");
 
   return (
     <div className="max-w-7xl mx-auto">

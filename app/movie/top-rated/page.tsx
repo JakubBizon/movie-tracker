@@ -1,7 +1,7 @@
 import MovieExplorer from "@/components/Movies/MovieExplorer";
 import { Metadata } from "next";
-import { getTopRatedMovies } from "@/lib/movies/getTopRatedMovies";
 import { getMovieExplorerData } from "@/lib/movies/getMovieExplorerData";
+import { getMovies } from "@/lib/movies/getMovies";
 
 interface Props {
   searchParams: Promise<{
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function TopRatedPage({ searchParams }: Props) {
   const data = getMovieExplorerData(
-    getTopRatedMovies,
+    getMovies,
     await searchParams,
     "/movie/top-rated",
   );

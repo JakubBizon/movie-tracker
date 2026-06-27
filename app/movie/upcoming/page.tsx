@@ -1,7 +1,7 @@
 import getUpcomingDateRange from "@/components/Movies/hooks/getUpcomingDateRange";
 import MovieExplorer from "@/components/Movies/MovieExplorer";
 import { getMovieExplorerData } from "@/lib/movies/getMovieExplorerData";
-import { getUpcomingMovies } from "@/lib/movies/getUpcomingMovies";
+import { getMovies } from "@/lib/movies/getMovies";
 import { Metadata } from "next";
 
 interface Props {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function UpcomingMovies({ searchParams }: Props) {
   const data = getMovieExplorerData(
-    getUpcomingMovies,
+    getMovies,
     await searchParams,
     "/movie/upcoming",
   );
