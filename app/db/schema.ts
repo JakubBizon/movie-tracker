@@ -100,3 +100,18 @@ export const ratings = pgTable(
   },
   (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
 );
+
+export const reviews = pgTable(
+  "reviews",
+  {
+    userId: text("userId")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    movieId: varchar("movieId", { length: 255 }).notNull(),
+    review: text("review").notNull(),
+    title: text("title").notNull(),
+    createdAt: timestamp("createdAt").defaultNow(),
+    updatedAt: timestamp("updatedAt").defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
+);

@@ -21,12 +21,12 @@ export default function ReviewCard({ review }: Props) {
   return (
     <Card className="p-4 border border-muted-foreground/10">
       <h3 className="text-lg font-semibold">{review.author}</h3>
-      <p className="mb-2 text-sm text-gray-600">
+      <p className="mb-2 text-sm text-gray-600 ">
         {formatDate(review.created_at)}
       </p>
       <p
         className={cn(
-          "whitespace-pre-line",
+          "whitespace-pre-line wrap-break-word",
           expanded ? "line-clamp-none" : "line-clamp-4",
         )}
       >

@@ -58,7 +58,7 @@ export default async function MoviePage({ params }: Props) {
 
         <Suspense fallback={null}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <Reviews id={movie.id} />
+            <Reviews movie={movie} />
           </div>
         </Suspense>
 

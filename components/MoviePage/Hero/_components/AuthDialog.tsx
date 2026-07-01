@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 
-type DialogType = "interaction" | "rate";
+type DialogType = "interaction" | "rate" | "review";
 
 type Props = {
   open: boolean;
@@ -26,10 +26,13 @@ const dialogContent: Record<
     description:
       "You need to be logged in to add movies to your favorites or bookmarks.",
   },
-
   rate: {
     title: "Log in to rate this movie",
     description: "You need to be logged in to rate movies.",
+  },
+  review: {
+    title: "Log in to add reviews",
+    description: "You need to be logged in to review movies",
   },
 };
 

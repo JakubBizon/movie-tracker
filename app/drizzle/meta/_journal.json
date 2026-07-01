@@ -22,6 +22,13 @@
       "when": 1773180101288,
       "tag": "0002_chubby_kitty_pryde",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1782928636929,
+      "tag": "0003_solid_wonder_man",
+      "breakpoints": true
     }
   ]
 }

@@ -12,10 +12,19 @@ export const signUpSchema = z
     z.refine((data) => data.password === data.confirmPassword, {
       message: "Password don't match",
       path: ["confirmPassword"],
-    })
+    }),
   );
 
 export const signInSchema = z.object({
   email: z.email("Invalid email adress"),
   password: z.string().check(z.minLength(1, "Password is required")),
+});
+
+export const reviewSchema = z.object({
+  content: z
+    .string()
+    .check(z.minLength(1, "Review content is required"))
+    .check(
+      z.maxLength(2400, "Review content must be less than 2400 characters"),
+    ),
 });
