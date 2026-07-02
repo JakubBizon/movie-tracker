@@ -4,8 +4,8 @@ import { Card } from "@/components/ui/card";
 export default function FiltersSkeleton() {
   return (
     <div className="w-full space-y-4">
-      <Card className="overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-4 text-lg">
+      <Card>
+        <div className="flex items-center justify-between px-4 text-lg">
           <Skeleton className="h-6 w-12" />
           <Skeleton className="h-5 w-5 rounded-sm" />
         </div>
@@ -14,10 +14,10 @@ export default function FiltersSkeleton() {
       <Card className="overflow-hidden">
         <div className="flex items-center justify-between px-4 gap-4">
           <Skeleton className="h-4 w-16" />
-          <hr className="border-border" />
         </div>
         <hr className="border-border" />
         <div className="px-4 py-4 space-y-4">
+          <Skeleton className="h-6 w-28" />
           <div className="flex items-center justify-between gap-4">
             <Skeleton className="h-4 w-10" />
             <Skeleton className="h-10 w-full max-w-56" />
