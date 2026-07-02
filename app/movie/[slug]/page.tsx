@@ -35,8 +35,11 @@ export default async function MoviePage({ params }: Props) {
   if (!id) {
     notFound();
   }
-  const movie = await canonicalMovieOrRedirect(slug);
-  const rating = await checkAverageMovieRating(id.toString());
+
+  const [movie, rating] = await Promise.all([
+    canonicalMovieOrRedirect(slug),
+    checkAverageMovieRating(id.toString()),
+  ]);
   return (
     <div className="bg-transparent dark:bg-secondary w-full font-sans">
       <Suspense fallback={<HeroSectionSkeleton />}>
