@@ -116,7 +116,7 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
             {pages[pages.length - 1] < totalPages - 1 && (
               <PaginationItem>
                 <input
-                  className="w-10 h-8 rounded-md text-center bg-transparent border border-slate-600 text-slate-200 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  className="w-10 h-8 rounded-md text-center bg-transparent border border-slate-600 dark:text-slate-200 text-slate-800 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   type="number"
                   min={1}
                   max={totalPages}
