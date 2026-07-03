@@ -42,6 +42,7 @@ export default function useMovieInteractions(
         movie.title,
         movie.poster_path,
         movie.vote_average.toString(),
+        movie.release_date,
       );
     },
     onMutate: async () => {
@@ -99,6 +100,7 @@ export default function useMovieInteractions(
         movie.title,
         movie.poster_path,
         movie.vote_average.toString(),
+        movie.release_date,
       );
     },
     onMutate: async () => {

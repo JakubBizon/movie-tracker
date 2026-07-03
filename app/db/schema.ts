@@ -6,6 +6,7 @@ import {
   text,
   timestamp,
   varchar,
+  date,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -68,6 +69,9 @@ export const favorites = pgTable(
     title: text("title").notNull(),
     posterPath: text("posterPath"),
     voteAverage: text("voteAverage"),
+    releaseDate: date("releaseDate"),
+    createdAt: timestamp("createdAt").defaultNow(),
+    updatedAt: timestamp("updatedAt").defaultNow(),
   },
   (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
 );
@@ -82,6 +86,9 @@ export const bookmarks = pgTable(
     title: text("title").notNull(),
     posterPath: text("posterPath"),
     voteAverage: text("voteAverage"),
+    releaseDate: date("releaseDate"),
+    createdAt: timestamp("createdAt").defaultNow(),
+    updatedAt: timestamp("updatedAt").defaultNow(),
   },
   (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
 );

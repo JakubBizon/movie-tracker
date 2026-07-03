@@ -9,11 +9,14 @@ import LoggedOutState from "@/components/MyLists/LoggedOutState";
 import CustomPagination from "@/components/Movies/_components/CustomPagination";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { SortOption } from "../types/list-tabs-sort-options";
+import { getOrderBy } from "@/lib/ListTabs/getOrderBy";
 
 type Props = {
   searchParams: Promise<{
     tab?: "watchlist" | "favorites";
     page?: string;
+    sort?: SortOption;
   }>;
 };
 
@@ -24,11 +27,13 @@ export const metadata: Metadata = {
 };
 
 export default async function MyListsHome({ searchParams }: Props) {
-  const { page, tab } = await searchParams;
+  const { page, tab, sort } = await searchParams;
   const pageNum = Number(page);
   const isInvalidPage =
     page !== undefined && (!Number.isInteger(pageNum) || pageNum < 1);
   const activeTab = tab === "favorites" ? "favorites" : "watchlist";
+  const activeSort: SortOption = sort ?? "added_desc";
+
   if (isInvalidPage) {
     redirect(`/my-lists?tab=${activeTab}&page=1`);
   }
@@ -51,12 +56,14 @@ export default async function MyListsHome({ searchParams }: Props) {
           .where(eq(bookmarks.userId, userId))
           .limit(limit)
           .offset((pageNum - 1) * limit)
+          .orderBy(getOrderBy(bookmarks, activeSort))
       : db
           .select()
           .from(favorites)
           .where(eq(favorites.userId, userId))
           .limit(limit)
-          .offset((pageNum - 1) * limit),
+          .offset((pageNum - 1) * limit)
+          .orderBy(getOrderBy(favorites, activeSort)),
     isWatchlist
       ? db.$count(bookmarks, eq(bookmarks.userId, userId))
       : db.$count(favorites, eq(favorites.userId, userId)),
@@ -84,6 +91,7 @@ export default async function MyListsHome({ searchParams }: Props) {
         items={items}
         userId={userId}
         activeTab={activeTab}
+        activeSort={activeSort}
         favoritesLength={favoritesCount}
         bookmarksLength={bookmarksCount}
       />

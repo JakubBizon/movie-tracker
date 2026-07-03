@@ -23,7 +23,7 @@ export default function MediaGrid({ items, userId }: MediaGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 py-10 ">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 py-6 ">
       {items.map((item) => (
         <MediaCard key={item.movieId} item={item} userId={userId} />
       ))}

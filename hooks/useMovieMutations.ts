@@ -27,6 +27,7 @@ export function useMovieMutations(
         movie.title,
         movie.poster_path,
         movie.vote_average.toString(),
+        movie.release_date,
       );
     },
     onMutate: async () => {
@@ -83,6 +84,7 @@ export function useMovieMutations(
         movie.title,
         movie.poster_path,
         movie.vote_average.toString(),
+        movie.release_date,
       );
     },
     onMutate: async () => {

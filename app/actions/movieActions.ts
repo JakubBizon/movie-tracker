@@ -11,6 +11,7 @@ export async function toggleFavoriteAction(
   title: string,
   posterPath: string,
   voteAverage: string,
+  releaseDate: string,
 ) {
   try {
     const existing = await db
@@ -35,6 +36,7 @@ export async function toggleFavoriteAction(
         title: title,
         posterPath: posterPath,
         voteAverage: voteAverage,
+        releaseDate: releaseDate,
       });
       revalidatePath("/my-list");
       revalidatePath("/");
@@ -75,6 +77,7 @@ export async function toggleBookmarkAction(
   title: string,
   posterPath: string,
   voteAverage: string,
+  releaseDate: string,
 ) {
   try {
     const existing = await db
@@ -99,6 +102,7 @@ export async function toggleBookmarkAction(
         title: title,
         posterPath: posterPath,
         voteAverage: voteAverage,
+        releaseDate: releaseDate,
       });
       revalidatePath("/my-list");
       revalidatePath("/");

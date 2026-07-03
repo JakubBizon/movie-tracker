@@ -7,4 +7,5 @@ export interface UserMediaItem {
   posterPath: string | null;
   voteAverage: string | null;
   type: MediaItemType;
+  releaseDate: string | null;
 }

@@ -25,6 +25,7 @@ const useMovieCard = (item: UserMediaItem, userId: string) => {
           item.title,
           posterPath,
           voteAverageStr,
+          item.releaseDate ?? "",
         );
         toast.success(`Removed ${item.title} from bookmarks`);
       } else {
@@ -34,6 +35,7 @@ const useMovieCard = (item: UserMediaItem, userId: string) => {
           item.title,
           posterPath,
           voteAverageStr,
+          item.releaseDate ?? "",
         );
         toast.success(`Removed ${item.title} from favorites`);
       }
