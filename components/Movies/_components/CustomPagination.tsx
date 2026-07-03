@@ -25,8 +25,20 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
   const router = useRouter();
 
   const handleJump = (value: string, setter: (v: string) => void) => {
-    const page = parseInt(value);
-    if (page >= 1 && page <= totalPages) {
+    if (value.trim() === "") {
+      setter("");
+      return;
+    }
+    const page = parseInt(value, 10);
+    if (isNaN(page)) {
+      setter("");
+      return;
+    }
+    if (page < 1) {
+      router.push(createPageUrl(1));
+    } else if (page > totalPages) {
+      router.push(createPageUrl(totalPages));
+    } else {
       router.push(createPageUrl(page));
     }
     setter("");
@@ -78,13 +90,15 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
             {pages[0] > 5 && (
               <PaginationItem>
                 <input
-                  className="w-10 h-8 rounded-md text-center bg-transparent border border-slate-600 text-slate-200 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  type="number"
-                  min={1}
-                  max={totalPages}
+                  className="w-10 h-8 rounded-md text-center bg-transparent border border-slate-600 dark:text-slate-200 text-slate-800 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  type="text"
+                  inputMode="numeric"
                   value={leftValue}
                   placeholder="..."
-                  onChange={(e) => setLeftValue(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, "");
+                    setLeftValue(val);
+                  }}
                   onKeyDown={(e) =>
                     e.key === "Enter" && handleJump(leftValue, setLeftValue)
                   }
@@ -117,12 +131,14 @@ export default function CustomPagination({ currentPage, totalPages }: Props) {
               <PaginationItem>
                 <input
                   className="w-10 h-8 rounded-md text-center bg-transparent border border-slate-600 dark:text-slate-200 text-slate-800 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  type="number"
-                  min={1}
-                  max={totalPages}
+                  type="text"
+                  inputMode="numeric"
                   value={rightValue}
                   placeholder="..."
-                  onChange={(e) => setRightValue(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, "");
+                    setRightValue(val);
+                  }}
                   onKeyDown={(e) =>
                     e.key === "Enter" && handleJump(rightValue, setRightValue)
                   }
