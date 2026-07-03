@@ -1,5 +1,5 @@
 "use client";
-import { useRef, ReactNode, useEffect, useState } from "react";
+import { useRef, ReactNode, useEffect, useState, useCallback } from "react";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -11,14 +11,15 @@ export function Carousel({ items }: CarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  const checkScroll = () => {
+  const checkScroll = useCallback(() => {
+    if (document.hidden) return;
     const el = scrollRef.current;
     if (!el) return;
     const { scrollLeft, scrollWidth, clientWidth } = el;
 
     setCanScrollLeft(scrollLeft > 0);
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
-  };
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -29,13 +30,16 @@ export function Carousel({ items }: CarouselProps) {
 
     el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
+    document.addEventListener("visibilitychange", checkScroll);
 
     return () => {
       el.removeEventListener("scroll", checkScroll);
       window.removeEventListener("resize", checkScroll);
+      document.removeEventListener("visibilitychange", checkScroll);
       clearTimeout(timer);
     };
-  }, []);
+  }, [checkScroll]);
+
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
