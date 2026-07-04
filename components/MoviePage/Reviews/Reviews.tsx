@@ -41,7 +41,7 @@ export default async function Reviews({ movie }: Props) {
         title={movie.title}
         existingReview={currentUserReview?.review.review}
       />
-      {filteredResults.length != 0 && <ReviewList results={results} />}
+      {filteredResults.length != 0 && <ReviewList results={filteredResults} />}
     </section>
   );
 }

@@ -54,12 +54,13 @@ export default function AddReviewForm({
         <Card className="px-0 bg-slate-50 dark:bg-card">
           <CardTitle className="px-6 flex gap-3 items-center">
             {hasReview ? <Pencil /> : <MessageSquarePlus />}
-            {hasReview ? "Edit your review" : "Add a new review"}
+            {hasReview ? "Edit your review" : "Share your thoughts"}
           </CardTitle>
           <CardContent>
             <Textarea
               maxLength={MAX_LENGTH}
               className="resize-none h-32"
+              placeholder="What did you like? What could be better?"
               {...register("content")}
             />
           </CardContent>
@@ -87,7 +88,7 @@ export default function AddReviewForm({
                 type="submit"
                 disabled={isSubmitting || (hasReview && !isDirty)}
               >
-                {isSubmitting ? "..." : hasReview ? "Update" : "Add"}
+                {isSubmitting ? "..." : hasReview ? "Update" : "Submit"}
               </Button>
             </div>
           </CardFooter>
