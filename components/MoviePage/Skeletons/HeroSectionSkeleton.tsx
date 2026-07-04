@@ -1,9 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import MovieMetaSkeleton from "./MovieMetaSkeleton";
 
-const skeletonBase = "bg-muted-foreground/10";
+const skeletonBase = "bg-muted-foreground/15";
 const skeletonSoft = "bg-muted-foreground/10";
-const skeletonStrong = "bg-muted-foreground/20";
+const skeletonStrong = "bg-muted-foreground/25";
 
 export function HeroSectionSkeleton() {
   return (
@@ -14,7 +14,7 @@ export function HeroSectionSkeleton() {
             className={`absolute inset-0 min-h-[500px] w-full overflow-hidden ${skeletonSoft}`}
           />
 
-          <div className="absolute inset-0 bg-black/35 dark:bg-black/45" />
+          <div className="absolute inset-0 bg-black/0 dark:bg-black/45" />
 
           <div className="relative z-20 container mx-auto max-w-7xl px-4 md:px-6">
             <div className="flex flex-col gap-6 py-8 md:flex-row lg:gap-10">
