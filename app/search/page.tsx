@@ -30,7 +30,6 @@ export default async function SearchPage({ searchParams }: Props) {
     redirect(normalizedUrl);
   }
   const searchData = await getSearchPageData(q || "", currentPage);
-  console.log("page:", page, "currentPage:", currentPage);
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 min-h-[calc(100vh-200px)]">
