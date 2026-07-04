@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { startTransition, useOptimistic, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -19,7 +19,7 @@ export function useAddReviewForm(
 ) {
   const hasReview = Boolean(existingReview);
   const [isEditingMode, setIsEditingMode] = useState(!hasReview);
-
+  const [optimisticReview, setOptimisticReview] = useOptimistic(existingReview);
   const {
     register,
     handleSubmit,
@@ -42,13 +42,22 @@ export function useAddReviewForm(
       onAuthRequired();
       return;
     }
-    const result = await addReviewAction(userId, movieId, title, data.content);
-    if (result.success) {
-      toast.success(hasReview ? "Review updated!" : "Review added!");
+    startTransition(async () => {
+      setOptimisticReview(data.content);
       setIsEditingMode(false);
-    } else {
-      toast.error(result.error ?? "Something went wrong");
-    }
+      const result = await addReviewAction(
+        userId,
+        movieId,
+        title,
+        data.content,
+      );
+      if (result.success) {
+        toast.success(hasReview ? "Review updated!" : "Review added!");
+      } else {
+        toast.error(result.error ?? "Something went wrong");
+        setIsEditingMode(true);
+      }
+    });
   });
 
   const handleEditStart = () => {
@@ -66,6 +75,7 @@ export function useAddReviewForm(
     isSubmitting,
     isDirty,
     content,
+    optimisticReview,
     onSubmit,
     handleEditStart,
     handleCancel,

@@ -29,6 +29,7 @@ export default function AddReviewForm({
     hasReview,
     isEditingMode,
     register,
+    optimisticReview,
     errors,
     isSubmitting,
     isDirty,
@@ -43,7 +44,7 @@ export default function AddReviewForm({
     return (
       <ExistingReviewCard
         onEditStart={() => handleEditStart()}
-        existingReview={existingReview}
+        existingReview={optimisticReview}
       />
     );
   }
