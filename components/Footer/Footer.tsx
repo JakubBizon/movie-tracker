@@ -1,5 +1,6 @@
 import { Film } from "lucide-react";
 import Link from "next/link";
+import HashLink from "../HashLink";
 
 const items = [
   {
@@ -55,12 +56,12 @@ export default function Footer() {
                 <ul className="flex flex-col gap-2">
                   {item.links.map((link) => (
                     <li key={link.name}>
-                      <Link
+                      <HashLink
                         href={link.href}
                         className="text-sm text-gray-600 transition-colors duration-200 hover:text-primary dark:text-gray-400 dark:hover:text-primary"
                       >
                         {link.name}
-                      </Link>
+                      </HashLink>
                     </li>
                   ))}
                 </ul>
