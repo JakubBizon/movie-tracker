@@ -5,9 +5,10 @@ import { headers } from "next/headers";
 import { avg, eq } from "drizzle-orm";
 import { getMovieDetails } from "@/lib/movies/getMovieDetails";
 import { MyRatingsMovieDetails } from "../types/my-ratings-movie-details";
-import { Card, CardContent } from "@/components/ui/card";
-import { Film, Star } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Film, Star, TrendingUp } from "lucide-react";
 import StatsCard from "@/components/MyRatings/StatsCard";
+import RatingDistributionChart from "@/components/MyRatings/RatingDistirbutionChart";
 
 export default async function MyRatings() {
   const session = await auth.api.getSession({
@@ -37,6 +38,7 @@ export default async function MyRatings() {
       };
     }),
   );
+
   return (
     <div className="flex flex-col max-w-7xl py-10 mx-auto px-4 sm:px-6 min-h-[calc(100vh-300px)]">
       <h2 className="text-4xl ">My ratings</h2>
@@ -61,7 +63,13 @@ export default async function MyRatings() {
 
         <div className="md:col-span-2">
           <Card className="h-full">
-            <CardContent className="h-full">xd</CardContent>
+            <CardHeader className="flex ">
+              <TrendingUp className="w-5 h-5 text-indigo-400" /> Rating
+              distribution
+            </CardHeader>
+            <CardContent className="">
+              <RatingDistributionChart movies={moviesWithDetails} />
+            </CardContent>
           </Card>
         </div>
       </div>
