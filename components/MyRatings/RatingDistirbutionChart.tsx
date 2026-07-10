@@ -1,12 +1,7 @@
 "use client";
 
 import { Bar, BarChart, LabelList, XAxis } from "recharts";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
+import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { MyRatingsMovieDetails } from "@/app/types/my-ratings-movie-details";
 
 function getRatingDistribution(movies: MyRatingsMovieDetails[]) {
@@ -38,7 +33,7 @@ export default function RatingDistributionChart({
   const data = getRatingDistribution(movies);
 
   return (
-    <ChartContainer config={chartConfig} className="max-h-[120px] w-full">
+    <ChartContainer config={chartConfig} className="max-h-30 w-full">
       <BarChart accessibilityLayer data={data}>
         <XAxis
           dataKey="rating"

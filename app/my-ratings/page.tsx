@@ -9,6 +9,12 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Film, Star, TrendingUp } from "lucide-react";
 import StatsCard from "@/components/MyRatings/StatsCard";
 import RatingDistributionChart from "@/components/MyRatings/RatingDistirbutionChart";
+import MyRatingsMovieCard from "@/components/MyRatings/MyRatingsMovieCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "My Ratings",
+};
 
 export default async function MyRatings() {
   const session = await auth.api.getSession({
@@ -42,7 +48,7 @@ export default async function MyRatings() {
   return (
     <div className="flex flex-col max-w-7xl py-10 mx-auto px-4 sm:px-6 min-h-[calc(100vh-300px)]">
       <h2 className="text-4xl ">My ratings</h2>
-      <span className="py-2">
+      <span className="py-4">
         Every movie you have rated, compared with the global score
       </span>
 
@@ -73,14 +79,11 @@ export default async function MyRatings() {
           </Card>
         </div>
       </div>
-
-      {moviesWithDetails.map((item, index) => (
-        <div key={index}>
-          <p>{item.title}</p>
-          {item.rating}
-          <p>Globalna: {item.vote_average}</p>
-        </div>
-      ))}
+      <div className="space-y-4 py-4">
+        {moviesWithDetails.map((movie: MyRatingsMovieDetails) => (
+          <MyRatingsMovieCard key={movie.movieId} movie={movie} />
+        ))}
+      </div>
     </div>
   );
 }
