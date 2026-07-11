@@ -33,21 +33,26 @@ export default function RatingDistributionChart({
   const data = getRatingDistribution(movies);
 
   return (
-    <ChartContainer config={chartConfig} className="max-h-30 w-full">
-      <BarChart accessibilityLayer data={data}>
+    <ChartContainer config={chartConfig} className="max-h-32 w-full">
+      <BarChart accessibilityLayer data={data} margin={{ top: 20 }}>
         <XAxis
           dataKey="rating"
           axisLine={false}
           tickLine={false}
-          tick={{ fill: "#9ca3af", fontSize: 12 }}
+          tick={{ fill: "#9ca3af", fontSize: 14 }}
         />
 
-        <Bar dataKey="count" fill="var(--color-desktop)" radius={[6, 6, 6, 6]}>
+        <Bar
+          dataKey="count"
+          fill="var(--color-desktop)"
+          minPointSize={2}
+          radius={[8, 8, 8, 8]}
+        >
           <LabelList
             dataKey="count"
             position="top"
-            fill="#9ca3af"
-            fontSize={12}
+            fill="#ffffff"
+            fontSize={14}
           />
         </Bar>
       </BarChart>
