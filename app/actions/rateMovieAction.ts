@@ -3,6 +3,7 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "../db";
 import { ratings } from "../db/schema";
+import { revalidatePath } from "next/cache";
 
 export async function rateMovieAction(
   userId: string,
@@ -35,6 +36,7 @@ export async function rateMovieAction(
         target: [ratings.userId, ratings.movieId],
         set: { rating: rating, updatedAt: new Date() },
       });
+    revalidatePath("/my-ratings");
     return { success: true };
   } catch (error) {
     console.error(error);

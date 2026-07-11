@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import RatingDiffBadge from "./RatingDiffBadge";
+import YourRatingButton from "./YourRatingButton";
 
 type Props = {
   movie: MyRatingsMovieDetails;
@@ -11,10 +12,9 @@ type Props = {
 
 export default function MyRatingsMovieCard({ movie }: Props) {
   const href = `/movie/${slugify(movie.title, Number(movie.movieId))}`;
-
   return (
     <div className="rounded-lg border bg-slate-50  dark:bg-card">
-      <div className="flex gap-3 md:gap-6 h-full ">
+      <div className="flex gap-3 md:gap-6 h-full">
         <Link href={href} className="shrink-0 w-22 md:w-25">
           <Image
             src={
@@ -37,15 +37,16 @@ export default function MyRatingsMovieCard({ movie }: Props) {
           </Link>
 
           <div className="flex justify-start xs:justify-center xs:items-center gap-4">
-            <div className="flex flex-col items-center">
-              <p className="xs:text-2xl text-lg">{movie.rating}</p>
-              <span>You</span>
-            </div>
+            <YourRatingButton
+              movieId={Number(movie.movieId)}
+              title={movie.title}
+              initialRating={movie.rating}
+            />
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-2">
                 <Star className="xs:w-5 xs:h-5 w-4 h-4 " />
                 <p className="xs:text-2xl text-lg">
-                  {movie.vote_average.toFixed(1)}
+                  {parseFloat(movie.vote_average.toFixed(1))}
                 </p>
               </div>
               <span>Global</span>

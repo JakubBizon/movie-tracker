@@ -15,12 +15,12 @@ type Props = {
   isRated: boolean;
   currentRating: number;
   rating: number;
-  setRating: (value: number) => void;
+  setRating: (val: number) => void;
   hoverRating: number;
-  setHoverRating: (value: number) => void;
+  setHoverRating: (val: number) => void;
   isSubmitting: boolean;
-  onSave: (value: number) => void;
-  onRemove: () => void;
+  handleSave: (val: number) => void;
+  handleRemove: () => void;
 };
 
 export default function RatingDialog({
@@ -34,8 +34,8 @@ export default function RatingDialog({
   hoverRating,
   setHoverRating,
   isSubmitting,
-  onSave,
-  onRemove,
+  handleSave,
+  handleRemove,
 }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -86,7 +86,7 @@ export default function RatingDialog({
 
               {isRated && (
                 <button
-                  onClick={onRemove}
+                  onClick={handleRemove}
                   disabled={isSubmitting}
                   className="mt-3 flex items-center justify-center gap-1 text-sm text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
                 >
@@ -99,7 +99,7 @@ export default function RatingDialog({
             </div>
 
             <Button
-              onClick={() => onSave(rating)}
+              onClick={() => handleSave(rating)}
               disabled={
                 isSubmitting ||
                 rating === currentRating ||
