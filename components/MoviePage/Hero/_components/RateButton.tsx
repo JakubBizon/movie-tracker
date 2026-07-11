@@ -71,8 +71,8 @@ export default function RateButton({ movieId, title }: Props) {
         hoverRating={hoverRating}
         setHoverRating={setHoverRating}
         isSubmitting={isSubmitting}
-        onSave={handleSave}
-        onRemove={handleRemove}
+        handleSave={handleSave}
+        handleRemove={handleRemove}
       />
 
       <AuthDialog open={isAuthOpen} onOpenChange={setIsAuthOpen} type="rate" />

@@ -1,22 +1,21 @@
 import { rateMovieAction } from "@/app/actions/rateMovieAction";
-import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { startTransition, useEffect, useOptimistic, useState } from "react";
 import { toast } from "sonner";
 
-export default function useMovieRating(
+const useMyRatingCard = (
   movieId: number,
   title: string,
   userId: string | undefined,
   currentRating: number,
   isOpen: boolean,
   onSuccess: () => void,
-) {
+) => {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [optimisticRating, setOptimisticRating] = useOptimistic(currentRating);
-
-  const queryClient = useQueryClient();
+  const router = useRouter();
 
   useEffect(() => {
     startTransition(() => {
@@ -42,9 +41,7 @@ export default function useMovieRating(
         );
         if (result.success) {
           toast.success(val === 0 ? "Rating removed" : "Rating saved!");
-          queryClient.invalidateQueries({
-            queryKey: ["rating", userId, movieId],
-          });
+          router.refresh();
           onSuccess();
         } else {
           toast.error("Something went wrong");
@@ -67,4 +64,6 @@ export default function useMovieRating(
     handleRemove: () => performAction(0),
     optimisticRating,
   };
-}
+};
+
+export default useMyRatingCard;

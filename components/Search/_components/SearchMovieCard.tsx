@@ -27,8 +27,8 @@ export default function SearchMovieCard({
   const href = `/movie/${slugify(movie.title, movie.id)}`;
 
   return (
-    <div className="rounded-lg border border-gray-300 bg-white  dark:border-gray-600 dark:bg-slate-800">
-      <div className="flex gap-3 md:gap-6 h-full">
+    <div className="rounded-lg border border-gray-300 bg-slate-50  dark:border-gray-600 dark:bg-slate-800">
+      <div className="flex gap-3 md:gap-6 h-full ">
         <Link href={href} className="shrink-0 w-22 md:w-25">
           <Image
             src={
