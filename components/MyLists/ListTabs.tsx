@@ -36,7 +36,7 @@ export default function ListTabs({
 
   return (
     <div className="border-b border-border pb-4">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="relative">
           <div className="flex gap-6 text-xl">
             <Link
@@ -77,7 +77,7 @@ export default function ListTabs({
           />
         </div>
 
-        <div className="sm:ml-auto">
+        <div className="md:ml-auto">
           <ListTabsFilters activeSort={activeSort} />
         </div>
       </div>

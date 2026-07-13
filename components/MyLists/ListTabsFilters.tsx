@@ -38,22 +38,25 @@ export default function ListTabsFilters({
   };
 
   return (
-    <Select
-      defaultValue={activeSort}
-      onValueChange={(value) => handleChange(value)}
-    >
-      <SelectTrigger>
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent className="max-w-70">
-        <SelectGroup>
-          {SORT_OPTIONS.map(({ label, value }) => (
-            <SelectItem key={value} value={value}>
-              {label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <div className="flex items-center gap-2">
+      <span>Filters: </span>
+      <Select
+        defaultValue={activeSort}
+        onValueChange={(value) => handleChange(value)}
+      >
+        <SelectTrigger>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="max-w-70">
+          <SelectGroup>
+            {SORT_OPTIONS.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
   );
 }
