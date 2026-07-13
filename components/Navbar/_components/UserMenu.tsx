@@ -11,7 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { User, List, XIcon, Settings } from "lucide-react";
+import { User, List, XIcon, Settings, Star } from "lucide-react";
 import Link from "next/link";
 import SignOutButton from "./SignOutButton";
 import { useState } from "react";
@@ -22,12 +22,16 @@ type UserMenuProps = {
   session: SessionData;
   watchlistCount: number;
   showWatchlistCount: boolean;
+  ratingsCount: number;
+  showRatingsCount: boolean;
 };
 
 export default function UserMenu({
   session,
   watchlistCount,
   showWatchlistCount,
+  ratingsCount,
+  showRatingsCount,
 }: UserMenuProps) {
   const isLoggedIn = !!session;
   const [isOpen, setIsOpen] = useState(false);
@@ -84,6 +88,19 @@ export default function UserMenu({
                   My Lists
                 </div>
                 {showWatchlistCount && <Badge>{watchlistCount}</Badge>}
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link
+                href="/my-ratings"
+                className="flex items-center justify-between px-3 py-2.5 rounded-md hover:bg-accent transition-colors text-sm font-medium"
+              >
+                <div className="flex items-center gap-3">
+                  <Star className="h-4 w-4" />
+                  My Ratings
+                </div>
+                {showRatingsCount && <Badge>{ratingsCount}</Badge>}
               </Link>
             </SheetClose>
 
