@@ -22,15 +22,15 @@ export default function RatingDiffBadge({ diff }: Props) {
       ) : (
         <ArrowDown className="w-4 h-4 text-red-500" />
       )}
-      <span
+      <div
         className={cn(
-          "text-sm",
+          "text-sm w-8",
           isPositive ? "text-green-500" : "text-red-500",
         )}
       >
         {isPositive ? "+" : ""}
         {rounded}
-      </span>
+      </div>
     </div>
   );
 }
