@@ -19,8 +19,7 @@ export default function NavbarActions({ session }: NavbarActionsProps) {
 
   const showWatchlistCount = !!session && !isLoadingMyLists && myListCount > 0;
   const showRatingsCount = !!session && !isLoadingRatings && ratingsCount > 0;
-  console.log(ratingsCount);
-  console.log(myListCount);
+
   return (
     <div className="flex items-center justify-center gap-2 md:gap-4 shrink-0">
       <div className="lg:flex hidden">
