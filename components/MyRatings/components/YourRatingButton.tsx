@@ -1,8 +1,8 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import RatingDialog from "../MoviePage/Hero/_components/RatingDialog";
 import { useState } from "react";
 import useMyRatingCard from "@/hooks/MyRatings/useMyRatingCard";
+import RatingDialog from "@/components/MoviePage/Hero/_components/RatingDialog";
 
 type Props = {
   movieId: number;

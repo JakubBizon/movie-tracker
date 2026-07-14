@@ -1,5 +1,5 @@
+import { Card, CardContent } from "@/components/ui/card";
 import { ReactElement } from "react";
-import { Card, CardContent } from "../ui/card";
 
 type Props = {
   icon: ReactElement;
