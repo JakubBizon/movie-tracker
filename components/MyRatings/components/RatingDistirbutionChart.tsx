@@ -41,7 +41,10 @@ export default function RatingDistributionChart({
           dataKey="rating"
           axisLine={false}
           tickLine={false}
-          tick={{ fill: "#9ca3af", fontSize: 14 }}
+          tick={{
+            fill: resolvedTheme === "dark" ? "#9ca3af" : "000000",
+            fontSize: 14,
+          }}
         />
 
         <Bar
@@ -54,7 +57,7 @@ export default function RatingDistributionChart({
           <LabelList
             dataKey="count"
             position="top"
-            fill={resolvedTheme === "dark" ? "#ffffff" : "#000000"}
+            fill={resolvedTheme === "dark" ? "#ffffff" : "#9cf3ff"}
             fontSize={14}
           />
         </Bar>
