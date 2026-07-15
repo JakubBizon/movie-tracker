@@ -3,6 +3,7 @@
 import { Bar, BarChart, LabelList, XAxis } from "recharts";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
 import { MyRatingsMovieDetails } from "@/app/types/my-ratings-movie-details";
+import { useTheme } from "next-themes";
 
 function getRatingDistribution(movies: MyRatingsMovieDetails[]) {
   const counts = Array.from({ length: 10 }, (_, i) => ({
@@ -31,6 +32,7 @@ export default function RatingDistributionChart({
   movies: MyRatingsMovieDetails[];
 }) {
   const data = getRatingDistribution(movies);
+  const { resolvedTheme } = useTheme();
 
   return (
     <ChartContainer config={chartConfig} className="max-h-32 w-full">
@@ -47,11 +49,12 @@ export default function RatingDistributionChart({
           fill="var(--color-desktop)"
           minPointSize={2}
           radius={[8, 8, 8, 8]}
+          isAnimationActive={false}
         >
           <LabelList
             dataKey="count"
             position="top"
-            fill="#ffffff"
+            fill={resolvedTheme === "dark" ? "#ffffff" : "#000000"}
             fontSize={14}
           />
         </Bar>
