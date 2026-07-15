@@ -25,7 +25,7 @@ export default function SearchListWrapper({
   return (
     <div className="flex flex-col max-w-7xl w-full mx-auto">
       {movies.length > 0 ? (
-        <div className="max-w-6xl w-full  mx-auto">
+        <div className="max-w-6xl w-full mx-auto">
           <SearchList
             movies={movies}
             bookmarkedIds={bookmarkedIds}

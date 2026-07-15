@@ -32,9 +32,9 @@ export default async function SearchPage({ searchParams }: Props) {
   const searchData = await getSearchPageData(q || "", currentPage);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 min-h-[calc(100vh-200px)]">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 min-h-[calc(100vh-200px)]">
       <div className="flex flex-col">
-        <p className="pb-4 text-xl">
+        <p className="pb-4 text-xl px-4">
           {searchData.totalResults} results found for {q}
         </p>
 
