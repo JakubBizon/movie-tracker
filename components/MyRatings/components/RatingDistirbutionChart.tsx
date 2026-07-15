@@ -57,7 +57,7 @@ export default function RatingDistributionChart({
           <LabelList
             dataKey="count"
             position="top"
-            fill={resolvedTheme === "dark" ? "#ffffff" : "#9cf3ff"}
+            fill={resolvedTheme === "dark" ? "#ffffff" : "#71717A"}
             fontSize={14}
           />
         </Bar>
