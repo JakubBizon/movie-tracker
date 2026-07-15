@@ -5,23 +5,32 @@ import getQueryClient from "@/lib/getQueryClient";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { getMyRatingsData } from "@/lib/MyRatings/getMyRatingsData";
+import { RatingsSort } from "@/hooks/MyRatings/useMyRatings";
 
 export const metadata: Metadata = {
   title: "My Ratings",
 };
 
-export default async function MyRatingsPage() {
+export default async function MyRatingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sort?: string }>;
+}) {
+  const { sort: sortParam } = await searchParams;
+  const sort: RatingsSort =
+    sortParam === "highest" || sortParam === "lowest" ? sortParam : "recent";
+
   const session = await auth.api.getSession({ headers: await headers() });
   const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["ratings-data"],
-    queryFn: () => getMyRatingsData(session?.user.id ?? ""),
+    queryKey: ["ratings-data", sort],
+    queryFn: () => getMyRatingsData(session?.user.id ?? "", sort),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <MyRatingsClient />
+      <MyRatingsClient initialSort={sort} />
     </HydrationBoundary>
   );
 }

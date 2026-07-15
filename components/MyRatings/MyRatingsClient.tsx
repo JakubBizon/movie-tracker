@@ -1,18 +1,36 @@
 "use client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Film, Star, TrendingUp } from "lucide-react";
-import useMyRatings from "@/hooks/MyRatings/useMyRatings";
+import useMyRatings, { RatingsSort } from "@/hooks/MyRatings/useMyRatings";
 import StatsCard from "./components/StatsCard";
 import RatingDistributionChart from "./components/RatingDistirbutionChart";
 import MyRatingsMovieCard from "./components/MyRatingsMovieCard";
 import { MyRatingsMovieDetails } from "@/app/types/my-ratings-movie-details";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import SortOptionButton from "./components/SortOptionButton";
 
-export default function MyRatingsClient() {
-  const { data, isLoading } = useMyRatings();
+type Props = {
+  initialSort: RatingsSort;
+};
 
+export default function MyRatingsClient({ initialSort }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const sort = (searchParams.get("sort") as RatingsSort) ?? initialSort;
+
+  const { data, isLoading } = useMyRatings(sort);
   if (isLoading || !data) return null;
 
-  const { ratedMovies, average, moviesWithDetails } = data;
+  const handleSortChange = (newSort: RatingsSort) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set("sort", newSort);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const { average, moviesWithDetails } = data;
 
   return (
     <div className="flex flex-col max-w-7xl py-10 mx-auto px-4 sm:px-6 min-h-[calc(100vh-300px)]">
@@ -25,7 +43,7 @@ export default function MyRatingsClient() {
         <div className="col-span-1 flex flex-col gap-4">
           <StatsCard
             icon={<Film />}
-            value={ratedMovies.length}
+            value={moviesWithDetails.length}
             label="Movies Rated"
           />
 
@@ -48,10 +66,36 @@ export default function MyRatingsClient() {
           </Card>
         </div>
       </div>
-      <div className="space-y-4 py-4">
-        {moviesWithDetails.map((movie: MyRatingsMovieDetails) => (
-          <MyRatingsMovieCard key={movie.movieId} movie={movie} />
-        ))}
+      <div className="flex flex-col py-4">
+        <div className="flex justify-between">
+          <h2 className="text-xl">{moviesWithDetails.length} rated movies</h2>
+          <div className="flex flex-wrap gap-2">
+            <SortOptionButton
+              value="recent"
+              label="Recent"
+              active={sort === "recent"}
+              onClick={handleSortChange}
+            />
+            <SortOptionButton
+              value="highest"
+              label="Highest first"
+              active={sort === "highest"}
+              onClick={handleSortChange}
+            />
+            <SortOptionButton
+              value="lowest"
+              label="Lowest first"
+              active={sort === "lowest"}
+              onClick={handleSortChange}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4 py-4">
+          {moviesWithDetails.map((movie: MyRatingsMovieDetails) => (
+            <MyRatingsMovieCard key={movie.movieId} movie={movie} />
+          ))}
+        </div>
       </div>
     </div>
   );
