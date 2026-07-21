@@ -36,13 +36,21 @@ export default function UserMenu({
   const isLoggedIn = !!session;
   const [isOpen, setIsOpen] = useState(false);
 
+  const userNameFirstLetter = session?.user.name.slice(0, 1);
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10 border border-border">
             <AvatarFallback className="bg-primary/10 text-primary">
-              <User className="h-5 w-5" />
+              {isLoggedIn ? (
+                <div className="w-5 h-5 rounded-full flex justify-center items-center">
+                  {userNameFirstLetter?.toLocaleUpperCase()}
+                </div>
+              ) : (
+                <User className="h-5 w-5" />
+              )}
             </AvatarFallback>
           </Avatar>
         </Button>
@@ -54,15 +62,23 @@ export default function UserMenu({
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10">
                 <AvatarFallback className="bg-primary text-primary-foreground">
-                  <User className="h-5 w-5" />
+                  {isLoggedIn ? (
+                    <div className="w-6 h-6 rounded-full flex justify-center items-center">
+                      {userNameFirstLetter?.toLocaleUpperCase()}
+                    </div>
+                  ) : (
+                    <User className="h-6 w-6" />
+                  )}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <SheetTitle className="text-base font-semibold">
-                  {isLoggedIn ? session.user.name : "Guest Account"}
+                  {isLoggedIn ? session.user.name : "Not signed in"}
                 </SheetTitle>
                 <p className="text-xs text-muted-foreground truncate max-w-45">
-                  {isLoggedIn ? session.user.email : "Sign in to sync data"}
+                  {isLoggedIn
+                    ? session.user.email
+                    : "Sign in to sync your data"}
                 </p>
               </div>
             </div>
