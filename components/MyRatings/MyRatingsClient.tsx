@@ -8,6 +8,7 @@ import MyRatingsMovieCard from "./components/MyRatingsMovieCard";
 import { MyRatingsMovieDetails } from "@/app/types/my-ratings-movie-details";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import SortOptionButton from "./components/SortOptionButton";
+import MyRatingsEmptyRatingsState from "./components/MyRatingsEmptyState";
 
 type Props = {
   initialSort: RatingsSort;
@@ -21,7 +22,6 @@ export default function MyRatingsClient({ initialSort }: Props) {
   const sort = (searchParams.get("sort") as RatingsSort) ?? initialSort;
 
   const { data, isLoading } = useMyRatings(sort);
-  if (isLoading || !data) return null;
 
   const handleSortChange = (newSort: RatingsSort) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -29,6 +29,11 @@ export default function MyRatingsClient({ initialSort }: Props) {
     params.set("sort", newSort);
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
+  if (isLoading) return null;
+
+  if (!data || data.moviesWithDetails.length === 0) {
+    return <MyRatingsEmptyRatingsState />;
+  }
 
   const { average, moviesWithDetails } = data;
 
