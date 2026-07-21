@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { getMyRatingsData } from "@/lib/MyRatings/getMyRatingsData";
 import { RatingsSort } from "@/hooks/MyRatings/useMyRatings";
+import LoggedOutState from "@/components/MyLists/LoggedOutState";
 
 export const metadata: Metadata = {
   title: "My Ratings",
@@ -27,6 +28,15 @@ export default async function MyRatingsPage({
     queryKey: ["ratings-data", sort],
     queryFn: () => getMyRatingsData(session?.user.id ?? "", sort),
   });
+
+  if (!session) {
+    return (
+      <LoggedOutState
+        title="Log in to see your ratings"
+        description="Your movie ratings will be displayed after logging in"
+      />
+    );
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

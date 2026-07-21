@@ -42,7 +42,12 @@ export default async function MyListsHome({ searchParams }: Props) {
   });
 
   if (!session) {
-    return <LoggedOutState />;
+    return (
+      <LoggedOutState
+        title="Log in to see your lists"
+        description="Your favorite movies and bookmarks will be displayed after logging in"
+      />
+    );
   }
 
   const userId = session.user.id;
