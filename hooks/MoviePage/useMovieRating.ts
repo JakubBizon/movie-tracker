@@ -1,4 +1,5 @@
 import { rateMovieAction } from "@/app/actions/rateMovieAction";
+import { ratingsCountKey } from "@/components/Navbar/hooks/useRatingsCount";
 import { useQueryClient } from "@tanstack/react-query";
 import { startTransition, useEffect, useOptimistic, useState } from "react";
 import { toast } from "sonner";
@@ -44,6 +45,9 @@ export default function useMovieRating(
           toast.success(val === 0 ? "Rating removed" : "Rating saved!");
           queryClient.invalidateQueries({
             queryKey: ["rating", userId, movieId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [ratingsCountKey],
           });
           onSuccess();
         } else {

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-const ratingsCountKey = "ratings-count" as const;
+export const ratingsCountKey = "ratings-count" as const;
 
 async function fetchRatingsCount(): Promise<{ count: number }> {
   const res = await fetch("api/ratings/count");
