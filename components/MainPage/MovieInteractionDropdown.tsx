@@ -26,9 +26,10 @@ export default function MovieInteractionDropdown({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
+          aria-label="Open movie interaction dropdown"
           className="md:hidden absolute top-2 right-2 z-10 px-1 border-white/10 bg-zinc-900/95 rounded-xl text-white"
         >
-          <Ellipsis className="w-5 h-5" />
+          <Ellipsis className="w-6 h-6" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-20">

@@ -13,7 +13,7 @@ export default async function PopularSection() {
         icon={<Star className="h-6 w-6 text-yellow-400" />}
         link="/movie"
       />
-      <MovieCarousel movies={data.results} />
+      <MovieCarousel movies={data.results} section="popular movies" />
     </>
   );
 }

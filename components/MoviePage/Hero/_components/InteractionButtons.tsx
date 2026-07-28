@@ -57,6 +57,7 @@ export default function InteractionButtons({
       handler: handleBookmark,
       fillColor: "fill-blue-500 text-blue-500",
       pending: isBookmarkPending,
+      ariaLabelName: "bookmarks",
     },
     {
       icon: Heart,
@@ -64,15 +65,20 @@ export default function InteractionButtons({
       handler: handleFavorite,
       fillColor: "fill-red-500 text-red-500",
       pending: isFavoritePending,
+      ariaLabelName: "favorites",
     },
   ];
 
   return (
     <>
       {interactionButtons.map(
-        ({ icon: Icon, state, handler, fillColor, pending }, index) => (
+        (
+          { icon: Icon, state, handler, fillColor, pending, ariaLabelName },
+          index,
+        ) => (
           <Button
             key={index}
+            aria-label={`Add "${data.title}" to ${ariaLabelName}`}
             variant={variant ?? "default"}
             size={size ?? "lg"}
             onClick={handler}

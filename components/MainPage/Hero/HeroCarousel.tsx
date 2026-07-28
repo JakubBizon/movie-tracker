@@ -91,6 +91,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
         {data.map((_, index) => (
           <button
             key={index}
+            aria-label={`Go to ${index + 1} slide`}
             onClick={() => scrollTo(index)}
             className={`h-1 rounded-full py-1 px-4 transition-all duration-300 cursor-pointer ${
               index === current

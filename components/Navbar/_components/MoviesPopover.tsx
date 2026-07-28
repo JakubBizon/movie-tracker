@@ -33,9 +33,12 @@ export default function MoviesPopover() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <span className="md:text-xl text-base cursor-pointer gradient-text">
+        <button
+          type="button"
+          className="md:text-xl text-base cursor-pointer gradient-text"
+        >
           Movies
-        </span>
+        </button>
       </PopoverTrigger>
       <PopoverContent
         onClick={() => setOpen(false)}

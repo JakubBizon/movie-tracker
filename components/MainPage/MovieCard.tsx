@@ -75,12 +75,12 @@ export default function MovieCard({
           />
         )}
 
-        <h3
+        <h2
           title={movie.title}
           className="text-white pt-10 text-sm md:text-base via-black/60 leading-tight absolute bottom-0 left-0 right-0 p-3 bg-linear-to-t from-black to-transparent font-semibold rounded-b-lg"
         >
           {movie.title}
-        </h3>
+        </h2>
 
         <div className="text-white absolute top-2 left-2 z-10 px-2 py-0.5 text-sm rounded-xl bg-black/80 flex items-center justify-center gap-2 leading-none">
           {movie.vote_average ? (

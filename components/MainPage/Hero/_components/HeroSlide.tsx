@@ -42,6 +42,7 @@ export default function HeroSlide({ movie, index, userId }: Props) {
       {/* Mobile overlay */}
       <Link
         href={`movie/${slugify(movie.title, movie.id)}`}
+        aria-label={`Go to "${movie.title}" page`}
         className="absolute inset-0 z-30 md:hidden"
       />
 
@@ -91,6 +92,7 @@ export default function HeroSlide({ movie, index, userId }: Props) {
           <Button
             asChild
             size="lg"
+            aria-label={`More info about ${movie.title}`}
             className="bg-white/10 hover:bg-white/20 xs:text-sm text-xs cursor-pointer text-white border border-white/20 backdrop-blur-md transition-all duration-300 shadow-xl font-medium"
           >
             <Link href={`/movie/${slugify(movie.title, movie.id)}`}>

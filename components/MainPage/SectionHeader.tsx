@@ -21,7 +21,9 @@ export function SectionHeader({ title, icon, link }: SectionHeaderProps) {
           variant="default"
           className="md:px-4 py-1 px-2 md:text-sm"
         >
-          <Link href={link}>View all</Link>
+          <Link aria-label={`View all ${title}`} href={link}>
+            View all
+          </Link>
         </Button>
       )}
     </div>

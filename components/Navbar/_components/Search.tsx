@@ -86,7 +86,12 @@ export function Search() {
           role="combobox"
         />
 
-        <button type="button" onClick={handleSearch} disabled={!query}>
+        <button
+          type="button"
+          aria-label="Search"
+          onClick={handleSearch}
+          disabled={!query}
+        >
           <SearchIcon className="cursor-pointer transition-colors hover:text-primary" />
         </button>
       </InputGroup>
