@@ -41,7 +41,11 @@ export default function UserMenu({
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+        <Button
+          aria-label="Open user menu"
+          variant="ghost"
+          className="relative h-10 w-10 rounded-full"
+        >
           <Avatar className="h-10 w-10 border border-border">
             <AvatarFallback className="bg-primary/10 text-primary">
               {isLoggedIn ? (

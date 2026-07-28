@@ -25,7 +25,12 @@ export default function NavbarActions({ session }: NavbarActionsProps) {
       <div className="lg:flex hidden">
         <ThemeToggle />
         <Link href="/my-lists">
-          <Button variant="ghost" className="relative" size="icon">
+          <Button
+            aria-label="Open MyLists page"
+            variant="ghost"
+            className="relative"
+            size="icon"
+          >
             <Bookmark className="dark:text-white text-black" />
             {showWatchlistCount && (
               <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs gradient-primary border-0">
