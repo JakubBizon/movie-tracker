@@ -24,7 +24,7 @@ export default function NavbarActions({ session }: NavbarActionsProps) {
     <div className="flex items-center justify-center gap-2 md:gap-4 shrink-0">
       <div className="lg:flex hidden">
         <ThemeToggle />
-        <Link href="/my-lists">
+        <Link href="/my-lists" aria-label="Go to my lists">
           <Button variant="ghost" className="relative" size="icon">
             <Bookmark className="dark:text-white text-black" />
             {showWatchlistCount && (

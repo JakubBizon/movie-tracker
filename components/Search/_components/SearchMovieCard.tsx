@@ -29,7 +29,11 @@ export default function SearchMovieCard({
   return (
     <div className="rounded-lg border border-gray-300 bg-slate-50  dark:border-gray-600 dark:bg-slate-800">
       <div className="flex gap-3 md:gap-6 h-full ">
-        <Link href={href} className="shrink-0 w-22 md:w-25">
+        <Link
+          aria-label={`Go to "${movie.title}" page`}
+          href={href}
+          className="shrink-0 w-22 md:w-25"
+        >
           <Image
             src={
               movie.poster_path
@@ -105,7 +109,12 @@ export default function SearchMovieCard({
             userId={userId}
           />
 
-          <Button asChild size="lg" variant="outline">
+          <Button
+            aria-label={`Go to "${movie.title}" page`}
+            asChild
+            size="lg"
+            variant="outline"
+          >
             <Link href={href}>
               <ArrowRight className="h-5 w-5" />
             </Link>

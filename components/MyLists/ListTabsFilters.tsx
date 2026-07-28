@@ -44,7 +44,7 @@ export default function ListTabsFilters({
         defaultValue={activeSort}
         onValueChange={(value) => handleChange(value)}
       >
-        <SelectTrigger>
+        <SelectTrigger aria-label="Select filter option">
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="max-w-70">
