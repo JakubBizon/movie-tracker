@@ -91,7 +91,7 @@ export default async function MyListsHome({ searchParams }: Props) {
   const currentPage = page ? pageNum : 1;
 
   return (
-    <>
+    <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 flex justify-center items-center min-h-[calc(100vh-200px)]">
       <MyLists
         items={items}
         userId={userId}
@@ -105,6 +105,6 @@ export default async function MyListsHome({ searchParams }: Props) {
         totalPages={totalPages}
         activeTab={activeTab}
       />
-    </>
+    </div>
   );
 }
