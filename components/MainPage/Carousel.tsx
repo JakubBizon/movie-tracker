@@ -5,9 +5,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CarouselProps {
   items: ReactNode[];
+  section: string;
 }
 
-export function Carousel({ items }: CarouselProps) {
+export function Carousel({ items, section }: CarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -52,6 +53,7 @@ export function Carousel({ items }: CarouselProps) {
     <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6  mb-4 group overflow-hidden">
       <Button
         variant="ghost"
+        aria-label={`Previous ${section} movies`}
         size="icon"
         className={`absolute left-4 border border-muted-foreground top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100 transition-opacity cursor-pointer ${
           canScrollLeft ? "hidden md:flex" : "hidden"
@@ -70,6 +72,7 @@ export function Carousel({ items }: CarouselProps) {
 
       <Button
         variant="ghost"
+        aria-label={`Next ${section} movies`}
         size="icon"
         className={`absolute right-4 border border-muted-foreground top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full glass-strong opacity-100 transition-opacity cursor-pointer ${
           canScrollRight ? "hidden md:flex" : "hidden"
