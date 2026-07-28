@@ -12,7 +12,7 @@ export default async function TrendingSection() {
         title="Trending Movies"
         icon={<FlameIcon className="w-8 h-8 text-yellow-300" />}
       />
-      <MovieCarousel movies={data.results} />
+      <MovieCarousel movies={data.results} section="trending movies" />
     </section>
   );
 }

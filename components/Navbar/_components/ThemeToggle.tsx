@@ -19,13 +19,16 @@ export default function ThemeToggle() {
 
   if (isFirstRender) return null;
 
+  const isLight = theme === "light";
+
   return (
     <>
       <div className="lg:flex hidden">
         <Button
+          aria-label={`Change theme to ${isLight ? "dark" : "light"}`}
           variant="ghost"
           size="icon"
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          onClick={() => setTheme(isLight ? "dark" : "light")}
           className="dark:text-white text-black"
         >
           {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}

@@ -13,7 +13,7 @@ export default async function TopRatedSection() {
         icon={<Trophy className="h-6 w-6 text-amber-500" />}
         link="/movie/top-rated"
       />
-      <MovieCarousel movies={data.results} />
+      <MovieCarousel movies={data.results} section="top rated" />
     </>
   );
 }

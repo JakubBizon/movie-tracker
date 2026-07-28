@@ -12,7 +12,7 @@ export default async function UpcomingSection() {
         icon={<Calendar className="w-8 h-8 text-blue-300" />}
         link="movie/upcoming"
       />
-      <MovieCarousel movies={data.results} />
+      <MovieCarousel movies={data.results} section="upcoming section" />
     </>
   );
 }

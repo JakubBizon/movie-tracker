@@ -14,12 +14,14 @@ type Props = {
     bookmarkedIds: string[];
   };
   limit?: number;
+  section: string;
 };
 
 export default function MovieCarouselClient({
   movies,
   initialSelections,
   limit,
+  section,
 }: Props) {
   const { data: session } = authClient.useSession();
   const userId = session?.user.id;
@@ -47,5 +49,5 @@ export default function MovieCarouselClient({
       </div>
     );
   });
-  return <Carousel items={renderedItems} />;
+  return <Carousel items={renderedItems} section={section} />;
 }

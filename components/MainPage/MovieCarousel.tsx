@@ -7,11 +7,13 @@ import MovieCarouselClient from "./MovieCarouselClient";
 interface MoviesCarouselProps {
   movies: Movie[];
   limit?: number;
+  section: string;
 }
 
 export default async function MovieCarousel({
   limit,
   movies,
+  section,
 }: MoviesCarouselProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -27,6 +29,7 @@ export default async function MovieCarousel({
       movies={displayedMovies}
       initialSelections={initialSelections}
       limit={limit}
+      section={section}
     />
   );
 }

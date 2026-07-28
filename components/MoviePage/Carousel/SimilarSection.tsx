@@ -16,7 +16,7 @@ export default async function SimilarSection({ id }: SimilarSectionProps) {
         </h2>
       </div>
       <div className="w-full">
-        <MovieCarousel movies={data.results} />
+        <MovieCarousel movies={data.results} section="similar section" />
       </div>
     </div>
   );
