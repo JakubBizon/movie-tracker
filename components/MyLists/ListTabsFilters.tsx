@@ -46,17 +46,17 @@ export default function ListTabsFilters({
       >
         <SelectTrigger
           aria-label="Select filter option"
-          className=" bg-slate-800!"
+          className=" dark:bg-slate-800!"
         >
           <SelectValue />
         </SelectTrigger>
-        <SelectContent className="max-w-70 bg-slate-800! ">
+        <SelectContent className="max-w-70 dark:bg-slate-800! ">
           <SelectGroup>
             {SORT_OPTIONS.map(({ label, value }) => (
               <SelectItem
                 key={value}
                 value={value}
-                className="hover:bg-slate-700!"
+                className="dark:hover:bg-slate-700!"
               >
                 {label}
               </SelectItem>
