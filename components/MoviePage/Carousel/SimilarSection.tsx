@@ -8,6 +8,10 @@ type SimilarSectionProps = {
 export default async function SimilarSection({ id }: SimilarSectionProps) {
   if (!id) return notFound();
   const data = await getSimilarMovies(id);
+
+  if (!data || data.results.length === 0) {
+    return null;
+  }
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-4">

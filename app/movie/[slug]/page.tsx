@@ -41,7 +41,7 @@ export default async function MoviePage({ params }: Props) {
     checkAverageMovieRating(id.toString()),
   ]);
   return (
-    <div className="bg-transparent dark:bg-secondary w-full font-sans">
+    <div className="bg-transparent dark:bg-secondary w-full font-sans pb-10">
       <Suspense fallback={<HeroSectionSkeleton />}>
         <MovieHero movie={movie} rating={rating} />
       </Suspense>

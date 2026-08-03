@@ -51,14 +51,20 @@ export default async function AdditionalInfo({ id, movie }: Props) {
         <div className="flex flex-col">
           <span className="font-semibold text-primary">Keywords: </span>
           <div className="flex flex-wrap gap-2 mt-2">
-            {keywords.keywords.map((keyword: Keyword) => (
-              <span
-                key={keyword.id}
-                className="inline-block text-black dark:text-white border-primary/50 border-2 rounded-full px-3 py-1 text-sm font-medium"
-              >
-                {keyword.name}
-              </span>
-            ))}
+            {keywords.keywords.length === 0 ? (
+              <div className="text-muted-foreground">
+                No keywords available.
+              </div>
+            ) : (
+              keywords.keywords.map((keyword: Keyword) => (
+                <span
+                  key={keyword.id}
+                  className="inline-block text-black dark:text-white border-primary/50 border-2 rounded-full px-3 py-1 text-sm font-medium"
+                >
+                  {keyword.name}
+                </span>
+              ))
+            )}
           </div>
         </div>
       </div>

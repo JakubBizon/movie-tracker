@@ -10,6 +10,17 @@ type CastSectionProps = {
 export default function CastSection({ castData, limit }: CastSectionProps) {
   const slicedCast = castData.cast.slice(0, limit);
 
+  if (slicedCast.length === 0) {
+    return (
+      <div className="flex flex-col space-y-4">
+        <h2 className="dark:text-white flex items-center gap-2 text-black font-semibold text-3xl">
+          Cast
+        </h2>
+        <p className="text-muted-foreground">No cast information available.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col space-y-4">
       <h2 className="dark:text-white flex items-center gap-2 text-black font-semibold text-3xl">
