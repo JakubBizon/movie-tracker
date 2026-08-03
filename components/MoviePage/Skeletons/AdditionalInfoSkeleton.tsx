@@ -5,7 +5,7 @@ const skeletonStrong = "bg-muted-foreground/20";
 
 export default function AdditionalInfoSkeleton() {
   return (
-    <div className="px-4 sm:px-6">
+    <div className="px-4 sm:px-6 max-w-7xl mx-auto py-6">
       <Skeleton className={`h-9 w-28 ${skeletonBase}`} />
 
       <div className="mt-4 grid grid-cols-1 gap-6 text-md md:grid-cols-2 lg:grid-cols-3">
