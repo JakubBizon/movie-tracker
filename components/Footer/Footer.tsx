@@ -16,6 +16,7 @@ const items = [
     title: "Account",
     links: [
       { name: "My Lists", href: "/my-lists" },
+      { name: "My Ratings", href: "/my-ratings" },
       { name: "Settings", href: "/settings" },
     ],
   },
