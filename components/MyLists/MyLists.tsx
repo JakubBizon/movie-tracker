@@ -26,7 +26,7 @@ export default function MyLists({
   useRefreshOnFocus();
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-300px)]">
+    <div className="flex flex-col">
       <h2 className="text-4xl mb-10 ">My lists</h2>
       <ListTabs
         activeTab={activeTab}
