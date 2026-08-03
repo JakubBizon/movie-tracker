@@ -26,12 +26,12 @@ const useMyRatingCard = (
     });
   }, [isOpen, currentRating]);
 
-  const performAction = async (val: number) => {
+  const performAction = async (val: number | null) => {
     if (!userId || isSubmitting) return;
     setIsSubmitting(true);
 
     startTransition(async () => {
-      setOptimisticRating(val);
+      setOptimisticRating(val === null ? currentRating : val);
       try {
         const result = await rateMovieAction(
           userId,
@@ -40,7 +40,7 @@ const useMyRatingCard = (
           val,
         );
         if (result.success) {
-          toast.success(val === 0 ? "Rating removed" : "Rating saved!");
+          toast.success(val === null ? "Rating removed" : "Rating saved!");
           router.refresh();
           onSuccess();
         } else {
@@ -61,7 +61,7 @@ const useMyRatingCard = (
     setHoverRating,
     isSubmitting,
     handleSave: (rating: number) => performAction(rating),
-    handleRemove: () => performAction(0),
+    handleRemove: () => performAction(null),
     optimisticRating,
   };
 };

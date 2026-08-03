@@ -28,12 +28,12 @@ export default function useMovieRating(
     });
   }, [isOpen, currentRating]);
 
-  const performAction = async (val: number) => {
+  const performAction = async (val: number | null) => {
     if (!userId || isSubmitting) return;
     setIsSubmitting(true);
 
     startTransition(async () => {
-      setOptimisticRating(val);
+      setOptimisticRating(val === null ? currentRating : val);
       try {
         const result = await rateMovieAction(
           userId,
@@ -42,7 +42,7 @@ export default function useMovieRating(
           val,
         );
         if (result.success) {
-          toast.success(val === 0 ? "Rating removed" : "Rating saved!");
+          toast.success(val === null ? "Rating removed" : "Rating saved!");
           queryClient.invalidateQueries({
             queryKey: ["rating", userId, movieId],
           });
@@ -68,7 +68,7 @@ export default function useMovieRating(
     setHoverRating,
     isSubmitting,
     handleSave: (rating: number) => performAction(rating),
-    handleRemove: () => performAction(0),
+    handleRemove: () => performAction(null),
     optimisticRating,
   };
 }

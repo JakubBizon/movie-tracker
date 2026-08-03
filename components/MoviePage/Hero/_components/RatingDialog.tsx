@@ -20,7 +20,7 @@ type Props = {
   setHoverRating: (val: number) => void;
   isSubmitting: boolean;
   handleSave: (val: number) => void;
-  handleRemove: () => void;
+  handleRemove: (val: null) => void;
 };
 
 export default function RatingDialog({
@@ -86,7 +86,7 @@ export default function RatingDialog({
 
               {isRated && (
                 <button
-                  onClick={handleRemove}
+                  onClick={() => handleRemove(null)}
                   disabled={isSubmitting}
                   className="mt-3 flex items-center justify-center gap-1 text-sm text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
                 >

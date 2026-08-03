@@ -33,13 +33,15 @@ export default function YourRatingButton({
   );
 
   const isRated = optimisticRating > 0;
+  const displayRating = optimisticRating > 0 ? optimisticRating : "—";
+
   return (
     <>
       <button
         className="flex flex-col items-center cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
-        <p className="xs:text-2xl text-lg">{optimisticRating}</p>
+        <p className="xs:text-2xl text-lg">{displayRating}</p>
         <span>You</span>
       </button>
 

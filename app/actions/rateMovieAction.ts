@@ -9,19 +9,21 @@ export async function rateMovieAction(
   userId: string,
   movieId: string,
   title: string,
-  rating: number,
+  rating: number | null,
 ) {
   if (!userId) throw new Error("Unauthorized");
-  if (rating < 0 || rating > 10) throw new Error("Invalid rating");
 
   try {
-    if (rating === 0) {
+    if (rating === null) {
       await db
         .delete(ratings)
         .where(and(eq(ratings.userId, userId), eq(ratings.movieId, movieId)));
 
+      revalidatePath("/my-ratings");
       return { success: true, message: "Rating removed" };
     }
+
+    if (rating < 1 || rating > 10) throw new Error("Invalid rating");
 
     await db
       .insert(ratings)
