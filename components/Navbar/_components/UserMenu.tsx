@@ -7,6 +7,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -55,6 +56,7 @@ export default function UserMenu({
           </Avatar>
         </Button>
       </SheetTrigger>
+      <SheetDescription className="sr-only">Open user menu</SheetDescription>
 
       <SheetContent side="right" className="w-75 sm:w-87.5 flex flex-col p-0">
         <SheetHeader className="p-5 text-left border-b">
