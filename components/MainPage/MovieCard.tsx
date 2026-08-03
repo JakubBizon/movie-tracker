@@ -54,26 +54,20 @@ export default function MovieCard({
         href={`/movie/${slug}`}
         className="block relative w-full h-full overflow-hidden bg-accent rounded-lg"
       >
-        {movie.poster_path ? (
-          <Image
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-            width={200}
-            height={300}
-            sizes="(max-width:768px) 40vw, (max-width:1200px) 33vw, 25vw"
-            className="rounded-lg shadow-lg w-full h-full object-cover opacity-0 transition-opacity duration-500"
-            onLoad={(image) => image.currentTarget.classList.add("opacity-100")}
-            priority={priority}
-          />
-        ) : (
-          <Image
-            src="/placeholder.png"
-            alt={movie.title}
-            width={200}
-            height={300}
-            className="rounded-lg shadow-none w-full h-full object-cover"
-          />
-        )}
+        <Image
+          src={
+            movie.poster_path
+              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+              : "/placeholder.png"
+          }
+          alt={movie.title}
+          width={200}
+          height={300}
+          sizes="(max-width:768px) 40vw, (max-width:1200px) 33vw, 25vw"
+          className="rounded-lg shadow-lg w-full h-full object-cover opacity-0 transition-opacity duration-500"
+          onLoad={(image) => image.currentTarget.classList.add("opacity-100")}
+          priority={priority}
+        />
 
         <h2
           title={movie.title}

@@ -8,7 +8,11 @@ export default function MoviePoster({ data }: Props) {
     <div className="shrink-0">
       <div className="relative w-32 sm:w-40  md:w-64 lg:w-80 aspect-2/3 rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10 ">
         <Image
-          src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+          src={
+            data.poster_path
+              ? `https://image.tmdb.org/t/p/w500${data.poster_path}`
+              : "/placeholder.png"
+          }
           alt={data.title}
           fill
           className="object-cover"
