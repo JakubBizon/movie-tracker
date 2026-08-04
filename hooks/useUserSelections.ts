@@ -26,6 +26,6 @@ export function useUserSelections(
       userId && initialData
         ? initialData
         : { favoriteIds: [], bookmarkedIds: [] },
-    staleTime: 30 * 1000,
+    staleTime: 1000 * 60 * 5,
   });
 }
