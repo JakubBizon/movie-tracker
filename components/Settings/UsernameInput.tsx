@@ -6,7 +6,7 @@ import z from "zod";
 import { userNameSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { Field, FieldLabel } from "../ui/field";
+import { Field, FieldError, FieldLabel } from "../ui/field";
 import { startTransition } from "react";
 import { updateUserName } from "@/app/actions/updateUserName";
 
@@ -61,9 +61,10 @@ export default function UsernameInput({ userName }: Props) {
                       Save
                     </Button>
                   </div>
-                  <p className="text-sm text-red-500 min-h-5 leading-tight ">
+
+                  <FieldError className="min-h-5">
                     {fieldState.error?.message}
-                  </p>
+                  </FieldError>
                 </div>
               </Field>
             )}
