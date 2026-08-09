@@ -6,3 +6,5 @@ export const AVATAR_COLORS = [
   { name: "pink", value: "bg-pink-500" },
   { name: "red", value: "bg-red-500" },
 ] as const;
+
+export type AvatarColorName = (typeof AVATAR_COLORS)[number]["name"];
