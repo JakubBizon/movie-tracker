@@ -31,7 +31,7 @@ export function AvatarColorPicker({
   };
 
   return (
-    <div className="flex flex-col gap-3 py-4">
+    <div className="flex flex-col gap-3 py-2">
       <p>Avatar Color</p>
       <div className="flex gap-3">
         {AVATAR_COLORS.map((color) => (

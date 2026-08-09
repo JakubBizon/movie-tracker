@@ -1,9 +1,8 @@
 import { AvatarColorPicker } from "@/components/Settings/AvatarColorPicker";
+import UsernameInput from "@/components/Settings/UsernameInput";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { auth } from "@/lib/auth";
 import { getAvatarColor } from "@/lib/utils/getAvatarColor";
 import { SettingsIcon } from "lucide-react";
@@ -26,12 +25,12 @@ export default async function Settings() {
         <CardHeader>
           <span className="text-lg font-semibold">Profile</span>
         </CardHeader>
-        <CardContent className="flex flex-col gap-6">
-          <div className="flex md:flex-row flex-col md:items-center justify-between gap-6">
+        <CardContent className="flex flex-col gap-1 xs:px-6 px-4">
+          <div className="flex md:flex-row flex-col md:items-start justify-between gap-6">
             <div className="flex items-center gap-3">
-              <Avatar className="h-16 w-16">
+              <Avatar className="sm:h-16 sm:w-16 w-12 h-12">
                 <AvatarFallback
-                  className={`${bgColor} text-2xl text-primary-foreground`}
+                  className={`${bgColor} sm:text-2xl text-lg font-bold text-primary-foreground`}
                 >
                   {userNameFirstLetter?.toLocaleUpperCase()}
                 </AvatarFallback>
@@ -41,22 +40,8 @@ export default async function Settings() {
                 <p className="text-muted-foreground">{session?.user.email}</p>
               </div>
             </div>
-            <div className="flex md:w-1/2 items-center gap-4">
-              <div className="flex flex-col gap-1 w-full justify-center">
-                <Label htmlFor="name" className="text-sm font-medium">
-                  Username
-                </Label>
-                <div className="flex items-center gap-2 w-full">
-                  <Input
-                    placeholder="Enter a username"
-                    defaultValue={userName}
-                  />
-                  <Button type="submit" className="ml-auto">
-                    Save
-                  </Button>
-                </div>
-              </div>
-            </div>
+
+            <UsernameInput userName={userName} />
           </div>
           <div>
             <AvatarColorPicker defaultColor={session?.user.avatarColor} />
