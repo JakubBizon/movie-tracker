@@ -17,6 +17,7 @@ export const user = pgTable("user", {
   image: text("image"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  avatarColor: text("avatar_color").default("blue").notNull(),
 });
 
 export const session = pgTable("session", {

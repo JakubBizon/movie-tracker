@@ -17,5 +17,6 @@ export type SessionData = {
     emailVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
+    avatarColor: string;
   };
 } | null;
