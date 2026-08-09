@@ -28,3 +28,10 @@ export const reviewSchema = z.object({
       z.maxLength(2400, "Review content must be less than 2400 characters"),
     ),
 });
+
+export const userNameSchema = z.object({
+  userName: z
+    .string()
+    .check(z.minLength(1, "Username has to contain at least 1 character"))
+    .check(z.maxLength(20, "Username has to contain less than 20 characters")),
+});
