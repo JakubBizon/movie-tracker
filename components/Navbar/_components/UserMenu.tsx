@@ -18,6 +18,7 @@ import SignOutButton from "./SignOutButton";
 import { useState } from "react";
 import MenuThemeToggle from "./MenuThemeToggle";
 import { Badge } from "@/components/ui/badge";
+import { getAvatarColor } from "@/lib/utils/getAvatarColor";
 
 type UserMenuProps = {
   session: SessionData;
@@ -36,6 +37,7 @@ export default function UserMenu({
 }: UserMenuProps) {
   const isLoggedIn = !!session;
   const [isOpen, setIsOpen] = useState(false);
+  const bgColor = getAvatarColor(session?.user.avatarColor ?? "blue");
 
   const userNameFirstLetter = session?.user.name.slice(0, 1);
 
@@ -44,7 +46,7 @@ export default function UserMenu({
       <SheetTrigger aria-label="Open user menu" asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10 border border-border">
-            <AvatarFallback className="bg-primary/10 text-primary">
+            <AvatarFallback className={`${bgColor} text-primary-foreground`}>
               {isLoggedIn ? (
                 <div className="w-5 h-5 rounded-full flex justify-center items-center">
                   {userNameFirstLetter?.toLocaleUpperCase()}
@@ -63,7 +65,9 @@ export default function UserMenu({
           <div className="flex items-center justify-between ">
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10">
-                <AvatarFallback className="bg-primary text-primary-foreground">
+                <AvatarFallback
+                  className={`${bgColor} text-primary-foreground`}
+                >
                   {isLoggedIn ? (
                     <div className="w-6 h-6 rounded-full flex justify-center items-center">
                       {userNameFirstLetter?.toLocaleUpperCase()}

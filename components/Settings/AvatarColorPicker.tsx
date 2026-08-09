@@ -1,53 +1,60 @@
 "use client";
 
+import { updateAvatarColor } from "@/app/actions/updateAvatarColor";
+import { AVATAR_COLORS } from "@/app/types/avatarColors";
 import { cn } from "@/lib/utils";
 import { CheckIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
-const AVATAR_COLORS = [
-  { name: "blue", value: "bg-blue-500" },
-  { name: "purple", value: "bg-purple-500" },
-  { name: "green", value: "bg-emerald-500" },
-  { name: "orange", value: "bg-orange-500" },
-  { name: "pink", value: "bg-pink-500" },
-  { name: "red", value: "bg-red-500" },
-] as const;
+import { toast } from "sonner";
 
 export function AvatarColorPicker({
-  defaultColor = "green",
-  onChange,
+  defaultColor = "blue",
 }: {
   defaultColor?: string;
-  onChange?: (color: string) => void;
 }) {
   const [selected, setSelected] = useState(defaultColor);
+  const [isPending, startTransition] = useTransition();
 
   const handleSelect = (name: string) => {
+    const previous = selected;
     setSelected(name);
-    onChange?.(name);
+
+    startTransition(async () => {
+      try {
+        await updateAvatarColor(name);
+      } catch (e) {
+        setSelected(previous);
+        toast.error("Cannot update avatar color. Please try again.");
+      }
+    });
   };
 
   return (
-    <div className="flex items-center gap-3 py-4">
-      {AVATAR_COLORS.map((color) => (
-        <button
-          key={color.name}
-          type="button"
-          onClick={() => handleSelect(color.name)}
-          aria-label={`Set avatar color to ${color.name}`}
-          aria-pressed={selected === color.name}
-          className={cn(
-            "h-8 w-8 rounded-full flex items-center justify-center transition-transform hover:scale-110",
-            color.value,
-            selected === color.name &&
-              "ring-2 ring-offset-2 ring-offset-background ring-primary",
-          )}
-        >
-          {selected === color.name && (
-            <CheckIcon className="h-4 w-4 text-white" strokeWidth={3} />
-          )}
-        </button>
-      ))}
+    <div className="flex flex-col gap-3 py-4">
+      <p>Avatar Color</p>
+      <div className="flex gap-3">
+        {AVATAR_COLORS.map((color) => (
+          <button
+            key={color.name}
+            type="button"
+            disabled={isPending}
+            onClick={() => handleSelect(color.name)}
+            aria-label={`Set avatar color to ${color.name}`}
+            aria-pressed={selected === color.name}
+            className={cn(
+              "h-8 w-8 rounded-full flex items-center justify-center transition-transform hover:scale-110 disabled:opacity-50",
+              color.value,
+              selected === color.name &&
+                "ring-2 ring-offset-2 ring-offset-background ring-primary",
+            )}
+          >
+            {selected === color.name && (
+              <CheckIcon className="h-4 w-4 text-white" strokeWidth={3} />
+            )}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
