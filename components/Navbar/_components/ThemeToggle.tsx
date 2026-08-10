@@ -17,7 +17,18 @@ export default function ThemeToggle() {
     }
   }, [isFirstRender]);
 
-  if (isFirstRender) return null;
+  if (isFirstRender)
+    return (
+      <div className="lg:flex hidden">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="dark:text-white text-black"
+        >
+          <Sun size={20} />
+        </Button>
+      </div>
+    );
 
   const isLight = theme === "light";
 
