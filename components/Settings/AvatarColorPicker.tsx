@@ -38,7 +38,7 @@ export function AvatarColorPicker({
           <button
             key={color.name}
             type="button"
-            disabled={isPending}
+            disabled={isPending || selected === color.name}
             onClick={() => handleSelect(color.name)}
             aria-label={`Set avatar color to ${color.name}`}
             aria-pressed={selected === color.name}
