@@ -4,14 +4,17 @@ import { authClient } from "@/lib/auth-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import SessionCard from "./SessionCard";
 
-export default function SessionSettings() {
+type Props = {
+  currentSessionId: string;
+};
+
+export default function SessionSettings({ currentSessionId }: Props) {
   const queryClient = useQueryClient();
+
   const { data: sessions, isPending } = useQuery({
     queryKey: ["sessions"],
     queryFn: async () => (await authClient.listSessions()).data,
   });
-
-  const { data: currentSession } = authClient.useSession();
 
   const revoke = useMutation({
     mutationFn: (token: string) => authClient.revokeSession({ token }),
@@ -36,7 +39,7 @@ export default function SessionSettings() {
             key={s.id}
             session={s}
             index={index}
-            isCurrent={s.id === currentSession?.session.id}
+            isCurrent={s.id === currentSessionId}
             onRevoke={() => revoke.mutate(s.token)}
           />
         ))}
