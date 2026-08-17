@@ -2,11 +2,14 @@ import { UploadIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { watchlistCountQueryKey } from "@/hooks/watchlist/useWatchlistCount";
 
 export default function ImportButton() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [isImporting, setIsImporting] = useState(false);
+  const queryClient = useQueryClient();
 
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -31,6 +34,9 @@ export default function ImportButton() {
       }
       setIsImporting(false);
       toast.success(`Imported JSON succesfully`);
+      queryClient.invalidateQueries({
+        queryKey: watchlistCountQueryKey,
+      });
     } catch {
       setIsImporting(false);
       toast.error(`Invalid JSON file`);
