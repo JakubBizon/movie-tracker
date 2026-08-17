@@ -36,7 +36,7 @@ export async function toggleFavoriteAction(
         title: title,
         posterPath: posterPath,
         voteAverage: voteAverage,
-        releaseDate: releaseDate,
+        releaseDate: releaseDate ? releaseDate : null,
       });
       revalidatePath("/my-list");
       revalidatePath("/");
@@ -102,7 +102,7 @@ export async function toggleBookmarkAction(
         title: title,
         posterPath: posterPath,
         voteAverage: voteAverage,
-        releaseDate: releaseDate,
+        releaseDate: releaseDate ? releaseDate : null,
       });
       revalidatePath("/my-list");
       revalidatePath("/");
