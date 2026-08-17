@@ -51,7 +51,7 @@ export default function ImportButton() {
         <div>
           <p>Import data </p>
           <p className="text-muted-foreground">
-            Restore your data from a previously exported file
+            Restore your lists and ratings from a previously exported file
           </p>
         </div>
         <div className="">

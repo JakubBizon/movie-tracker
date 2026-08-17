@@ -18,7 +18,7 @@ export default function ExportButton() {
       <div>
         <p>Export data</p>
         <p className="text-muted-foreground">
-          Download your profile, lists and ratings as a JSON file
+          Download your lists and ratings as a JSON file
         </p>
       </div>
       <div>
