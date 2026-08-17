@@ -28,3 +28,33 @@ export const reviewSchema = z.object({
       z.maxLength(2400, "Review content must be less than 2400 characters"),
     ),
 });
+
+export const userNameSchema = z.object({
+  userName: z
+    .string()
+    .check(z.minLength(1, "Username has to contain at least 1 character"))
+    .check(z.maxLength(20, "Username has to contain less than 20 characters")),
+});
+
+const movieBaseSchema = z.object({
+  movieId: z.string(),
+  title: z.string(),
+  posterPath: z.nullable(z.optional(z.string())),
+  voteAverage: z.nullable(z.optional(z.string())),
+  releaseDate: z.nullable(z.optional(z.string())),
+});
+
+export const importSchema = z.object({
+  schemaVersion: z.literal(1),
+  data: z.object({
+    favorites: z.array(movieBaseSchema),
+    bookmarks: z.array(movieBaseSchema),
+    ratings: z.array(
+      z.extend(movieBaseSchema, {
+        rating: z.coerce.number().check(z.minimum(1), z.maximum(10), z.int()),
+      }),
+    ),
+  }),
+});
+
+export type ImportData = z.infer<typeof importSchema>["data"];
