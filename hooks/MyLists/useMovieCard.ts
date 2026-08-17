@@ -6,6 +6,7 @@ import { UserMediaItem } from "@/app/types/user-media-item";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { watchlistCountQueryKey } from "../watchlist/useWatchlistCount";
 
 const useMovieCard = (item: UserMediaItem, userId: string) => {
   const [isPending, startTransition] = useTransition();
@@ -40,7 +41,7 @@ const useMovieCard = (item: UserMediaItem, userId: string) => {
         toast.success(`Removed ${item.title} from favorites`);
       }
       queryClient.invalidateQueries({
-        queryKey: ["watchlist", "count"],
+        queryKey: watchlistCountQueryKey,
       });
     });
   };
