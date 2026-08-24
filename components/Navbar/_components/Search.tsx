@@ -29,7 +29,7 @@ export function Search() {
   } = useSearch(addSearch, recentSearches);
 
   return (
-    <div className="relative px-5 xl:px-0">
+    <div className="relative">
       <InputGroup className="w-full border-primary bg-white px-2 text-black focus-visible:ring-primary dark:border-border/50 dark:bg-slate-800 dark:text-white">
         <InputGroupInput
           ref={inputRef}
@@ -96,7 +96,7 @@ export function Search() {
         </button>
       </InputGroup>
       {isOpen && !query && recentSearches.length > 0 && (
-        <div className="absolute left-0 right-0 top-full z-50 max-w-2xl overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900">
+        <div className="absolute left-0 right-0 w-full top-full z-50 overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900">
           <div className="flex items-center justify-between px-4 py-2 text-sm text-muted-foreground">
             <span>Recent searches</span>
             <button
@@ -116,7 +116,7 @@ export function Search() {
               key={search}
               onMouseEnter={() => setHighlightedIndex(index)}
               className={cn(
-                "flex items-center justify-between px-4 py-2 transition-colors",
+                "flex items-center justify-between px-4 w-full py-2 transition-colors",
                 highlightedIndex === index
                   ? "bg-slate-100 dark:bg-slate-800"
                   : "bg-transparent",
@@ -151,7 +151,7 @@ export function Search() {
         </div>
       )}
       {isOpen && query && (uniqueResults.length > 0 || noResults) && (
-        <div className="absolute left-0 right-0 top-full z-50 max-w-2xl overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900">
+        <div className="absolute left-0 right-0 top-full z-50 overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900">
           {uniqueResults.map((item: Movie, index: number) => (
             <button
               type="button"
