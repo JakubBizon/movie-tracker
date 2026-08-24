@@ -36,7 +36,7 @@ export default function MovieInteractionDropdown({
         <DropdownMenuItem onSelect={onFavorite}>
           <Heart
             className={cn(
-              "w-5 h-5 text-white",
+              "w-5 h-5 dark:text-white text-black",
               isFavorite && "fill-red-500 text-red-500",
             )}
           />{" "}
@@ -45,7 +45,7 @@ export default function MovieInteractionDropdown({
         <DropdownMenuItem onSelect={onBookmark}>
           <Bookmark
             className={cn(
-              "w-5 h-5 text-white",
+              "w-5 h-5 dark:text-white text-black",
               isBookmarked && "fill-blue-500 text-blue-500",
             )}
           />
