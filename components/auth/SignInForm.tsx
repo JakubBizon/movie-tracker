@@ -125,21 +125,23 @@ export default function SignInForm() {
           </div>
         </form>
         <div className="flex items-center gap-4 text-sm">
-          <div className="flex-1 h-px bg-gray-200" />
+          <div className="flex-1 h-px bg-border" />
           <span>or continue with</span>
-          <div className="flex-1 h-px bg-gray-200" />
+          <div className="flex-1 h-px bg-border" />
         </div>
         <div className="flex flex-col gap-4 items-center justify-center text-sm">
           <button
+            type="button"
             onClick={onSignUpGithub}
-            className="flex items-center justify-center gap-3 w-full py-2.5 px-4 bg-[#24292e] hover:bg-[#3a3f44] text-white rounded-lg transition-colors text-sm font-medium cursor-pointer"
+            className="flex h-11 w-full items-center justify-center gap-3 rounded-lg border border-[#24292f] bg-[#24292f] px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#1f2328]"
           >
             <FaGithub size={18} />
             GitHub
           </button>
           <button
+            type="button"
             onClick={onSignUpGoogle}
-            className="flex items-center justify-center gap-3 w-full py-2.5 px-4 bg-[#24292e] hover:bg-[#3a3f44] text-white rounded-lg transition-colors text-sm font-medium cursor-pointer"
+            className="flex h-11 w-full items-center justify-center gap-3 rounded-lg border border-[#dadce0] bg-[#ffffff] px-4 text-sm font-medium text-[#3c4043] shadow-sm transition-colors hover:bg-[#f8f9fa]"
           >
             <FaGoogle size={18} />
             Google
