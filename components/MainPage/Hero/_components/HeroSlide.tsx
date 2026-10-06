@@ -61,12 +61,12 @@ export default function HeroSlide({ movie, index, userId }: Props) {
             <Calendar className="xs:h-5 xs:w-5 h-4 w-4 " />
             <span>{formatDate(movie.release_date)}</span>
           </div>
-          {movie.runtime && (
+          {movie.runtime ? (
             <div className="flex items-center gap-1">
               <Clock className="xs:h-5 xs:w-5 h-4 w-4" />
               <span>{minutesToTime(movie.runtime)}</span>
             </div>
-          )}
+          ) : null}
         </div>
         <div className="flex items-center gap-2">
           {movie.genres?.map((genre) => (
