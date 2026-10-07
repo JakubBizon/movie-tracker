@@ -78,7 +78,11 @@ export default function GenresAndDatesFilter({
         <hr className="border-border" />
 
         <div className="px-4 space-y-2 flex flex-col items-center">
-          <Button type="submit" disabled={!isChanged} className="w-full">
+          <Button
+            type="submit"
+            disabled={!isChanged}
+            className="w-full cursor-pointer"
+          >
             Apply Filters
           </Button>
           {checkIfFiltersApplied() && (
