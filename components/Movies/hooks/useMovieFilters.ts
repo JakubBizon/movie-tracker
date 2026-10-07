@@ -1,5 +1,5 @@
 "use client";
-import { format, parseISO } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -8,6 +8,12 @@ type UseMovieFiltersProps = {
   defaultFrom?: Date;
   defaultTo?: Date;
 };
+
+export function safeParse(s: string | null): Date | undefined {
+  if (!s) return undefined;
+  const d = parseISO(s);
+  return isValid(d) ? d : undefined;
+}
 
 export function useMovieFilters({
   onSubmit,
@@ -22,36 +28,37 @@ export function useMovieFilters({
   const initialTo = searchParams.get("to") || "";
   const initialGenres = searchParams.get("genres") || "";
 
-  const fromDate = initialFrom ? parseISO(initialFrom) : defaultFrom;
+  const parsedGenres = Array.from(
+    new Set(
+      initialGenres
+        .split(",")
+        .map(Number)
+        .filter((n) => Number.isInteger(n) && n > 0),
+    ),
+  ).sort((a, b) => a - b);
 
-  const toDate = initialTo ? parseISO(initialTo) : defaultTo;
+  const fromDate = safeParse(initialFrom) ?? defaultFrom;
+  const toDate = safeParse(initialTo) ?? defaultTo;
 
   const [pendingFrom, setPendingFrom] = useState<Date | undefined>(fromDate);
   const [pendingTo, setPendingTo] = useState<Date | undefined>(toDate);
 
-  const [selectedGenres, setSelectedGenres] = useState(
-    initialGenres.split(",").map(Number).filter(Boolean),
-  );
+  const [selectedGenres, setSelectedGenres] = useState<number[]>(parsedGenres);
 
   const currentFromStr = pendingFrom ? format(pendingFrom, "yyyy-MM-dd") : "";
   const currentToStr = pendingTo ? format(pendingTo, "yyyy-MM-dd") : "";
-  const baseFromStr = initialFrom || currentFromStr;
-  const baseToStr = initialTo || currentFromStr;
+  const baseFromStr = fromDate ? format(fromDate, "yyyy-MM-dd") : "";
+  const baseToStr = toDate ? format(toDate, "yyyy-MM-dd") : "";
+
   const currentGenresString = [...selectedGenres]
     .sort((a, b) => a - b)
     .join(",");
-  const sortedInitialGenres = initialGenres
-    ? initialGenres
-        .split(",")
-        .map(Number)
-        .sort((a, b) => a - b)
-        .join(",")
-    : "";
+  const baseGenresString = parsedGenres.join(",");
 
   const isChanged =
     currentFromStr !== baseFromStr ||
     currentToStr !== baseToStr ||
-    currentGenresString !== sortedInitialGenres;
+    currentGenresString !== baseGenresString;
 
   const toggleGenre = (id: number) => {
     setSelectedGenres((prev) =>
@@ -70,7 +77,7 @@ export function useMovieFilters({
     else params.delete("to");
 
     if (selectedGenres.length > 0) {
-      params.set("genres", selectedGenres.join(","));
+      params.set("genres", currentGenresString);
     } else {
       params.delete("genres");
     }

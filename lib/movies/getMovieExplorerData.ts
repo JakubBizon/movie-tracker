@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getMoviesPageData } from "./getMoviePagesData";
+import { parseSearchParams } from "../movie/parseSearchParams";
 
 type SearchParams = {
   page?: string;
@@ -16,7 +17,7 @@ export async function getMovieExplorerData(
   basePath: string,
   preset?: "top-rated" | "upcoming",
 ) {
-  const { page, sort, genres, from, to } = searchParams;
+  const { page, sort, genres, from, to } = parseSearchParams(searchParams);
   const pageNum = Number(page);
   const isInvalidPage =
     page !== undefined && (!Number.isInteger(pageNum) || pageNum < 1);
