@@ -11,6 +11,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { SortOption } from "../types/list-tabs-sort-options";
 import { getOrderBy } from "@/lib/ListTabs/getOrderBy";
+import { listParamsSchema } from "@/lib/zod";
 
 type Props = {
   searchParams: Promise<{
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MyListsHome({ searchParams }: Props) {
-  const { page, tab, sort } = await searchParams;
+  const { page, tab, sort } = listParamsSchema.parse(await searchParams);
   const pageNum = Number(page);
   const isInvalidPage =
     page !== undefined && (!Number.isInteger(pageNum) || pageNum < 1);

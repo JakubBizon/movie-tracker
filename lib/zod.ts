@@ -1,4 +1,5 @@
 import * as z from "zod/mini";
+import { SORT_OPTIONS } from "@/app/types/list-tabs-sort-options";
 
 export const signUpSchema = z
   .object({
@@ -58,3 +59,9 @@ export const importSchema = z.object({
 });
 
 export type ImportData = z.infer<typeof importSchema>["data"];
+
+export const listParamsSchema = z.object({
+  tab: z.catch(z.enum(["favorites", "watchlist"]), "watchlist"),
+  sort: z.catch(z.enum(SORT_OPTIONS), "added_desc"),
+  page: z.catch(z.pipe(z.coerce.number(), z.int().check(z.minimum(1))), 1),
+});
