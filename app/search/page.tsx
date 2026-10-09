@@ -40,8 +40,10 @@ export default async function SearchPage({ searchParams }: Props) {
 
         <SearchListWrapper
           movies={searchData.movies}
-          bookmarkedIds={searchData.bookmarkedIds}
-          favoriteIds={searchData.favoriteIds}
+          initialSelections={{
+            favoriteIds: searchData.favoriteIds,
+            bookmarkedIds: searchData.bookmarkedIds,
+          }}
           pagination={{
             currentPage,
             totalPages: searchData.totalPages,

@@ -8,8 +8,10 @@ import Link from "next/link";
 
 type Props = {
   movies: Movie[];
-  bookmarkedIds: string[];
-  favoriteIds: string[];
+  initialSelections?: {
+    favoriteIds: string[];
+    bookmarkedIds: string[];
+  };
   pagination: {
     currentPage: number;
     totalPages: number;
@@ -18,19 +20,14 @@ type Props = {
 
 export default function SearchListWrapper({
   movies,
-  bookmarkedIds,
-  favoriteIds,
+  initialSelections,
   pagination,
 }: Props) {
   return (
     <div className="flex flex-col max-w-7xl w-full mx-auto">
       {movies.length > 0 ? (
         <div className="max-w-6xl w-full mx-auto">
-          <SearchList
-            movies={movies}
-            bookmarkedIds={bookmarkedIds}
-            favoriteIds={favoriteIds}
-          />
+          <SearchList movies={movies} initialSelections={initialSelections} />
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center w-full mx-auto">
