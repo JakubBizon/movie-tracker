@@ -12,9 +12,9 @@ type Props = {
 };
 
 function formatDate(raw: string | Date | undefined | null): string {
-  if (!raw) return "Brak danych";
+  if (!raw) return "No data";
   const date = new Date(raw);
-  if (isNaN(date.getTime())) return "Brak danych";
+  if (isNaN(date.getTime())) return "No data";
 
   return date.toLocaleString("pl-PL", {
     day: "2-digit",
