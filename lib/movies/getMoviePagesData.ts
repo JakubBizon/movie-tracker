@@ -1,6 +1,4 @@
 import { Movie } from "@/app/types/movie";
-import { auth } from "../auth";
-import { headers } from "next/headers";
 import { getUserSelections } from "@/app/actions/movieActions";
 
 type FetcherFn = (
@@ -15,15 +13,9 @@ export async function getMoviesPageData(
   options?: { sort?: string; genres?: string; from?: string; to?: string },
   preset?: "top-rated" | "upcoming",
 ) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const userId = session?.user.id;
-
   const [movieData, userSelections] = await Promise.all([
     fetcher(page, options, preset),
-    userId ? getUserSelections(userId) : { favoriteIds: [], bookmarkedIds: [] },
+    getUserSelections(),
   ]);
 
   return {

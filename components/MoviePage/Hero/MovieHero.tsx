@@ -19,11 +19,9 @@ export default async function MovieHero({ movie, rating }: Props) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  const userId = session?.user?.id;
-  const { favoriteIds, bookmarkedIds } = userId
-    ? await getUserSelections(userId)
-    : { favoriteIds: [], bookmarkedIds: [] };
 
+  const userId = session?.user?.id;
+  const { favoriteIds, bookmarkedIds } = await getUserSelections();
   return (
     <HeroSection
       data={movie}

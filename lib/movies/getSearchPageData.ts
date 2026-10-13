@@ -1,15 +1,9 @@
-import { headers } from "next/headers";
-import { auth } from "../auth";
 import { getSearchResults } from "./getSearchResults";
 import { getUserSelections } from "@/app/actions/movieActions";
 import { getMovieDetails } from "./getMovieDetails";
 import { Movie } from "@/app/types/movie";
 
 export async function getSearchPageData(query: string, page: number = 1) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  const userId = session?.user.id;
   const searchResults = await getSearchResults(query, page);
 
   const [moviesWithDetails, userSelections] = await Promise.all([
@@ -25,7 +19,7 @@ export async function getSearchPageData(query: string, page: number = 1) {
       }),
     ),
 
-    userId ? getUserSelections(userId) : { favoriteIds: [], bookmarkedIds: [] },
+    getUserSelections(),
   ]);
 
   return {

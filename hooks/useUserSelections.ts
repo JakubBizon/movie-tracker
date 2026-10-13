@@ -6,26 +6,18 @@ export type UserSelections = {
   bookmarkedIds: string[];
 };
 
+export const userSelectionsQueryKey = (userId?: string) =>
+  ["user-selections", userId] as const;
+
 export function useUserSelections(
   userId?: string,
   initialData?: UserSelections,
 ) {
   return useQuery({
-    queryKey: ["user-selections", userId],
-    queryFn: async () => {
-      if (!userId) {
-        return {
-          favoriteIds: [],
-          bookmarkedIds: [],
-        };
-      }
-      return await getUserSelections(userId);
-    },
-    enabled: !!userId,
-    initialData:
-      userId && initialData
-        ? initialData
-        : { favoriteIds: [], bookmarkedIds: [] },
+    queryKey: userSelectionsQueryKey(userId),
+    queryFn: () => getUserSelections(),
+    initialData,
     staleTime: 1000 * 60 * 5,
+    enabled: !!userId,
   });
 }

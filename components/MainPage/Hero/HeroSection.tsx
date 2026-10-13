@@ -2,8 +2,6 @@ import { getMovieDetails } from "@/lib/movies/getMovieDetails";
 import HeroCarousel from "./HeroCarousel";
 import { Movie } from "@/app/types/movie";
 import { getPopularMovies } from "@/lib/movies/getPopularMovies";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { getUserSelections } from "@/app/actions/movieActions";
 import { getTrailerLink } from "@/lib/movies/getTrailerLink";
 
@@ -14,15 +12,7 @@ export default async function HeroSection() {
     .filter((movie: Movie) => movie.vote_average >= 7.0)
     .slice(0, 3);
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const userId = session?.user?.id;
-
-  const { favoriteIds, bookmarkedIds } = userId
-    ? await getUserSelections(userId)
-    : { favoriteIds: [], bookmarkedIds: [] };
+  const { favoriteIds, bookmarkedIds } = await getUserSelections();
 
   const moviesWithDetails = await Promise.all(
     filteredData.map(async (movie: Movie) => {

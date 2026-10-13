@@ -21,8 +21,8 @@ export default function MoviesGridClient({ movies, initialSelections }: Props) {
   const pathname = usePathname();
   const userId = session?.user.id;
   const { data } = useUserSelections(userId, initialSelections);
-  const favoriteSet = new Set(data.favoriteIds || []);
-  const bookmarkedSet = new Set(data.bookmarkedIds || []);
+  const favoriteSet = new Set(data?.favoriteIds || []);
+  const bookmarkedSet = new Set(data?.bookmarkedIds || []);
 
   if (movies.length === 0) {
     return (
