@@ -4,15 +4,22 @@ import { and, eq } from "drizzle-orm";
 import { db } from "../db";
 import { bookmarks, favorites } from "../db/schema";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export async function toggleFavoriteAction(
-  userId: string,
   movieId: string,
   title: string,
   posterPath: string,
   voteAverage: string,
   releaseDate: string,
 ) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+  const userId = session?.user.id;
+
   try {
     const existing = await db
       .select()
@@ -48,7 +55,10 @@ export async function toggleFavoriteAction(
   }
 }
 
-export async function getUserSelections(userId: string) {
+export async function getUserSelections() {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) return { favoriteIds: [], bookmarkedIds: [] };
+  const userId = session?.user.id;
   try {
     const [userFavs, userBook] = await Promise.all([
       db
@@ -72,13 +82,17 @@ export async function getUserSelections(userId: string) {
 }
 
 export async function toggleBookmarkAction(
-  userId: string,
   movieId: string,
   title: string,
   posterPath: string,
   voteAverage: string,
   releaseDate: string,
 ) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+  const userId = session?.user.id;
   try {
     const existing = await db
       .select()

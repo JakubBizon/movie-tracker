@@ -4,15 +4,17 @@ import { and, eq } from "drizzle-orm";
 import { db } from "../db";
 import { ratings } from "../db/schema";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export async function rateMovieAction(
-  userId: string,
   movieId: string,
   title: string,
   rating: number | null,
 ) {
-  if (!userId) throw new Error("Unauthorized");
-
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user.id) return { success: false, error: "Unauthorized" };
+  const userId = session.user.id;
   try {
     if (rating === null) {
       await db

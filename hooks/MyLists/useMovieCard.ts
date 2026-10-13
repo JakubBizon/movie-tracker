@@ -8,7 +8,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { watchlistCountQueryKey } from "../watchlist/useWatchlistCount";
 
-const useMovieCard = (item: UserMediaItem, userId: string) => {
+const useMovieCard = (item: UserMediaItem) => {
   const [isPending, startTransition] = useTransition();
   const queryClient = useQueryClient();
   const voteAverage = Number(item.voteAverage);
@@ -21,7 +21,6 @@ const useMovieCard = (item: UserMediaItem, userId: string) => {
 
       if (item.type === "watchlist") {
         await toggleBookmarkAction(
-          userId,
           movieId,
           item.title,
           posterPath,
@@ -31,7 +30,6 @@ const useMovieCard = (item: UserMediaItem, userId: string) => {
         toast.success(`Removed ${item.title} from bookmarks`);
       } else {
         await toggleFavoriteAction(
-          userId,
           movieId,
           item.title,
           posterPath,

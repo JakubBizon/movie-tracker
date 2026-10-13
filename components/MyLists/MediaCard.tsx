@@ -10,16 +10,15 @@ import useMovieCard from "@/hooks/MyLists/useMovieCard";
 
 interface MediaCardProps {
   item: UserMediaItem;
-  userId: string;
 }
 
-export default function MediaCard({ item, userId }: MediaCardProps) {
+export default function MediaCard({ item }: MediaCardProps) {
   const router = useRouter();
   const handleNavigate = () => {
     router.push(`/movie/${slugify(item.title, Number(item.movieId))}`);
   };
 
-  const { isPending, handleRemove, displayVote } = useMovieCard(item, userId);
+  const { isPending, handleRemove, displayVote } = useMovieCard(item);
   return (
     <div
       className={`group relative overflow-hidden rounded-lg ${

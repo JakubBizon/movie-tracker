@@ -22,7 +22,6 @@ export function useMovieMutations(
   const favoriteMutation = useMutation({
     mutationFn: async () => {
       return toggleFavoriteAction(
-        userId!,
         movieId,
         movie.title,
         movie.poster_path,
@@ -79,7 +78,6 @@ export function useMovieMutations(
   const bookmarkMutation = useMutation({
     mutationFn: async () => {
       return toggleBookmarkAction(
-        userId!,
         movieId,
         movie.title,
         movie.poster_path,

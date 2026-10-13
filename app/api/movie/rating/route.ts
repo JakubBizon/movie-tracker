@@ -12,8 +12,16 @@ export async function GET(req: NextRequest) {
     headers: await headers(),
   });
 
+  if (!session?.user.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   if (!session?.user.id || !movieId) {
     return NextResponse.json({ rating: 0 });
+  }
+
+  if (!movieId) {
+    return NextResponse.json({ error: "movieId required" }, { status: 400 });
   }
 
   try {

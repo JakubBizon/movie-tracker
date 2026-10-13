@@ -1,7 +1,11 @@
 "use client";
 
 import { Movie } from "@/app/types/movie";
-import { UserSelections, useUserSelections } from "./useUserSelections";
+import {
+  UserSelections,
+  userSelectionsQueryKey,
+  useUserSelections,
+} from "./useUserSelections";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   toggleBookmarkAction,
@@ -18,8 +22,7 @@ export default function useMovieInteractions(
   setIsAuthOpen?: () => void,
 ) {
   const queryClient = useQueryClient();
-  const queryKey = ["user-selections", userId];
-
+  const queryKey = userSelectionsQueryKey(userId);
   const { data } = useUserSelections(userId, initialData);
   const movieId = movie.id.toString();
   const favoriteSet = useMemo(
@@ -37,7 +40,6 @@ export default function useMovieInteractions(
   const favoriteMutation = useMutation({
     mutationFn: async () => {
       return await toggleFavoriteAction(
-        userId!,
         movieId,
         movie.title,
         movie.poster_path,
@@ -95,7 +97,6 @@ export default function useMovieInteractions(
   const bookmarkMutation = useMutation({
     mutationFn: async () => {
       return await toggleBookmarkAction(
-        userId!,
         movieId,
         movie.title,
         movie.poster_path,

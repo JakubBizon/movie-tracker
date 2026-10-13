@@ -16,18 +16,18 @@ export default function SignOutButton({ onSuccess }: Props) {
   const queryClient = useQueryClient();
   const handleSignOut = async () => {
     if (isLoading) return;
-
     setIsLoading(true);
-    queryClient.removeQueries({
-      queryKey: ["user-selections"],
-    });
-    queryClient.removeQueries({
-      queryKey: ["rating"],
-    });
+
     try {
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
+            queryClient.removeQueries({
+              queryKey: ["user-selections"],
+            });
+            queryClient.removeQueries({
+              queryKey: ["rating"],
+            });
             toast.success("Successfully signed out");
             onSuccess();
             router.refresh();
@@ -40,6 +40,7 @@ export default function SignOutButton({ onSuccess }: Props) {
       });
     } catch (error) {
       console.error("Sign out error:", error);
+      toast.error("Failed to sign out");
       setIsLoading(false);
     }
   };
