@@ -12,7 +12,7 @@ export default function useCheckRating(
       if (!res.ok) throw new Error("Failed to fetch rating");
       return res.json() as Promise<{ rating: number }>;
     },
-    enabled: enabled && !!movieId,
+    enabled: enabled && !!userId && !!movieId,
     refetchOnWindowFocus: true,
   });
 }
