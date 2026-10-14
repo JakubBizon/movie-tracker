@@ -4,10 +4,9 @@ import { Clapperboard } from "lucide-react";
 
 interface MediaGridProps {
   items: UserMediaItem[];
-  userId: string;
 }
 
-export default function MediaGrid({ items, userId }: MediaGridProps) {
+export default function MediaGrid({ items }: MediaGridProps) {
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">

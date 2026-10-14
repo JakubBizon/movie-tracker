@@ -8,7 +8,6 @@ import { SortOption } from "@/app/types/list-tabs-sort-options";
 
 interface MyListsProps {
   items: UserMediaItem[];
-  userId: string;
   activeTab: "watchlist" | "favorites";
   activeSort: SortOption;
   favoritesLength: number;
@@ -17,7 +16,6 @@ interface MyListsProps {
 
 export default function MyLists({
   items,
-  userId,
   activeTab,
   activeSort,
   favoritesLength,
@@ -34,7 +32,7 @@ export default function MyLists({
         favoritesLength={favoritesLength}
         bookmarksLength={bookmarksLength}
       />
-      <MediaGrid items={items} userId={userId} />
+      <MediaGrid items={items} />
     </div>
   );
 }
