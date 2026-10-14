@@ -95,7 +95,6 @@ export default async function MyListsHome({ searchParams }: Props) {
     <div className="max-w-7xl w-full mx-auto py-10 px-4 sm:px-6">
       <MyLists
         items={items}
-        userId={userId}
         activeTab={activeTab}
         activeSort={activeSort}
         favoritesLength={favoritesCount}
