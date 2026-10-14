@@ -33,12 +33,7 @@ const useMyRatingCard = (
     startTransition(async () => {
       setOptimisticRating(val === null ? currentRating : val);
       try {
-        const result = await rateMovieAction(
-          userId,
-          movieId.toString(),
-          title,
-          val,
-        );
+        const result = await rateMovieAction(movieId.toString(), title, val);
         if (result.success) {
           toast.success(val === null ? "Rating removed" : "Rating saved!");
           router.refresh();
