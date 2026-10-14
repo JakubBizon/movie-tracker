@@ -4,20 +4,7 @@ A web app for tracking movies: browse popular and upcoming titles, rate what you
 
 **Live demo:** [MovieTracker](https://movie-tracker-tan.vercel.app/)
 
-![](public/home.png)
-
 ![](public/demo.gif)
-
-## Screenshots
-
-<p align="center">
-  <img src="public/my_lists.png" width="100%" alt="My Lists" />
-</p>
-
-<p align="center">
-  <img src="public/home_mobile.png" width="49%" alt="Mobile view" />
-  <img src="public/movie_page_mobile.png" width="49%" alt="Movie page mobile" />
-</p>
 
 ## Features
 
@@ -32,6 +19,17 @@ A web app for tracking movies: browse popular and upcoming titles, rate what you
 - **Settings**: change username and avatar color, manage active sessions
 - **Import and export** of user data
 - Responsive UI, loading skeletons, dark mode
+
+## Screenshots
+
+<p align="center">
+  <img src="public/my_lists.png" width="100%" alt="My Lists" />
+</p>
+
+<p align="center">
+  <img src="public/home_mobile.png" width="49%" alt="Mobile view" />
+  <img src="public/movie_page_mobile.png" width="49%" alt="Movie page mobile" />
+</p>
 
 ## Tech stack
 
