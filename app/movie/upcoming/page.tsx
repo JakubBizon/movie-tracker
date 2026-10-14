@@ -30,7 +30,7 @@ export default async function UpcomingMovies({ searchParams }: Props) {
     <MovieExplorer
       defaultFrom={defaultFrom}
       defaultTo={defaultTo}
-      title="Upcoming Movies"
+      title="Upcoming"
       moviesPromise={Promise.resolve(data)}
     />
   );

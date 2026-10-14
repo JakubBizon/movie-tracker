@@ -21,10 +21,7 @@ export default async function PopularMovies({ searchParams }: Props) {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <MovieExplorer
-        title="Popular Movies"
-        moviesPromise={Promise.resolve(data)}
-      />
+      <MovieExplorer title="Popular" moviesPromise={Promise.resolve(data)} />
     </div>
   );
 }

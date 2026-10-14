@@ -25,10 +25,7 @@ export default async function TopRatedPage({ searchParams }: Props) {
   );
   return (
     <div className="max-w-7xl mx-auto ">
-      <MovieExplorer
-        title="Top Rated Movies"
-        moviesPromise={Promise.resolve(data)}
-      />
+      <MovieExplorer title="Top Rated" moviesPromise={Promise.resolve(data)} />
     </div>
   );
 }
