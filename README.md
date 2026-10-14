@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Movie Tracker
 
-## Getting Started
+A web app for tracking movies: browse popular and upcoming titles, rate what you've watched, write reviews, and keep your own lists. Movie data comes from [TMDB](https://www.themoviedb.org/).
 
-First, run the development server:
+**Live demo:** [MovieTracker](https://movie-tracker-tan.vercel.app/)
+
+![](public/home.png)
+
+![](public/demo.gif)
+
+## Screenshots
+
+<p align="center">
+  <img src="public/my_lists.png" width="32%" alt="My Lists" />
+  <img src="public/home_mobile.png" width="32%" alt="Mobile view" />
+  <img src="public/movie_page_mobile.png" width="32%" alt="Movie page mobile" />
+</p>
+
+## Features
+
+- **Home page** with a hero carousel and Trending, Popular, Top Rated and Upcoming sections
+- **Search** with live suggestions (debounced)
+- **Movie page**: details, cast, trailer, similar movies and reviews
+- **Dual rating system**: every movie shows both its TMDB rating and a separate community rating calculated from ratings given by Movie Tracker users, so you can compare the global score with what users of this app think
+- **Merged reviews**: reviews fetched from TMDB and reviews written by Movie Tracker users are combined into a single review list on each movie page
+- **My Ratings**: stats, a rating distribution chart, sorting and filtering, plus a badge showing how your rating differs from the average
+- **My Lists**: watchlist and other lists with tabs and filters
+- **Authentication** with email, GitHub and Google (Better Auth)
+- **Settings**: change username and avatar color, manage active sessions
+- **Import and export** of user data
+- Responsive UI, loading skeletons, dark mode
+
+## Tech stack
+
+| Area                    | Technologies                                                  |
+| ----------------------- | ------------------------------------------------------------- |
+| Framework               | Next.js 16 (App Router, Server Actions), React 19, TypeScript |
+| Styling                 | Tailwind CSS 4, shadcn/ui (Radix UI), lucide-react            |
+| State and data fetching | TanStack Query, Zustand                                       |
+| Forms and validation    | React Hook Form, Zod                                          |
+| Database                | PostgreSQL (Neon), Drizzle ORM                                |
+| Auth                    | Better Auth                                                   |
+| Other                   | Recharts, Embla Carousel, Sonner                              |
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 20+
+- pnpm
+- A PostgreSQL database (e.g. a free [Neon](https://neon.tech/) project)
+- A [TMDB API key](https://www.themoviedb.org/settings/api)
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/JakubBizon/movie-tracker.git
+cd movie-tracker
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env` file in the project root:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DATABASE_URL=postgresql://...
+API_KEY=your_tmdb_api_key
+TMDB_TOKEN=your_tmdb_read_access_token
 
-## Learn More
+BETTER_AUTH_SECRET=random_secret
+BETTER_AUTH_URL=http://localhost:3000
 
-To learn more about Next.js, take a look at the following resources:
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Database and dev server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm drizzle-kit migrate   # apply migrations
+pnpm dev                   # http://localhost:3000
+```
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/          # pages, API routes, server actions, DB schema and migrations
+components/   # UI components grouped by page
+hooks/        # custom React hooks
+lib/          # TMDB queries, auth config, utilities
+store/        # global state (Zustand)
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> This product uses the TMDB API but is not endorsed or certified by TMDB.
