@@ -11,9 +11,12 @@ A web app for tracking movies: browse popular and upcoming titles, rate what you
 ## Screenshots
 
 <p align="center">
-  <img src="public/my_lists.png" width="32%" alt="My Lists" />
-  <img src="public/home_mobile.png" width="32%" alt="Mobile view" />
-  <img src="public/movie_page_mobile.png" width="32%" alt="Movie page mobile" />
+  <img src="public/my_lists.png" width="100%" alt="My Lists" />
+</p>
+
+<p align="center">
+  <img src="public/home_mobile.png" width="49%" alt="Mobile view" />
+  <img src="public/movie_page_mobile.png" width="49%" alt="Movie page mobile" />
 </p>
 
 ## Features
