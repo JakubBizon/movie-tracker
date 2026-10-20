@@ -1,7 +1,7 @@
 import { Movie } from "@/app/types/movie";
 import { ImageProps } from "next/image";
 import { expect, it, vi, describe, beforeEach } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import MovieCard from "./MovieCard";
 import userEvent from "@testing-library/user-event";
 import useIsDesktop from "@/hooks/useIsDesktop";
@@ -62,7 +62,21 @@ vi.mock("./MovieInteractionButtons", () => ({
 }));
 
 vi.mock("../MoviePage/Hero/_components/AuthDialog", () => ({
-  default: () => null,
+  default: ({
+    open,
+    onOpenChange,
+    type,
+  }: {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    type: string;
+  }) => (
+    <div data-testid="auth-dialog" data-open={String(open)} data-type={type}>
+      <button type="button" onClick={() => onOpenChange(false)}>
+        close-dialog
+      </button>
+    </div>
+  ),
 }));
 
 const movie = {
@@ -218,6 +232,50 @@ describe("MovieCard", () => {
       );
       expect(handleFavorite).toHaveBeenCalledTimes(1);
       expect(handleBookmark).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("AuthDialog", () => {
+    it("its closed by default and gets proper dialog type", () => {
+      setup();
+      expect(screen.getByTestId("auth-dialog")).toHaveAttribute(
+        "data-open",
+        "false",
+      );
+      expect(screen.getByTestId("auth-dialog")).toHaveAttribute(
+        "data-type",
+        "interaction",
+      );
+    });
+
+    it("opens when the hook asks for auth", () => {
+      setup();
+      const dialog = screen.getByTestId("auth-dialog");
+      expect(dialog).toHaveAttribute("data-open", "false");
+
+      const onAuthRequired = vi.mocked(useMovieMutations).mock.calls[0][2];
+      expect(onAuthRequired).toBeDefined();
+      act(() => onAuthRequired?.());
+
+      expect(dialog).toHaveAttribute("data-open", "true");
+    });
+
+    it("closes when user clicks close button", async () => {
+      setup();
+      const user = userEvent.setup();
+      const dialog = screen.getByTestId("auth-dialog");
+
+      const onAuthRequired = vi.mocked(useMovieMutations).mock.calls[0][2];
+      expect(onAuthRequired).toBeDefined();
+      act(() => onAuthRequired?.());
+
+      expect(dialog).toHaveAttribute("data-open", "true");
+
+      const button = screen.getByRole("button", { name: "close-dialog" });
+
+      await user.click(button);
+
+      expect(dialog).toHaveAttribute("data-open", "false");
     });
   });
 });
