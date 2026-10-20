@@ -16,7 +16,7 @@ export default async function LoginPage() {
     redirect("/");
   }
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 flex justify-center items-center min-h-[calc(100vh-200px)]">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex justify-center items-center min-h-[calc(100vh-200px)]">
       <SignInForm />
     </div>
   );

@@ -84,7 +84,7 @@ export default function SignInForm() {
   };
 
   return (
-    <Card className="min-w-100">
+    <Card className="w-full max-w-sm">
       <CardTitle className="text-2xl text-center">
         Log in to MovieTracker
       </CardTitle>

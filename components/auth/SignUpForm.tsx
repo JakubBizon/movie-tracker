@@ -57,7 +57,7 @@ export default function SignUpForm() {
   };
 
   return (
-    <Card className="w-100">
+    <Card className="max-w-sm w-full py-10 ">
       <CardTitle className="text-2xl text-center">
         Welcome to MovieTracker!
       </CardTitle>
