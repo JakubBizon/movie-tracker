@@ -1,10 +1,11 @@
 import { Movie } from "@/app/types/movie";
 import { ImageProps } from "next/image";
 import { expect, it, vi, describe, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import MovieCard from "./MovieCard";
 import userEvent from "@testing-library/user-event";
 import useIsDesktop from "@/hooks/useIsDesktop";
+import { useMovieMutations } from "@/hooks/useMovieMutations";
 
 vi.mock("next/image", () => ({
   default: ({ priority, ...props }: ImageProps) => <img {...props} />,
@@ -12,19 +13,52 @@ vi.mock("next/image", () => ({
 
 vi.mock("@/hooks/useIsDesktop");
 
-vi.mock("@/hooks/useMovieMutations", () => ({
-  useMovieMutations: () => ({
-    handleBookmark: vi.fn(),
-    handleFavorite: vi.fn(),
-  }),
+vi.mock("@/hooks/useMovieMutations");
+
+const handleBookmark = vi.fn();
+const handleFavorite = vi.fn();
+
+vi.mock("@/app/actions/movieActions", () => ({
+  toggleBookmark: vi.fn(),
+  toggleFavorite: vi.fn(),
 }));
 
 vi.mock("./MovieInteractionDropdown", () => ({
-  default: () => <div data-testid="dropdown" />,
+  default: ({
+    onBookmark,
+    onFavorite,
+  }: {
+    onBookmark: () => void;
+    onFavorite: () => void;
+  }) => (
+    <div data-testid="dropdown">
+      <button type="button" onClick={() => onBookmark()}>
+        dropdown-bookmark
+      </button>
+      <button type="button" onClick={() => onFavorite()}>
+        dropdown-favorite
+      </button>
+    </div>
+  ),
 }));
 
 vi.mock("./MovieInteractionButtons", () => ({
-  default: () => <div data-testid="hover-buttons" />,
+  default: ({
+    onBookmark,
+    onFavorite,
+  }: {
+    onBookmark: () => void;
+    onFavorite: () => void;
+  }) => (
+    <div data-testid="hover-buttons">
+      <button type="button" onClick={() => onBookmark()}>
+        hover-bookmark
+      </button>
+      <button type="button" onClick={() => onFavorite()}>
+        hover-favorite
+      </button>
+    </div>
+  ),
 }));
 
 vi.mock("../MoviePage/Hero/_components/AuthDialog", () => ({
@@ -51,7 +85,14 @@ function setup(overrides: Partial<Movie> = {}) {
 
 describe("MovieCard", () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     vi.mocked(useIsDesktop).mockReturnValue({ isDesktopLayout: true });
+    vi.mocked(useMovieMutations).mockReturnValue({
+      handleBookmark,
+      handleFavorite,
+      isBookmarkPending: false,
+      isFavoritePending: false,
+    });
   });
   it("shows title", () => {
     setup();
@@ -67,7 +108,7 @@ describe("MovieCard", () => {
   });
 
   it("shows TBD when rating equals 0 ", () => {
-    setup({ ...movie, vote_average: 0 });
+    setup({ vote_average: 0 });
     expect(screen.getByText("TBD")).toBeInTheDocument();
   });
 
@@ -120,15 +161,33 @@ describe("MovieCard", () => {
       await user.unhover(container.firstElementChild!);
       expect(screen.queryByTestId("hover-buttons")).not.toBeInTheDocument();
     });
+
+    it("handles favorite and bookmark buttons clicks", async () => {
+      const user = userEvent.setup();
+      const { container } = setup();
+
+      await user.hover(container.firstElementChild!);
+
+      expect(screen.getByTestId("hover-buttons")).toBeInTheDocument();
+
+      fireEvent.click(screen.getByRole("button", { name: "hover-bookmark" }));
+
+      expect(handleBookmark).toHaveBeenCalledTimes(1);
+      expect(handleFavorite).not.toHaveBeenCalled();
+
+      fireEvent.click(screen.getByRole("button", { name: "hover-favorite" }));
+
+      expect(handleFavorite).toHaveBeenCalledTimes(1);
+    });
   });
 
-  describe("mobile layout interaction buttons", () => {
+  describe("mobile layout dropdown interaction buttons", () => {
     beforeEach(() => {
       vi.mocked(useIsDesktop).mockReturnValue({ isDesktopLayout: false });
     });
     it("displays buttons dropdown", () => {
       setup();
-      expect(screen.queryByTestId("dropdown")).toBeInTheDocument();
+      expect(screen.getByTestId("dropdown")).toBeInTheDocument();
     });
 
     it("doesnt show desktop buttons", () => {
@@ -142,6 +201,23 @@ describe("MovieCard", () => {
 
       await user.hover(container.firstElementChild!);
       expect(screen.queryByTestId("hover-buttons")).not.toBeInTheDocument();
+    });
+
+    it("handles favorite and bookmark buttons clicks", async () => {
+      const user = userEvent.setup();
+      setup();
+
+      await user.click(
+        screen.getByRole("button", { name: "dropdown-bookmark" }),
+      );
+      expect(handleBookmark).toHaveBeenCalledTimes(1);
+      expect(handleFavorite).not.toHaveBeenCalled();
+
+      await user.click(
+        screen.getByRole("button", { name: "dropdown-favorite" }),
+      );
+      expect(handleFavorite).toHaveBeenCalledTimes(1);
+      expect(handleBookmark).toHaveBeenCalledTimes(1);
     });
   });
 });
