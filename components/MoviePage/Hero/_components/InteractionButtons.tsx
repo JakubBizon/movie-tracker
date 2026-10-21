@@ -78,7 +78,11 @@ export default function InteractionButtons({
         ) => (
           <Button
             key={index}
-            aria-label={`Add "${data.title}" to ${ariaLabelName}`}
+            aria-label={
+              state
+                ? `Remove "${data.title}" from ${ariaLabelName}`
+                : `Add "${data.title}" to ${ariaLabelName}`
+            }
             variant={variant ?? "default"}
             size={size ?? "lg"}
             onClick={handler}
