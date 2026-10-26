@@ -26,9 +26,11 @@ export default function TrailerDialog({
   className,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const trailer = trailerLink.results.find(
+
+  const trailer = trailerLink?.results?.find(
     (video) => video.type === "Trailer" && video.site === "YouTube",
   );
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>

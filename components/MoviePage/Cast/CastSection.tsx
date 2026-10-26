@@ -8,7 +8,7 @@ type CastSectionProps = {
 };
 
 export default function CastSection({ castData, limit }: CastSectionProps) {
-  const slicedCast = castData.cast.slice(0, limit);
+  const slicedCast = castData?.cast?.slice(0, limit) ?? [];
 
   if (slicedCast.length === 0) {
     return (
