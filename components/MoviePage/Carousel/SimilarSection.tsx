@@ -1,17 +1,18 @@
 import MovieCarousel from "@/components/MainPage/MovieCarousel";
-import { notFound } from "next/navigation";
 import { getSimilarMovies } from "@/lib/movies/getSimilarMovies";
+
 type SimilarSectionProps = {
   id: number | null;
 };
 
 export default async function SimilarSection({ id }: SimilarSectionProps) {
-  if (!id) return notFound();
+  if (id == null) return null;
   const data = await getSimilarMovies(id);
 
-  if (!data || data.results.length === 0) {
+  if (!data?.results?.length) {
     return null;
   }
+
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-4">
