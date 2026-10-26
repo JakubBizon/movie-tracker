@@ -67,6 +67,7 @@ export default function RatingDialog({
                   return (
                     <button
                       type="button"
+                      aria-label={`Rate ${starIndex} out of 10 stars`}
                       key={index}
                       onClick={() => setRating(starIndex)}
                       onMouseEnter={() => setHoverRating(starIndex)}
@@ -100,6 +101,7 @@ export default function RatingDialog({
 
             <Button
               onClick={() => handleSave(rating)}
+              aria-label="Save rating"
               disabled={
                 isSubmitting ||
                 rating === currentRating ||
