@@ -1,4 +1,4 @@
-import test, { expect, Page } from "@playwright/test";
+import test, { expect, Page, Response } from "@playwright/test";
 import { resetUserData } from "./db";
 
 const MOVIE_URL = "/movie/550-fight-club";
@@ -7,6 +7,9 @@ const addButton = (page: Page) =>
   page.getByRole("button", { name: /to favorites/i }).first();
 const removeButton = (page: Page) =>
   page.getByRole("button", { name: /from favorites/i }).first();
+
+const isFavReq = (r: Response) =>
+  r.request().method() === "POST" && r.url().includes(MOVIE_URL);
 
 test.beforeEach(async () => {
   await resetUserData();
@@ -25,8 +28,18 @@ test("adds movie to favorites and stays after reload", async ({ page }) => {
 test("removes movie from favorites", async ({ page }) => {
   await page.goto(MOVIE_URL);
 
-  await addButton(page).click();
-  await removeButton(page).click();
+  const [addRes] = await Promise.all([
+    page.waitForResponse(isFavReq),
+    addButton(page).click(),
+  ]);
+  expect(addRes.ok()).toBeTruthy();
+
+  const [removeRes] = await Promise.all([
+    page.waitForResponse(isFavReq),
+    removeButton(page).click(),
+  ]);
+  expect(removeRes.ok()).toBeTruthy();
+
   await expect(addButton(page)).toBeVisible();
 
   await page.reload();
