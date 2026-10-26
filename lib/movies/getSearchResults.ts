@@ -1,11 +1,12 @@
 import { MoviesResponse } from "@/app/types/movie";
+import { TMDB_BASE_URL } from "./tmdb";
 
 export async function getSearchResults(
   query: string,
   page: number = 1,
 ): Promise<MoviesResponse> {
   const res = await fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&page=${page}`,
+    `${TMDB_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&page=${page}`,
     {
       method: "GET",
       headers: {

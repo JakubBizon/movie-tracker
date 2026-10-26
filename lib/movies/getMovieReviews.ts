@@ -1,6 +1,8 @@
+import { TMDB_BASE_URL } from "./tmdb";
+
 export async function getMovieReviews(movieId: number) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${process.env.API_KEY}`,
+    `${TMDB_BASE_URL}/movie/${movieId}/reviews?api_key=${process.env.API_KEY}`,
     { next: { revalidate: 86400 } },
   );
 

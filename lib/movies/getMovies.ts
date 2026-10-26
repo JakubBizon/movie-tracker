@@ -1,5 +1,6 @@
 import { Options } from "@/app/types/search-params-options";
 import getUpcomingDateRange from "@/components/Movies/hooks/getUpcomingDateRange";
+import { TMDB_BASE_URL } from "./tmdb";
 
 const sortMap: Record<string, string> = {
   p_desc: "popularity.desc",
@@ -17,7 +18,7 @@ export async function getMovies(
 ) {
   const { sort, genres, from, to } = options || {};
 
-  const url = new URL("https://api.themoviedb.org/3/discover/movie");
+  const url = new URL(`${TMDB_BASE_URL}/discover/movie`);
   url.searchParams.set("page", page.toString());
   const defaultSort =
     preset === "top-rated" ? "vote_average.desc" : "popularity.desc";

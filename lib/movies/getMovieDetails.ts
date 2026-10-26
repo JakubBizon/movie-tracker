@@ -1,8 +1,9 @@
 import { cache } from "react";
+import { TMDB_BASE_URL } from "./tmdb";
 
 export const getMovieDetails = cache(async (id: number) => {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_KEY}`,
+    `${TMDB_BASE_URL}/movie/${id}?api_key=${process.env.API_KEY}`,
     {
       next: { revalidate: 3600 },
     },

@@ -1,3 +1,4 @@
+import { TMDB_BASE_URL } from "@/lib/movies/tmdb";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -5,7 +6,7 @@ export async function GET(req: NextRequest) {
   if (!query) return NextResponse.json({ results: [] });
 
   const res = await fetch(
-    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&query=${encodeURIComponent(query)}`,
+    `${TMDB_BASE_URL}/movie/search/movie?api_key=${process.env.API_KEY}&query=${encodeURIComponent(query)}`,
   );
   const data = await res.json();
 

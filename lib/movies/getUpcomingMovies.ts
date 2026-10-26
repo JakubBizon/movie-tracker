@@ -1,10 +1,12 @@
+import { TMDB_BASE_URL } from "./tmdb";
+
 export async function getUpcomingMovies() {
   const today = new Date().toISOString().split("T")[0];
   const futureDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
     .toISOString()
     .split("T")[0];
   const res = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?` +
+    `${TMDB_BASE_URL}/discover/movie?` +
       `api_key=${process.env.API_KEY}` +
       `&primary_release_date.gte=${today}` +
       `&primary_release_date.lte=${futureDate}` +

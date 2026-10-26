@@ -1,8 +1,10 @@
+import { TMDB_BASE_URL } from "./tmdb";
+
 export async function getTopRatedMovies(page: number) {
   const safePage =
     Number.isInteger(page) && page >= 1 && page <= 500 ? page : 1;
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.API_KEY}&page=${safePage}`,
+    `${TMDB_BASE_URL}/movie/top_rated?api_key=${process.env.API_KEY}&page=${safePage}`,
     {
       next: { revalidate: 3600 },
     },
