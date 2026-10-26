@@ -25,7 +25,7 @@ export default async function Reviews({ movie }: Props) {
   const currentUserReview = localReviews.find((r) => r.user.id === userId);
 
   const mappedLocal = mapLocalReviewsToTmdbShape(localReviews);
-  const results = [...mappedLocal, ...tmdbData.results];
+  const results = [...mappedLocal, ...(tmdbData?.results ?? [])];
   const filteredResults = results.filter(
     (r) => !(userId && r.id === `local-${userId}-${movieId}`),
   );

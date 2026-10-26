@@ -7,7 +7,7 @@ export async function getMovieReviews(movieId: number) {
   );
 
   if (!res.ok) {
-    return { keywords: [], error: "Failed to fetch reviews" };
+    return { results: [], error: "Failed to fetch reviews" };
   }
 
   return res.json();
