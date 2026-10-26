@@ -13,7 +13,8 @@ type DetailItem = {
 };
 
 export default async function AdditionalInfo({ id, movie }: Props) {
-  const keywords = (await getMovieKeywords(id)) ?? [];
+  const keywords = await getMovieKeywords(id);
+  const keywordList = keywords?.keywords ?? [];
   const detailItems: DetailItem[] = [
     {
       label: "Original Title",
@@ -52,12 +53,12 @@ export default async function AdditionalInfo({ id, movie }: Props) {
           <div className="flex flex-col">
             <span className="font-semibold text-primary">Keywords: </span>
             <div className="flex flex-wrap gap-2 mt-2">
-              {keywords.keywords.length === 0 ? (
+              {keywordList.length === 0 ? (
                 <div className="text-muted-foreground">
                   No keywords available.
                 </div>
               ) : (
-                keywords.keywords.map((keyword: Keyword) => (
+                keywordList.map((keyword: Keyword) => (
                   <span
                     key={keyword.id}
                     className="inline-block text-black dark:text-white border-primary/50 border-2 rounded-full px-3 py-1 text-sm font-medium"
