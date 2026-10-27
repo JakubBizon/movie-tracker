@@ -24,10 +24,10 @@ const routes: Record<string, unknown> = {
   "/movie/550/videos": { id: 550, results: [] },
   "/movie/550/keywords": { id: 550, keywords: [] },
   "/movie/550/reviews": {
-    page: 1,
-    results: [],
-    total_pages: 1,
-    total_results: 0,
+    id: 550,
+    author: "xd",
+    content: "dasdas",
+    created_at: "",
   },
 };
 

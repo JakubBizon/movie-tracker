@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import useCheckRating from "@/hooks/MoviePage/useCheckRating";
 import useMovieRating from "@/hooks/MoviePage/useMovieRating";
-import { authClient } from "@/lib/auth-client";
 import { Star } from "lucide-react";
 import { useState } from "react";
 import RatingDialog from "./RatingDialog";
@@ -12,14 +11,12 @@ import AuthDialog from "./AuthDialog";
 type Props = {
   title: string;
   movieId: number;
+  userId?: string;
 };
 
-export default function RateButton({ movieId, title }: Props) {
+export default function RateButton({ movieId, title, userId }: Props) {
   const [isRatingOpen, setIsRatingOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-
-  const { data: session } = authClient.useSession();
-  const userId = session?.user?.id;
 
   const { data: ratingData } = useCheckRating(userId, movieId, !!userId);
 

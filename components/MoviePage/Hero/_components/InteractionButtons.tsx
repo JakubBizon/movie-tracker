@@ -95,7 +95,9 @@ export default function InteractionButtons({
           </Button>
         ),
       )}
-      {showRating && <RateButton title={data.title} movieId={data.id} />}
+      {showRating && (
+        <RateButton title={data.title} movieId={data.id} userId={userId} />
+      )}
       <AuthDialog
         open={isAuthOpen}
         onOpenChange={setIsAuthOpen}
