@@ -40,3 +40,36 @@ test("saves a rating and keeps it after reload", async ({ page }) => {
   await page.reload();
   await expect(ratedButton(page, 5)).toBeVisible();
 });
+
+test("updates a rating from 5 to 9", async ({ page }) => {
+  await page.goto(MOVIE_URL);
+
+  await rateButton(page).click();
+  const dialog = page.getByRole("dialog", { name: "Rating Dialog" });
+  await dialog.getByRole("button", { name: "Rate 5 out of 10 stars" }).click();
+
+  const saveButton = dialog.getByRole("button", { name: "Save rating" });
+  const [saveRes] = await Promise.all([
+    page.waitForResponse(isRateReq),
+    saveButton.click(),
+  ]);
+  expect(saveRes.ok()).toBeTruthy();
+  await expect(ratedButton(page, 5)).toBeVisible();
+
+  await ratedButton(page, 5).click();
+  await expect(dialog).toBeVisible();
+  await expect(saveButton).toBeDisabled();
+
+  await dialog.getByRole("button", { name: "Rate 9 out of 10 stars" }).click();
+  await expect(saveButton).toBeEnabled();
+
+  const [updateRes] = await Promise.all([
+    page.waitForResponse(isRateReq),
+    saveButton.click(),
+  ]);
+  expect(updateRes.ok()).toBeTruthy();
+
+  await expect(ratedButton(page, 9)).toBeVisible();
+  await page.reload();
+  await expect(ratedButton(page, 9)).toBeVisible();
+});
