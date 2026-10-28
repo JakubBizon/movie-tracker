@@ -46,6 +46,30 @@ test("removes movie from favorites", async ({ page }) => {
   await expect(addButton(page)).toBeVisible();
 });
 
+test("added movies appears in MyLists in favorites tab", async ({ page }) => {
+  await page.goto(MOVIE_URL);
+
+  const [addRes] = await Promise.all([
+    page.waitForResponse(isFavReq),
+    addButton(page).click(),
+  ]);
+  expect(addRes.ok()).toBeTruthy();
+
+  await page.reload();
+  await expect(removeButton(page)).toBeVisible();
+
+  await page.goto("/my-lists");
+
+  await expect(page.getByRole("img", { name: "Fight Club" })).not.toBeVisible();
+
+  await page.getByRole("link", { name: "Favorites" }).click();
+
+  await expect(page.getByRole("img", { name: "Fight Club" })).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByRole("img", { name: "Fight Club" })).toBeVisible();
+});
+
 test.describe("not logged in", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
