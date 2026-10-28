@@ -1,5 +1,5 @@
 import test, { expect, Page, Response } from "@playwright/test";
-import { resetUserData } from "./db";
+import { resetUserData, seedFavorite } from "./db";
 
 const MOVIE_URL = "/movie/550-fight-club";
 
@@ -68,6 +68,21 @@ test("added movies appears in MyLists in favorites tab", async ({ page }) => {
 
   await page.reload();
   await expect(page.getByRole("img", { name: "Fight Club" })).toBeVisible();
+});
+
+test("removing a favorite on My Lists clears it on the movie page", async ({
+  page,
+}) => {
+  await seedFavorite();
+  await page.goto("/my-lists?tab=favorites");
+  await page.getByRole("img", { name: "Fight Club" }).hover();
+  await expect(
+    page.getByRole("button", { name: "Remove from list" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Remove from list" }).click();
+  await expect(page.getByRole("img", { name: "Fight Club" })).toHaveCount(0);
+  await page.goto(MOVIE_URL);
+  await expect(addButton(page)).toBeVisible();
 });
 
 test.describe("not logged in", () => {
