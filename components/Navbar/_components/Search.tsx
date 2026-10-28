@@ -96,7 +96,11 @@ export function Search() {
         </button>
       </InputGroup>
       {isOpen && !query && recentSearches.length > 0 && (
-        <div className="absolute left-0 right-0 w-full top-full z-50 overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900">
+        <div
+          id="search-suggestions"
+          role="listbox"
+          className="absolute left-0 right-0 w-full top-full z-50 overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900"
+        >
           <div className="flex items-center justify-between px-4 py-2 text-sm text-muted-foreground">
             <span>Recent searches</span>
             <button
@@ -126,10 +130,8 @@ export function Search() {
                 type="button"
                 role="option"
                 aria-selected={highlightedIndex === index}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  handleSelect(search);
-                }}
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => handleSelect(search)}
                 className="flex-1 text-left"
               >
                 {search}
@@ -151,7 +153,11 @@ export function Search() {
         </div>
       )}
       {isOpen && query && (uniqueResults.length > 0 || noResults) && (
-        <div className="absolute left-0 right-0 top-full z-50 overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900">
+        <div
+          id="search-suggestions"
+          role="listbox"
+          className="absolute left-0 right-0 top-full z-50 overflow-hidden rounded-md border border-border bg-white shadow-lg dark:bg-slate-900"
+        >
           {uniqueResults.map((item: Movie, index: number) => (
             <button
               type="button"
@@ -159,8 +165,8 @@ export function Search() {
               role="option"
               aria-selected={highlightedIndex === index}
               onMouseEnter={() => setHighlightedIndex(index)}
-              onMouseDown={(e) => {
-                e.preventDefault();
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
                 handleSelect(item.title);
                 setIsOpen(false);
                 setHighlightedIndex(-1);

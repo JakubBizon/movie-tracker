@@ -29,6 +29,12 @@ const routes: Record<string, unknown> = {
     content: "dasdas",
     created_at: "",
   },
+  "/search/movie": {
+    page: 1,
+    results: [movie],
+    total_pages: 1,
+    total_results: 1,
+  },
 };
 
 export function startMockTmdb(port = 4010) {
