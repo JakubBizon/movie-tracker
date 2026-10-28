@@ -6,7 +6,13 @@ export async function GET(req: NextRequest) {
   if (!query) return NextResponse.json({ results: [] });
 
   const res = await fetch(
-    `${TMDB_BASE_URL}/movie/search/movie?api_key=${process.env.API_KEY}&query=${encodeURIComponent(query)}`,
+    `${TMDB_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`,
+    {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+      },
+    },
   );
   const data = await res.json();
 
