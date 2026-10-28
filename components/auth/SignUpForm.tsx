@@ -10,13 +10,18 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/lib/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import z from "zod";
+import { getSafeCallbackUrl } from "@/lib/auth/getSafeCallbackUrl";
 
 type SignUpValues = z.infer<typeof signUpSchema>;
 
 export default function SignUpForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+
+  const safeCallbackUrl = getSafeCallbackUrl(callbackUrl);
 
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -49,7 +54,7 @@ export default function SignUpForm() {
         },
         onSuccess: () => {
           toast.success("Account created!");
-          router.push("/");
+          router.push(safeCallbackUrl);
           router.refresh();
         },
       },

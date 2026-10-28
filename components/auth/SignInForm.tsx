@@ -10,15 +10,25 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { signInSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+import { getSafeCallbackUrl } from "@/lib/auth/getSafeCallbackUrl";
 
 type SignInValues = z.infer<typeof signInSchema>;
 
 export default function SignInForm() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+
+  const safeCallbackUrl = getSafeCallbackUrl(callbackUrl);
+
+  const signUpHref = `/signup?${new URLSearchParams({
+    callbackUrl: safeCallbackUrl,
+  }).toString()}`;
 
   const {
     register,
@@ -48,7 +58,7 @@ export default function SignInForm() {
         },
         onSuccess: () => {
           toast.success("Successfully logged in!");
-          router.push("/");
+          router.push(safeCallbackUrl);
           router.refresh();
         },
       },
@@ -58,7 +68,7 @@ export default function SignInForm() {
     await authClient.signIn.social(
       {
         provider: "google",
-        callbackURL: "/?login=success",
+        callbackURL: safeCallbackUrl,
       },
 
       {
@@ -73,7 +83,7 @@ export default function SignInForm() {
     await authClient.signIn.social(
       {
         provider: "github",
-        callbackURL: "/?login=success",
+        callbackURL: safeCallbackUrl,
       },
       {
         onError: (ctx) => {
@@ -114,7 +124,7 @@ export default function SignInForm() {
           </div>
           <div className="flex gap-2 justify-center">
             <div>New here?</div>
-            <Link className="text-primary" href="/signup">
+            <Link className="text-primary" href={signUpHref}>
               Sign up
             </Link>
           </div>

@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type DialogType = "interaction" | "rate" | "review";
 
@@ -38,16 +38,25 @@ const dialogContent: Record<
 
 export default function AuthDialog({ open, onOpenChange, type }: Props) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const content = dialogContent[type];
+
+  const getCallbackUrl = () => {
+    const query = searchParams.toString();
+    const fullPath = query ? `${pathname}?${query}` : pathname;
+    return encodeURIComponent(fullPath);
+  };
 
   const handleLogIn = () => {
     onOpenChange(false);
-    router.push("/login");
+    router.push(`/login?callbackUrl=${getCallbackUrl()}`);
   };
 
   const handleSignUp = () => {
     onOpenChange(false);
-    router.push("/signup");
+    router.push(`/signup?callbackUrl=${getCallbackUrl()}`);
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
