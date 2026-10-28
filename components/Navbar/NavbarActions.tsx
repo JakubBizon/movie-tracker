@@ -40,13 +40,24 @@ export default function NavbarActions({ session }: NavbarActionsProps) {
           </Button>
         </Link>
       </div>
-      <UserMenu
-        session={session}
-        watchlistCount={myListCount}
-        showWatchlistCount={showWatchlistCount}
-        ratingsCount={ratingsCount}
-        showRatingsCount={showRatingsCount}
-      />
+
+      {session ? (
+        <UserMenu
+          session={session}
+          watchlistCount={myListCount}
+          showWatchlistCount={showWatchlistCount}
+          ratingsCount={ratingsCount}
+          showRatingsCount={showRatingsCount}
+        />
+      ) : (
+        <Button
+          asChild
+          size="sm"
+          className="sm:h-9 h-8 rounded-full sm:px-4 px-3 "
+        >
+          <Link href="/login">Log in</Link>
+        </Button>
+      )}
     </div>
   );
 }

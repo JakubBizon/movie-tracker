@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { User, List, XIcon, Settings, Star } from "lucide-react";
+import { List, XIcon, Settings, Star } from "lucide-react";
 import Link from "next/link";
 import SignOutButton from "./SignOutButton";
 import { useState } from "react";
@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { getAvatarColor } from "@/lib/utils/getAvatarColor";
 
 type UserMenuProps = {
-  session: SessionData;
+  session: NonNullable<SessionData>;
   watchlistCount: number;
   showWatchlistCount: boolean;
   ratingsCount: number;
@@ -35,11 +35,10 @@ export default function UserMenu({
   ratingsCount,
   showRatingsCount,
 }: UserMenuProps) {
-  const isLoggedIn = !!session;
   const [isOpen, setIsOpen] = useState(false);
-  const bgColor = getAvatarColor(session?.user.avatarColor ?? "blue");
+  const bgColor = getAvatarColor(session.user.avatarColor ?? "blue");
 
-  const userNameFirstLetter = session?.user.name.slice(0, 1);
+  const userNameFirstLetter = session.user.name.slice(0, 1);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -47,13 +46,9 @@ export default function UserMenu({
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10 border border-border">
             <AvatarFallback className={`${bgColor} text-primary-foreground`}>
-              {isLoggedIn ? (
-                <div className="w-5 h-5 rounded-full flex justify-center items-center">
-                  {userNameFirstLetter?.toLocaleUpperCase()}
-                </div>
-              ) : (
-                <User className="h-5 w-5" />
-              )}
+              <div className="w-5 h-5 rounded-full flex justify-center items-center">
+                {userNameFirstLetter?.toLocaleUpperCase()}
+              </div>
             </AvatarFallback>
           </Avatar>
         </Button>
@@ -68,23 +63,17 @@ export default function UserMenu({
                 <AvatarFallback
                   className={`${bgColor} text-primary-foreground`}
                 >
-                  {isLoggedIn ? (
-                    <div className="w-6 h-6 rounded-full flex justify-center items-center">
-                      {userNameFirstLetter?.toLocaleUpperCase()}
-                    </div>
-                  ) : (
-                    <User className="h-6 w-6" />
-                  )}
+                  <div className="w-6 h-6 rounded-full flex justify-center items-center">
+                    {userNameFirstLetter.toLocaleUpperCase()}
+                  </div>
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <SheetTitle className="text-base font-semibold">
-                  {isLoggedIn ? session.user.name : "Not signed in"}
+                  {session.user.name}
                 </SheetTitle>
                 <p className="text-xs text-muted-foreground truncate max-w-45">
-                  {isLoggedIn
-                    ? session.user.email
-                    : "Sign in to sync your data"}
+                  {session.user.email}
                 </p>
               </div>
             </div>
@@ -140,22 +129,7 @@ export default function UserMenu({
           <MenuThemeToggle />
 
           <div className="mt-auto border-t pt-4 w-full">
-            {!isLoggedIn ? (
-              <div className="grid grid-cols-2 gap-2">
-                <SheetClose asChild>
-                  <Button variant="outline" asChild>
-                    <Link href="/login">Log in</Link>
-                  </Button>
-                </SheetClose>
-                <SheetClose asChild>
-                  <Button asChild>
-                    <Link href="/signup">Sign up</Link>
-                  </Button>
-                </SheetClose>
-              </div>
-            ) : (
-              <SignOutButton onSuccess={() => setIsOpen(false)} />
-            )}
+            <SignOutButton onSuccess={() => setIsOpen(false)} />
           </div>
         </div>
       </SheetContent>
