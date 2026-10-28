@@ -6,9 +6,10 @@ import SessionCard from "./SessionCard";
 
 type Props = {
   currentSessionId: string;
+  isDemo: boolean;
 };
 
-export default function SessionSettings({ currentSessionId }: Props) {
+export default function SessionSettings({ currentSessionId, isDemo }: Props) {
   const queryClient = useQueryClient();
 
   const { data: sessions, isPending } = useQuery({
@@ -32,6 +33,11 @@ export default function SessionSettings({ currentSessionId }: Props) {
     <Card>
       <CardHeader>
         <span className="text-lg font-semibold">Sessions</span>
+        {isDemo && (
+          <p className="text-sm text-muted-foreground">
+            Shared demo account. Only this browser&apos;s session is shown.
+          </p>
+        )}
       </CardHeader>
       <CardContent className="xs:px-6 px-4 flex flex-col gap-3">
         {sessions?.map((s, index) => (

@@ -41,7 +41,7 @@ export default function SessionCard({
   const data = [
     { title: "Date", value: formattedDate },
     { title: "Expire date", value: formattedExpireDate },
-    { title: "IP Adress", value: session.ipAddress },
+    { title: "IP Adress", value: session.ipAddress || "Hidden" },
     { title: "Device info", value: `${browser.name} • ${os}` },
   ];
 

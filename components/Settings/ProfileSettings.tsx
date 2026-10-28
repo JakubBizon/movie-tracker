@@ -8,12 +8,14 @@ type Props = {
   userName: string;
   email?: string;
   avatarColor: string;
+  isDemo: boolean;
 };
 
 export default function ProfileSettings({
   userName,
   email,
   avatarColor,
+  isDemo,
 }: Props) {
   const userNameFirstLetter = userName.slice(0, 1);
   const bgColor = getAvatarColor(avatarColor);
@@ -38,7 +40,7 @@ export default function ProfileSettings({
             </div>
           </div>
 
-          <UsernameInput userName={userName} />
+          <UsernameInput userName={userName} isDemo={isDemo} />
         </div>
         <div>
           <AvatarColorPicker defaultColor={avatarColor} />

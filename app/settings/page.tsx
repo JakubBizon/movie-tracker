@@ -3,6 +3,7 @@ import DataSettings from "@/components/Settings/DataSettings";
 import ProfileSettings from "@/components/Settings/ProfileSettings";
 import SessionSettings from "@/components/Settings/SessionSettings";
 import { auth } from "@/lib/auth";
+import { isDemoUser } from "@/lib/demo-user";
 import {
   dehydrate,
   HydrationBoundary,
@@ -14,6 +15,8 @@ import { headers } from "next/headers";
 export default async function Settings() {
   const requestHeaders = await headers();
   const session = await auth.api.getSession({ headers: requestHeaders });
+
+  const isDemo = isDemoUser(session?.user.email);
 
   if (!session) {
     return (
@@ -42,12 +45,16 @@ export default async function Settings() {
           userName={session?.user.name ?? "User"}
           email={session?.user.email}
           avatarColor={session?.user.avatarColor ?? "blue"}
+          isDemo={isDemo}
         />
 
         <DataSettings />
 
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <SessionSettings currentSessionId={session.session.id} />
+          <SessionSettings
+            currentSessionId={session.session.id}
+            isDemo={isDemo}
+          />
         </HydrationBoundary>
       </div>
     </div>

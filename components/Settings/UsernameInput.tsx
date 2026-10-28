@@ -14,9 +14,10 @@ type UsernameFormValues = z.infer<typeof userNameSchema>;
 
 export type Props = {
   userName: string;
+  isDemo: boolean;
 };
 
-export default function UsernameInput({ userName }: Props) {
+export default function UsernameInput({ userName, isDemo }: Props) {
   const form = useForm<UsernameFormValues>({
     resolver: zodResolver(userNameSchema),
     defaultValues: { userName },
@@ -47,6 +48,7 @@ export default function UsernameInput({ userName }: Props) {
                   <div className="flex flex-col xs:flex-row gap-3 xs:items-center">
                     <Input
                       id="name"
+                      disabled={isDemo}
                       placeholder="Enter a username"
                       className="w-full truncate"
                       {...field}
@@ -55,12 +57,20 @@ export default function UsernameInput({ userName }: Props) {
                       type="submit"
                       className="w-full xs:w-auto shrink-0 cursor-pointer"
                       disabled={
-                        form.formState.isSubmitting || !form.formState.isDirty
+                        isDemo ||
+                        form.formState.isSubmitting ||
+                        !form.formState.isDirty
                       }
                     >
                       Save
                     </Button>
                   </div>
+                  {isDemo && (
+                    <span className="text-sm text-muted-foreground py-1">
+                      This is a demo account. You can&apos;t change the
+                      username.
+                    </span>
+                  )}
 
                   <FieldError className="min-h-5">
                     {fieldState.error?.message}

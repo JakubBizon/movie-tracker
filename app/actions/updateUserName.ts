@@ -7,12 +7,17 @@ import { user } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { userNameSchema } from "@/lib/zod";
+import { isDemoUser } from "@/lib/demo-user";
 
 export async function updateUserName(rawUserName: string) {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user) {
     throw new Error("Unauthorized");
+  }
+
+  if (isDemoUser(session.user.email)) {
+    throw new Error("Not available on the demo account");
   }
   const parsed = userNameSchema.safeParse({ userName: rawUserName });
 
