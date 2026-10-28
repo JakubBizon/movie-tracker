@@ -141,3 +141,15 @@ test("removes rating, rating disappears from MyRatings page", async ({
   ).toBeVisible();
   await expect(page.getByRole("img", { name: "Fight Club" })).not.toBeVisible();
 });
+
+test.describe("not logged in", () => {
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test("clicking rate button opens auth dialog", async ({ page }) => {
+    await page.goto(MOVIE_URL);
+
+    await rateButton(page).click();
+
+    await expect(page.getByRole("dialog")).toBeVisible();
+  });
+});
