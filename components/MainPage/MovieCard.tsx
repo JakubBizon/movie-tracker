@@ -2,6 +2,7 @@
 
 import { Movie } from "@/app/types/movie";
 import { Clock, Star } from "lucide-react";
+import EmptyPoster from "@/components/EmptyPoster";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -40,6 +41,7 @@ export default function MovieCard({
   );
 
   const showHoverButtons = isDesktopLayout && isHovered;
+  const hasPoster = Boolean(movie.poster_path);
   return (
     <div
       onPointerEnter={() => {
@@ -54,20 +56,20 @@ export default function MovieCard({
         href={`/movie/${slug}`}
         className="block relative w-full h-full overflow-hidden bg-accent rounded-lg"
       >
-        <Image
-          src={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : "/placeholder.png"
-          }
-          alt={movie.title}
-          width={200}
-          height={300}
-          sizes="(max-width:768px) 40vw, (max-width:1200px) 33vw, 25vw"
-          className="rounded-lg shadow-lg w-full h-full object-cover opacity-0 transition-opacity duration-500"
-          onLoad={(image) => image.currentTarget.classList.add("opacity-100")}
-          priority={priority}
-        />
+        {hasPoster ? (
+          <Image
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+            width={200}
+            height={300}
+            sizes="(max-width:768px) 40vw, (max-width:1200px) 33vw, 25vw"
+            className="rounded-lg shadow-lg w-full h-full object-cover opacity-0 transition-opacity duration-500"
+            onLoad={(image) => image.currentTarget.classList.add("opacity-100")}
+            priority={priority}
+          />
+        ) : (
+          <EmptyPoster title={movie.title} />
+        )}
 
         <h2
           title={movie.title}

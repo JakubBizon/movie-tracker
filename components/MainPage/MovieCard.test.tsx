@@ -141,10 +141,10 @@ describe("MovieCard", () => {
 
   it("shows placeholder if no posterPath", () => {
     setup({ ...movie, poster_path: undefined });
-    expect(screen.getByAltText("Inception")).toHaveAttribute(
-      "src",
-      "/placeholder.png",
-    );
+    expect(
+      screen.queryByRole("img", { name: "Inception" }),
+    ).not.toBeInTheDocument();
+    expect(screen.getAllByText("Inception").length).toBeGreaterThan(1);
   });
 
   it("link", () => {

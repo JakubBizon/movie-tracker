@@ -6,6 +6,10 @@ import MovieBackground from "./_components/MovieBackground";
 import InteractionButtons from "./_components/InteractionButtons";
 import MovieMeta from "./_components/MovieMeta";
 import MoviePoster from "./_components/MoviePoster";
+import {
+  EMPTY_POSTER_COLOR,
+  emptyHeroGradient,
+} from "@/components/EmptyPoster";
 import { isBackgroundLight } from "@/lib/utils/isBackgroundLight";
 
 type HeroSectionProps = {
@@ -27,7 +31,9 @@ export default function HeroSection({
   userId,
   rating,
 }: HeroSectionProps) {
-  const isLight = isBackgroundLight(color);
+  const hasBackdrop = Boolean(data.backdrop_path);
+  const backgroundColor = hasBackdrop ? color : EMPTY_POSTER_COLOR;
+  const isLight = isBackgroundLight(backgroundColor);
 
   const glassClass = isLight
     ? "bg-black/10 border-black/10 text-black"
@@ -35,10 +41,12 @@ export default function HeroSection({
   return (
     <>
       <div
-        className="relative w-full lg:min-h-125 min-h-100 hidden sm:flex items-center"
-        style={{ backgroundColor: color }}
+        className={`relative w-full lg:min-h-125 min-h-100 hidden sm:flex items-center ${hasBackdrop ? "" : emptyHeroGradient}`}
+        style={hasBackdrop ? { backgroundColor: color } : undefined}
       >
-        <div className="relative w-full max-w-480 mx-auto mb-15">
+        <div
+          className={`relative w-full max-w-480 mx-auto ${hasBackdrop ? "mb-15" : "pb-15"}`}
+        >
           <MovieBackground
             backdropPath={data.backdrop_path}
             title={data.title}
@@ -84,7 +92,7 @@ export default function HeroSection({
 
         <div
           className="pt-16 px-4 pb-8 flex flex-col gap-4"
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor }}
         >
           <div className="text-white">
             <MovieMeta data={data} rating={rating} />

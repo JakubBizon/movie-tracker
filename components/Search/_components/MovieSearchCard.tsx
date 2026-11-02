@@ -1,7 +1,8 @@
 "use client";
 
 import { Movie } from "@/app/types/movie";
-import { Clock, Film, Star } from "lucide-react";
+import { Clock, Star } from "lucide-react";
+import EmptyPoster from "@/components/EmptyPoster";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -65,7 +66,7 @@ export default function MovieSearchCard({
         <Link
           href={`/movie/${slug}`}
           aria-label={movie.title}
-          className="block h-full w-full"
+          className="relative block h-full w-full"
         >
           {hasPoster ? (
             <Image
@@ -77,12 +78,7 @@ export default function MovieSearchCard({
               onLoad={(e) => e.currentTarget.classList.add("opacity-100")}
             />
           ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-linear-to-br from-slate-700 via-slate-800 to-slate-900 p-4 text-center">
-              <Film className="h-10 w-10 text-white/30" />
-              <span className="line-clamp-4 text-sm font-semibold text-white/70">
-                {movie.title}
-              </span>
-            </div>
+            <EmptyPoster title={movie.title} />
           )}
         </Link>
 

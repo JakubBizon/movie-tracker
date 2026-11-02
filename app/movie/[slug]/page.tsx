@@ -46,7 +46,7 @@ export default async function MoviePage({ params }: Props) {
         <MovieHero movie={movie} rating={rating} />
       </Suspense>
 
-      <div className="mt-5 space-y-10">
+      <div className="mt-10 space-y-10">
         <Suspense fallback={<CastSectionSkeleton />}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <Cast id={movie.id} />
