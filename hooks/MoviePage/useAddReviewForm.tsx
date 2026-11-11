@@ -45,12 +45,7 @@ export function useAddReviewForm(
     startTransition(async () => {
       setOptimisticReview(data.content);
       setIsEditingMode(false);
-      const result = await addReviewAction(
-        userId,
-        movieId,
-        title,
-        data.content,
-      );
+      const result = await addReviewAction(movieId, title, data.content);
       if (result.success) {
         toast.success(hasReview ? "Review updated!" : "Review added!");
       } else {

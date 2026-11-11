@@ -3,36 +3,52 @@
 import { revalidatePath } from "next/cache";
 import { db } from "../db";
 import { reviews } from "../db/schema";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { reviewSchema } from "@/lib/zod";
+import { slugify } from "@/lib/utils/slugify";
 
 export async function addReviewAction(
-  userId: string,
   movieId: string,
   title: string,
   review: string,
 ) {
-  if (!userId) throw new Error("Unauthorized");
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user.id) {
+    return { success: false, error: "Unauthorized" };
+  }
 
   try {
-    const trimmed = review.trim();
-
-    if (trimmed === "") {
-      return { success: false, error: "Review cannot be empty" };
+    const parsed = reviewSchema.safeParse({ content: review.trim() });
+    if (!parsed.success) {
+      return {
+        success: false,
+        error: parsed.error.issues[0]?.message ?? "Invalid review",
+      };
     }
+
     await db
       .insert(reviews)
       .values({
-        userId,
+        userId: session.user.id,
         movieId,
-        review: trimmed,
+        review: parsed.data.content,
         title,
         updatedAt: new Date(),
       })
       .onConflictDoUpdate({
         target: [reviews.userId, reviews.movieId],
-        set: { review: trimmed, title, updatedAt: new Date() },
+        set: {
+          review: parsed.data.content,
+          title,
+          updatedAt: new Date(),
+        },
       });
 
-    revalidatePath(`/movie/${movieId}`);
+    const movieIdNumber = Number(movieId);
+    if (Number.isInteger(movieIdNumber)) {
+      revalidatePath(`/movie/${slugify(title, movieIdNumber)}`);
+    }
 
     return { success: true };
   } catch (error) {
