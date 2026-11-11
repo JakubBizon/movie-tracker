@@ -33,7 +33,7 @@ export async function toggleFavoriteAction(
         .where(
           and(eq(favorites.userId, userId), eq(favorites.movieId, movieId)),
         );
-      revalidatePath("/my-list");
+      revalidatePath("/my-lists");
       revalidatePath("/");
       return { success: true, message: `Removed ${title} from favorites` };
     } else {
@@ -45,7 +45,7 @@ export async function toggleFavoriteAction(
         voteAverage: voteAverage,
         releaseDate: releaseDate ? releaseDate : null,
       });
-      revalidatePath("/my-list");
+      revalidatePath("/my-lists");
       revalidatePath("/");
       return { success: true, message: `Added ${title} to favorites` };
     }
@@ -106,7 +106,7 @@ export async function toggleBookmarkAction(
         .where(
           and(eq(bookmarks.userId, userId), eq(bookmarks.movieId, movieId)),
         );
-      revalidatePath("/my-list");
+      revalidatePath("/my-lists");
       revalidatePath("/");
       return { success: true, message: `Removed ${title} from bookmarks` };
     } else {
@@ -118,7 +118,7 @@ export async function toggleBookmarkAction(
         voteAverage: voteAverage,
         releaseDate: releaseDate ? releaseDate : null,
       });
-      revalidatePath("/my-list");
+      revalidatePath("/my-lists");
       revalidatePath("/");
       return { success: true, message: `Added ${title} to bookmarks` };
     }
