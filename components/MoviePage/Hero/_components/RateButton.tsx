@@ -12,9 +12,17 @@ type Props = {
   title: string;
   movieId: number;
   userId?: string;
+  posterPath?: string | null;
+  voteAverage?: number | null;
 };
 
-export default function RateButton({ movieId, title, userId }: Props) {
+export default function RateButton({
+  movieId,
+  title,
+  userId,
+  posterPath,
+  voteAverage,
+}: Props) {
   const [isRatingOpen, setIsRatingOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
@@ -31,8 +39,15 @@ export default function RateButton({ movieId, title, userId }: Props) {
     isSubmitting,
     handleSave,
     handleRemove,
-  } = useMovieRating(movieId, title, userId, currentRating, isRatingOpen, () =>
-    setIsRatingOpen(false),
+  } = useMovieRating(
+    movieId,
+    title,
+    userId,
+    currentRating,
+    isRatingOpen,
+    () => setIsRatingOpen(false),
+    posterPath,
+    voteAverage,
   );
 
   const handleRateClick = () => {

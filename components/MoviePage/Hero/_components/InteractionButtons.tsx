@@ -96,7 +96,13 @@ export default function InteractionButtons({
         ),
       )}
       {showRating && (
-        <RateButton title={data.title} movieId={data.id} userId={userId} />
+        <RateButton
+          title={data.title}
+          movieId={data.id}
+          userId={userId}
+          posterPath={data.poster_path}
+          voteAverage={data.vote_average}
+        />
       )}
       <AuthDialog
         open={isAuthOpen}

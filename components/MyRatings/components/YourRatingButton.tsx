@@ -8,12 +8,16 @@ type Props = {
   movieId: number;
   title: string;
   initialRating: number;
+  posterPath?: string | null;
+  voteAverage?: number | null;
 };
 
 export default function YourRatingButton({
   movieId,
   title,
   initialRating,
+  posterPath,
+  voteAverage,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,8 +32,15 @@ export default function YourRatingButton({
     isSubmitting,
     handleSave,
     handleRemove,
-  } = useMyRatingCard(movieId, title, userId, initialRating, isOpen, () =>
-    setIsOpen(false),
+  } = useMyRatingCard(
+    movieId,
+    title,
+    userId,
+    initialRating,
+    isOpen,
+    () => setIsOpen(false),
+    posterPath,
+    voteAverage,
   );
 
   const isRated = optimisticRating > 0;

@@ -11,6 +11,8 @@ export async function rateMovieAction(
   movieId: string,
   title: string,
   rating: number | null,
+  posterPath?: string | null,
+  voteAverage?: string | null,
 ) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user.id) return { success: false, error: "Unauthorized" };
@@ -25,7 +27,9 @@ export async function rateMovieAction(
       return { success: true, message: "Rating removed" };
     }
 
-    if (rating < 1 || rating > 10) throw new Error("Invalid rating");
+    if (!Number.isInteger(rating) || rating < 1 || rating > 10) {
+      throw new Error("Invalid rating");
+    }
 
     await db
       .insert(ratings)
@@ -34,11 +38,19 @@ export async function rateMovieAction(
         movieId,
         rating,
         title,
+        posterPath: posterPath ?? null,
+        voteAverage: voteAverage ?? null,
         updatedAt: new Date(),
       })
       .onConflictDoUpdate({
         target: [ratings.userId, ratings.movieId],
-        set: { rating: rating, updatedAt: new Date() },
+        set: {
+          rating,
+          title,
+          posterPath: posterPath ?? null,
+          voteAverage: voteAverage ?? null,
+          updatedAt: new Date(),
+        },
       });
     revalidatePath("/my-ratings");
     return { success: true };

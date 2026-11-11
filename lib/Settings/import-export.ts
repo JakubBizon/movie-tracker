@@ -59,10 +59,25 @@ export async function importUserData(userId: string, data: ImportData) {
   if (data.ratings.length) {
     await db
       .insert(ratings)
-      .values(data.ratings.map((r) => ({ ...r, userId })))
+      .values(
+        data.ratings.map((r) => ({
+          userId,
+          movieId: r.movieId,
+          title: r.title,
+          rating: r.rating,
+          posterPath: r.posterPath ?? null,
+          voteAverage: r.voteAverage ?? null,
+        })),
+      )
       .onConflictDoUpdate({
         target: [ratings.userId, ratings.movieId],
-        set: { rating: sql`excluded.rating`, updatedAt: sql`now()` },
+        set: {
+          rating: sql`excluded.rating`,
+          title: sql`excluded.title`,
+          posterPath: sql`excluded."posterPath"`,
+          voteAverage: sql`excluded."voteAverage"`,
+          updatedAt: sql`now()`,
+        },
       });
     results.ratings = data.ratings.length;
   }

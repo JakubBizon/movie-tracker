@@ -41,6 +41,8 @@ export default function MyRatingsMovieCard({ movie }: Props) {
               movieId={Number(movie.movieId)}
               title={movie.title}
               initialRating={movie.rating}
+              posterPath={movie.poster_path}
+              voteAverage={movie.vote_average}
             />
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-2">

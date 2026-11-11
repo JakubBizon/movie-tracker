@@ -30,12 +30,23 @@ export async function getMyRatingsData(userId: string, sort: RatingsSort) {
 
   const moviesWithDetails: MyRatingsMovieDetails[] = await Promise.all(
     ratedMovies.map(async (rating) => {
+      const needsDetails =
+        rating.posterPath === null && rating.voteAverage === null;
+
+      if (!needsDetails) {
+        return {
+          ...rating,
+          poster_path: rating.posterPath ?? "",
+          vote_average: Number(rating.voteAverage) || 0,
+        };
+      }
+
       const details = await getMovieDetails(Number(rating.movieId));
 
       return {
         ...rating,
-        poster_path: details.poster_path,
-        vote_average: details.vote_average,
+        poster_path: details?.poster_path ?? "",
+        vote_average: details?.vote_average ?? 0,
       };
     }),
   );

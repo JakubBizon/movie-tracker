@@ -17,6 +17,8 @@ export default function useMovieRating(
   currentRating: number,
   isOpen: boolean,
   onSuccess: () => void,
+  posterPath?: string | null,
+  voteAverage?: number | null,
 ) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -49,7 +51,13 @@ export default function useMovieRating(
     });
 
     try {
-      const result = await rateMovieAction(movieId.toString(), title, val);
+      const result = await rateMovieAction(
+        movieId.toString(),
+        title,
+        val,
+        posterPath ?? null,
+        voteAverage != null ? voteAverage.toString() : null,
+      );
       if (result.success) {
         toast.success(val === null ? "Rating removed" : "Rating saved!");
         await queryClient.invalidateQueries({
