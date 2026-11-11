@@ -7,6 +7,6 @@ export async function getMovieCast(id: number) {
       next: { revalidate: 3600 },
     },
   );
-  if (!res.ok) throw new Error("Failed to fetch trending movies");
+  if (!res.ok) throw new Error("Failed to fetch movie cast");
   return res.json();
 }
