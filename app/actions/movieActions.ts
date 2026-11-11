@@ -21,13 +21,20 @@ export async function toggleFavoriteAction(
   const userId = session?.user.id;
 
   try {
-    const existing = await db
-      .select()
-      .from(favorites)
-      .where(and(eq(favorites.userId, userId), eq(favorites.movieId, movieId)))
-      .limit(1);
+    const inserted = await db
+      .insert(favorites)
+      .values({
+        userId: userId,
+        movieId: movieId,
+        title: title,
+        posterPath: posterPath,
+        voteAverage: voteAverage,
+        releaseDate: releaseDate ? releaseDate : null,
+      })
+      .onConflictDoNothing()
+      .returning({ movieId: favorites.movieId });
 
-    if (existing.length > 0) {
+    if (inserted.length === 0) {
       await db
         .delete(favorites)
         .where(
@@ -36,19 +43,11 @@ export async function toggleFavoriteAction(
       revalidatePath("/my-lists");
       revalidatePath("/");
       return { success: true, message: `Removed ${title} from favorites` };
-    } else {
-      await db.insert(favorites).values({
-        userId: userId,
-        movieId: movieId,
-        title: title,
-        posterPath: posterPath,
-        voteAverage: voteAverage,
-        releaseDate: releaseDate ? releaseDate : null,
-      });
-      revalidatePath("/my-lists");
-      revalidatePath("/");
-      return { success: true, message: `Added ${title} to favorites` };
     }
+
+    revalidatePath("/my-lists");
+    revalidatePath("/");
+    return { success: true, message: `Added ${title} to favorites` };
   } catch (error) {
     console.error("Database error:", error);
     return { success: false, error: "Failed to update favorites" };
@@ -94,13 +93,20 @@ export async function toggleBookmarkAction(
   }
   const userId = session?.user.id;
   try {
-    const existing = await db
-      .select()
-      .from(bookmarks)
-      .where(and(eq(bookmarks.userId, userId), eq(bookmarks.movieId, movieId)))
-      .limit(1);
+    const inserted = await db
+      .insert(bookmarks)
+      .values({
+        userId: userId,
+        movieId: movieId,
+        title: title,
+        posterPath: posterPath,
+        voteAverage: voteAverage,
+        releaseDate: releaseDate ? releaseDate : null,
+      })
+      .onConflictDoNothing()
+      .returning({ movieId: bookmarks.movieId });
 
-    if (existing.length > 0) {
+    if (inserted.length === 0) {
       await db
         .delete(bookmarks)
         .where(
@@ -109,19 +115,11 @@ export async function toggleBookmarkAction(
       revalidatePath("/my-lists");
       revalidatePath("/");
       return { success: true, message: `Removed ${title} from bookmarks` };
-    } else {
-      await db.insert(bookmarks).values({
-        userId: userId,
-        movieId: movieId,
-        title: title,
-        posterPath: posterPath,
-        voteAverage: voteAverage,
-        releaseDate: releaseDate ? releaseDate : null,
-      });
-      revalidatePath("/my-lists");
-      revalidatePath("/");
-      return { success: true, message: `Added ${title} to bookmarks` };
     }
+
+    revalidatePath("/my-lists");
+    revalidatePath("/");
+    return { success: true, message: `Added ${title} to bookmarks` };
   } catch (error) {
     console.error("Database error:", error);
     return { success: false, error: "Failed to update bookmarks" };
