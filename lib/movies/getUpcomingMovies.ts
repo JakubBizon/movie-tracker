@@ -10,10 +10,10 @@ export async function getUpcomingMovies() {
       `api_key=${process.env.API_KEY}` +
       `&primary_release_date.gte=${today}` +
       `&primary_release_date.lte=${futureDate}` +
-      `&sort_by=primary_release_date.asc` +
-      {
-        next: { revalidate: 3600 },
-      },
+      `&sort_by=primary_release_date.asc`,
+    {
+      next: { revalidate: 3600 },
+    },
   );
   if (!res.ok) throw new Error("Failed to fetch upcoming movies");
   return res.json();
