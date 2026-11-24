@@ -16,24 +16,16 @@ type Props = {
   userId?: string;
 };
 
-const tmdbImageLink = ({ src, width }: { src: string; width: number }) => {
-  if (width <= 640) return `https://image.tmdb.org/t/p/w780${src}`;
-  if (width <= 1280) return `https://image.tmdb.org/t/p/w1280${src}`;
-  return `https://image.tmdb.org/t/p/original${src}`;
-};
-
 export default function HeroSlide({ movie, index, userId }: Props) {
   return (
     <div className="relative text-white md:min-h-[500px] xs:min-h-[350px] min-h-[200px] w-full overflow-hidden rounded-lg border-none outline-none shadow-none">
       <Image
-        loader={tmdbImageLink}
-        src={movie.backdrop_path}
+        src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
         alt={movie.title}
         className="object-cover object-top"
         fill
         priority={index === 0}
-        loading={index === 0 ? "eager" : "lazy"}
-        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 100vw, 1280px"
+        sizes="100vw"
       />
 
       <div className="absolute inset-0 bg-linear-to-r from-slate-900/85 via-slate-900/40 to-transparent" />
